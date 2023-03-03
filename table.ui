@@ -2,24 +2,21 @@
 <ui version="4.0">
  <class>TreeWindow</class>
  <widget class="QDialog" name="TreeWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>300</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>900</width>
-    <height>300</height>
-   </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>900</width>
-    <height>300</height>
+    <width>1920</width>
+    <height>1080</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -32,8 +29,8 @@
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>20</y>
+     <x>430</x>
+     <y>430</y>
      <width>881</width>
      <height>221</height>
     </rect>
@@ -136,8 +133,8 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>800</x>
-     <y>250</y>
+     <x>1800</x>
+     <y>1030</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -150,6 +147,142 @@
    <property name="text">
     <string>Выйти</string>
    </property>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>30</y>
+     <width>160</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Факультет</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QListWidget" name="listWidget">
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <item>
+       <property name="text">
+        <string>ФАИТ</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ФЕНМиИТ</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ФКФН</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ИСИ</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ОМО</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ТЭФ</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ФПН</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ИСПТиК</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>30</y>
+     <width>160</width>
+     <height>114</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Курс</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QListWidget" name="listWidget_2"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>30</y>
+     <width>160</width>
+     <height>114</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Группа</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QListWidget" name="listWidget_3"/>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
