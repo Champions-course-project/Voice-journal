@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TreeWindow</class>
- <widget class="QDialog" name="TreeWindow">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
+ <class>table_window</class>
+ <widget class="QMainWindow" name="table_window">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,278 +10,559 @@
     <height>1080</height>
    </rect>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>1920</width>
-    <height>1080</height>
-   </size>
-  </property>
   <property name="windowTitle">
-   <string>Журнал преподавателя</string>
+   <string>Voice journal</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>ProgrammIcon.ico</normaloff>ProgrammIcon.ico</iconset>
+   <iconset resource="rc.qrc">
+    <normaloff>:/icon/ProgrammIcon.ico</normaloff>:/icon/ProgrammIcon.ico</iconset>
   </property>
-  <widget class="QTableWidget" name="tableWidget">
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>160</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="faculty_layout">
+     <item>
+      <widget class="QLabel" name="faculty_label">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Факультет</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="faculty_list">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <item>
+        <property name="text">
+         <string>ИСИ</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ИАиД</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ИСПТиК</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ИЭУ</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ОМО</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ПКВК</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ТЭФ</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФАИТ</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФВиИ</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФЕНМиИТ</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФИРиД</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФКФН</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФНДиДО</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФПЭ</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФПСГТ</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФФК</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ФФПиМК</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ЮИ</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>30</y>
+      <width>160</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="year_layout">
+     <item>
+      <widget class="QLabel" name="year_label">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Курс</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="year_list">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>30</y>
+      <width>160</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="group_layout">
+     <item>
+      <widget class="QLabel" name="groupe_label">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string>Группа</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="group_list">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QTableWidget" name="group_table">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>70</y>
+      <width>1241</width>
+      <height>751</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAsNeeded</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustIgnored</enum>
+    </property>
+    <property name="gridStyle">
+     <enum>Qt::SolidLine</enum>
+    </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
+    <attribute name="horizontalHeaderCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderStretchLastSection">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
+    <row>
+     <property name="text">
+      <string>Абидуев Баясхалан</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Акованцев Андрей</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Батурин Владислав</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Безруков Михаил</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Бородин Максим</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Гамурарь Даниил</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Гараньков Алексей</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Дам Александр</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Драгина Елизавета</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Иштокин Роман</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Кармадонов Максим</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Костин Александр</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Мытник Ирина</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Нижникова Виктория</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новоженин Михаил</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Палёха Кирилл</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Пискун Кирилл</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Пожидаев Дмитрий</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Рязанов Владислав</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Савиных Данила</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Син Эрнест</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Стрэжеску Дарья</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Сухих Дмитрий</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Удодов Руслан</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Хмелёв Владислав</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Швец Роман</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>14.01.2023</string>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>21.01.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>28.01.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>04.02.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>11.02.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>18.02.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>25.02.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>04.03.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>11.03.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>18.03.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>25.03.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>01.04.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>08.04.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>15.04.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>22.04.2023</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>29.05.2023</string>
+     </property>
+    </column>
+    <item row="0" column="0">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </item>
+    <item row="0" column="1">
+     <property name="text">
+      <string/>
+     </property>
+    </item>
+   </widget>
+   <widget class="QCalendarWidget" name="calendar_Widget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>680</y>
+      <width>551</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="gridVisible">
+     <bool>true</bool>
+    </property>
+    <property name="horizontalHeaderFormat">
+     <enum>QCalendarWidget::ShortDayNames</enum>
+    </property>
+    <property name="verticalHeaderFormat">
+     <enum>QCalendarWidget::ISOWeekNumbers</enum>
+    </property>
+    <property name="navigationBarVisible">
+     <bool>true</bool>
+    </property>
+    <property name="dateEditEnabled">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exit_button">
+    <property name="geometry">
+     <rect>
+      <x>1780</x>
+      <y>910</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Выход</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>430</y>
-     <width>881</width>
-     <height>221</height>
+     <x>0</x>
+     <y>0</y>
+     <width>1920</width>
+     <height>21</height>
     </rect>
    </property>
-   <property name="mouseTracking">
-    <bool>false</bool>
-   </property>
-   <row>
-    <property name="text">
-     <string>Дам</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Кармадонов</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Лемешко</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Пожидаев</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Рязанов</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Хмелёв</string>
-    </property>
-   </row>
-   <column>
-    <property name="text">
-     <string>01.01.2023</string>
-    </property>
-    <property name="textAlignment">
-     <set>AlignLeading|AlignVCenter</set>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>02.01.2023</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>03.01.2023</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>03.01.2023</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>04.01.2023</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>05.01.2023</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>06.01.2023</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>07.01.2023</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>08.01.2023</string>
-    </property>
-   </column>
-   <item row="0" column="0">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignCenter</set>
-    </property>
-   </item>
-   <item row="0" column="1">
-    <property name="text">
-     <string/>
-    </property>
-   </item>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>1800</x>
-     <y>1030</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Выйти</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>30</y>
-     <width>160</width>
-     <height>311</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Факультет</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QListWidget" name="listWidget">
-      <property name="font">
-       <font>
-        <pointsize>16</pointsize>
-       </font>
-      </property>
-      <item>
-       <property name="text">
-        <string>ФАИТ</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>ФЕНМиИТ</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>ФКФН</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>ИСИ</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>ОМО</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>ТЭФ</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>ФПН</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>ИСПТиК</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>30</y>
-     <width>160</width>
-     <height>114</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Курс</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QListWidget" name="listWidget_2"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget_3">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>30</y>
-     <width>160</width>
-     <height>114</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_3">
-    <item>
-     <widget class="QLabel" name="label_3">
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Группа</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QListWidget" name="listWidget_3"/>
-    </item>
-   </layout>
-  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="rc.qrc"/>
+ </resources>
  <connections/>
 </ui>
