@@ -3,6 +3,32 @@ from table import *
 import rc_rc
 
 ui = Ui_AuthWindow()
+data = {}
+def data_init():
+    faq = ""
+    year = ""
+    group = ""
+    with open('data.txt', "r", encoding="utf-8") as f:
+        while True:
+            print (data)
+            item = f.readline()
+            if item == "/":
+                break
+            if item[0].isdigit():
+                data[faq][item] = {}
+                year = item
+                continue
+            if item[-2].isdigit():
+                data[faq][year][item] = {}
+                group = item
+                continue
+            for i in range(len(item)):
+                if item[i] == ' ' and not item[-2].isdigit():
+                    data[faq][year][group].append(item)
+                    continue
+            data[item] = {}
+            faq = item
+    print(data["ИСИ\n"]["1 курс\n"])
 
 
 def new_win():
@@ -43,7 +69,7 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     ui.error_label.hide()
     MainWindow.show()
-
+    data_init()
     ui.exit_button.clicked.connect(MainWindow.close)
     ui.auth_button.clicked.connect(new_win)
 
