@@ -3,7 +3,6 @@ from table import *
 import json
 import rc_rc
 
-
 ui = Ui_AuthWindow()
 
 def new_win():
