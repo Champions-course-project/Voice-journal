@@ -1,7 +1,7 @@
 from autorization import *
 from table import *
 import json
-import rc_rc
+import rc
 
 
 ui = Ui_AuthWindow()
