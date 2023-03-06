@@ -1,3 +1,5 @@
+from PyQt6.QtWidgets import QTableWidgetItem
+
 from autorization import *
 from table import *
 import json
@@ -8,6 +10,8 @@ ui = Ui_AuthWindow()
 def new_win():
     with open('data.json', "r", encoding="utf-8") as f:
         var = json.load(f)
+    with open('students_list.json', "r", encoding="utf-8") as s_f:
+        s_var = json.load(s_f)
 
     def addGroupItems():
         n_ui.group_list.clear()
@@ -18,6 +22,13 @@ def new_win():
         n_ui.group_list.clear()
         for key in var[n_ui.faculty_list.currentItem().text()]:
              n_ui.year_list.addItem(key)
+
+    def addStudents():
+        try:
+            n_ui.group_table.setRowCount(len(s_var[n_ui.group_list.currentItem().text()]))
+            n_ui.group_table.setVerticalHeaderLabels(s_var[n_ui.group_list.currentItem().text()])
+        except KeyError:
+            print("Такой группы нет!")
 
     if ui.login_lineEdit.text() == "1" and ui.password_lineEdit.text() == "1":
         global tableWindow
@@ -34,6 +45,7 @@ def new_win():
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.itemClicked.connect(addYearItems)
         n_ui.year_list.itemClicked.connect(addGroupItems)
+        n_ui.group_list.itemClicked.connect(addStudents)
     else:
         ui.error_label.show()
         ui.login_lineEdit.setText("")
