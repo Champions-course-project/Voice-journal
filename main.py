@@ -10,7 +10,6 @@ def new_win():
         var = json.load(f)
     with open('students_list.json', "r", encoding="utf-8") as s_f:
         s_var = json.load(s_f)
-
     def addGroupItems():
         n_ui.group_list.clear()
         for key in var[n_ui.faculty_list.currentItem().text()][n_ui.year_list.currentItem().text()]:
