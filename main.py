@@ -1,5 +1,3 @@
-from PyQt6.QtWidgets import QTableWidgetItem
-
 from autorization import *
 from table import *
 import json
