@@ -1,49 +1,23 @@
 from autorization import *
 from table import *
+import json
 import rc_rc
 
 ui = Ui_AuthWindow()
-data = {}
-def data_init():
-    faq = ""
-    year = ""
-    group = ""
-    with open('data.txt', "r", encoding="utf-8") as f:
-        while True:
-            print (data)
-            item = f.readline()
-            if item == "/":
-                break
-            if item[0].isdigit():
-                data[faq][item] = {}
-                year = item
-                continue
-            if item[-2].isdigit():
-                data[faq][year][item] = {}
-                group = item
-                continue
-            for i in range(len(item)):
-                if item[i] == ' ' and not item[-2].isdigit():
-                    data[faq][year][group].append(item)
-                    continue
-            data[item] = {}
-            faq = item
-    print(data["ИСИ\n"]["1 курс\n"])
-
 
 def new_win():
+    with open('data.json', "r", encoding="utf-8") as f:
+        var = json.load(f)
+
     def addGroupItems():
-        if  n_ui.year_list.currentItem().text() == "2":
-            n_ui.group_list.clear()
-            groupItems = ["АБД(м)-11", "ИС(б)-11", "ИСС(б)-11", "КСТ(б)-11", "КСТ(м)-11", "ОНГ(б)-11", "ОНГ(м)-11", "ТХОМ(б)-11", "УИТС(б)-11", "УК(б)-11", "УК(м)-11"]
-            for i in range(len(groupItems)):
-                n_ui.group_list.addItem(groupItems[i])
+        n_ui.group_list.clear()
+        for key in var[n_ui.faculty_list.currentItem().text()][n_ui.year_list.currentItem().text()]:
+             n_ui.group_list.addItem(key)
     def addYearItems():
-        if n_ui.faculty_list.currentItem().text() == "ФАИТ":
-            n_ui.year_list.clear()
-            yearItems = ["1", "2", "3", "4", "5", "6"]
-            for i in range(6):
-                n_ui.year_list.addItem(yearItems[i])
+        n_ui.year_list.clear()
+        n_ui.group_list.clear()
+        for key in var[n_ui.faculty_list.currentItem().text()]:
+             n_ui.year_list.addItem(key)
 
     if ui.login_lineEdit.text() == "1" and ui.password_lineEdit.text() == "1":
         global tableWindow
@@ -52,6 +26,11 @@ def new_win():
         n_ui.setupUi(tableWindow)
         tableWindow.showMaximized()
         MainWindow.close()
+        n_ui.faculty_list.clear()
+
+        for key in var:
+            n_ui.faculty_list.addItem(key)
+
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.itemClicked.connect(addYearItems)
         n_ui.year_list.itemClicked.connect(addGroupItems)
@@ -69,7 +48,6 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     ui.error_label.hide()
     MainWindow.show()
-    data_init()
     ui.exit_button.clicked.connect(MainWindow.close)
     ui.auth_button.clicked.connect(new_win)
 
