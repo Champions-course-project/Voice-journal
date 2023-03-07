@@ -1,3 +1,4 @@
+import login_class
 from autorization import *
 from table import *
 import json
@@ -7,6 +8,8 @@ import rc
 ui = Ui_AuthWindow()
 
 def new_win():
+    auth = login_class.LogIn()
+    success = auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
     with open('data.json', "r", encoding="utf-8") as f:
         var = json.load(f)
     with open('students_list.json', "r", encoding="utf-8") as s_f:
@@ -29,7 +32,7 @@ def new_win():
         except KeyError:
             print("Такой группы нет!")
 
-    if ui.login_lineEdit.text() == "1" and ui.password_lineEdit.text() == "1":
+    if success:
         global tableWindow
         tableWindow = QtWidgets.QMainWindow()
         n_ui = Ui_table_window()
