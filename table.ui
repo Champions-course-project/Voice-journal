@@ -14,8 +14,15 @@
    <string>Voice journal</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="rc.qrc">
-    <normaloff>:/icon/ProgrammIcon.ico</normaloff>:/icon/ProgrammIcon.ico</iconset>
+   <iconset>
+    <normaloff>ProgrammIcon.ico</normaloff>ProgrammIcon.ico</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(44, 44, 44);
+</string>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
@@ -38,6 +45,9 @@
          <pointsize>20</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
        <property name="text">
         <string>Факультет</string>
        </property>
@@ -52,6 +62,16 @@
         <font>
          <pointsize>16</pointsize>
         </font>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(145, 145, 145);</string>
+       </property>
+       <property name="resizeMode">
+        <enum>QListView::Fixed</enum>
        </property>
       </widget>
      </item>
@@ -77,6 +97,9 @@
          <pointsize>20</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
        <property name="text">
         <string>Курс</string>
        </property>
@@ -91,6 +114,10 @@
         <font>
          <pointsize>16</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(145, 145, 145);</string>
        </property>
       </widget>
      </item>
@@ -116,6 +143,9 @@
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
        <property name="text">
         <string>Группа</string>
        </property>
@@ -131,11 +161,18 @@
          <pointsize>16</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(145, 145, 145);</string>
+       </property>
       </widget>
      </item>
     </layout>
    </widget>
    <widget class="QTableWidget" name="group_table">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>630</x>
@@ -144,11 +181,40 @@
       <height>751</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="mouseTracking">
      <bool>true</bool>
     </property>
-    <property name="autoFillBackground">
+    <property name="tabletTracking">
      <bool>false</bool>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(75, 75, 75);
+alternate-background-color: rgb(90, 90, 90);
+color: rgb(255, 255, 255);
+</string>
     </property>
     <property name="inputMethodHints">
      <set>Qt::ImhNone</set>
@@ -157,10 +223,7 @@
      <enum>QFrame::StyledPanel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="lineWidth">
-     <number>1</number>
+     <enum>QFrame::Raised</enum>
     </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAsNeeded</enum>
@@ -168,11 +231,35 @@
     <property name="sizeAdjustPolicy">
      <enum>QAbstractScrollArea::AdjustIgnored</enum>
     </property>
+    <property name="showDropIndicator" stdset="0">
+     <bool>true</bool>
+    </property>
+    <property name="dragEnabled">
+     <bool>false</bool>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>true</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectItems</enum>
+    </property>
+    <property name="showGrid">
+     <bool>true</bool>
+    </property>
     <property name="gridStyle">
      <enum>Qt::SolidLine</enum>
     </property>
     <property name="sortingEnabled">
      <bool>true</bool>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+    <property name="cornerButtonEnabled">
+     <bool>false</bool>
     </property>
     <attribute name="horizontalHeaderCascadingSectionResizes">
      <bool>false</bool>
@@ -183,12 +270,22 @@
     <attribute name="verticalHeaderCascadingSectionResizes">
      <bool>false</bool>
     </attribute>
+    <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderStretchLastSection">
+     <bool>false</bool>
+    </attribute>
     <column>
      <property name="text">
       <string>14.01.2023</string>
      </property>
-     <property name="textAlignment">
-      <set>AlignCenter</set>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
      </property>
     </column>
     <column>
@@ -281,8 +378,15 @@
       <pointsize>16</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">alternate-background-color: rgb(145, 145, 145);
+selection-background-color: rgb(154, 154, 154);
+color: rgb(255, 255, 255);
+selection-color: rgb(255, 255, 255);
+background-color: rgb(75, 75, 75);</string>
+    </property>
     <property name="gridVisible">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="horizontalHeaderFormat">
      <enum>QCalendarWidget::ShortDayNames</enum>
@@ -311,6 +415,10 @@
       <pointsize>16</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(75, 75, 75);
+color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Выход</string>
     </property>
@@ -329,7 +437,7 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
-  <include location="rc.qrc"/>
+  <include location="icon.qrc"/>
  </resources>
  <connections/>
 </ui>

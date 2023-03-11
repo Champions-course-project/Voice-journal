@@ -29,8 +29,11 @@
    <string>Voice journal</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="rc.qrc">
+   <iconset>
     <normaloff>:/icon/ProgrammIcon.ico</normaloff>:/icon/ProgrammIcon.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(42, 42, 42);</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
@@ -48,6 +51,10 @@
     <font>
      <pointsize>12</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(75, 75, 75);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Авторизироваться</string>
@@ -67,6 +74,10 @@
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(75, 75, 75);
+color: rgb(255, 255, 255);</string>
+   </property>
    <property name="text">
     <string>Выйти</string>
    </property>
@@ -74,9 +85,9 @@
   <widget class="QLabel" name="authorization_label">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>0</x>
      <y>0</y>
-     <width>161</width>
+     <width>381</width>
      <height>51</height>
     </rect>
    </property>
@@ -85,8 +96,15 @@
      <pointsize>20</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(75, 75, 75);
+color: rgb(255, 255, 255);</string>
+   </property>
    <property name="text">
     <string>Авторизация</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget">
@@ -106,13 +124,34 @@
         <pointsize>16</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
        <string>Логин</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="login_lineEdit"/>
+     <widget class="QLineEdit" name="login_lineEdit">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(75, 75, 75);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="frame">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -133,13 +172,37 @@
         <pointsize>16</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
        <string>Пароль</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="password_lineEdit"/>
+     <widget class="QLineEdit" name="password_lineEdit">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(75, 75, 75);</string>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -151,23 +214,25 @@
     <rect>
      <x>20</x>
      <y>240</y>
-     <width>131</width>
+     <width>171</width>
      <height>16</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <weight>75</weight>
-     <bold>true</bold>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Ошибка авторизации!</string>
    </property>
   </widget>
  </widget>
- <resources>
-  <include location="rc.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

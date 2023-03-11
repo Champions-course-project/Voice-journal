@@ -43,7 +43,6 @@ def new_win():
 
         for key in var:
             n_ui.faculty_list.addItem(key)
-
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.itemClicked.connect(addYearItems)
         n_ui.year_list.itemClicked.connect(addGroupItems)
@@ -59,6 +58,7 @@ if __name__ == "__main__":
 
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QDialog()
+    app.setStyle(QtWidgets.QStyleFactory.create("Fusion"))
     ui.setupUi(MainWindow)
     ui.error_label.hide()
     MainWindow.show()
