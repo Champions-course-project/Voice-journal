@@ -4,7 +4,6 @@ from table import *
 import json
 import rc
 
-
 ui = Ui_AuthWindow()
 
 def new_win():
