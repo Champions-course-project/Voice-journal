@@ -225,7 +225,7 @@ class Ui_table_window(object):
         self.calendar_Widget.setDateEditEnabled(False)
         self.calendar_Widget.setObjectName("calendar_Widget")
         self.exit_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.exit_button.setGeometry(QtCore.QRect(1780, 910, 91, 41))
+        self.exit_button.setGeometry(QtCore.QRect(1780, 940, 91, 41))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.exit_button.setFont(font)
@@ -234,6 +234,16 @@ class Ui_table_window(object):
 "border-radius: 10px;\n"
 "background-color: rgb(255, 255, 255);")
         self.exit_button.setObjectName("exit_button")
+        self.activate_button = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.activate_button.setGeometry(QtCore.QRect(910, 920, 221, 71))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.activate_button.setFont(font)
+        self.activate_button.setStyleSheet("background-color: rgb(83, 83, 83);\n"
+"color: rgb(0, 0, 0);\n"
+"border-radius: 10px;\n"
+"background-color: rgb(255, 255, 255);")
+        self.activate_button.setObjectName("activate_button")
         table_window.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=table_window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 21))
@@ -286,6 +296,7 @@ class Ui_table_window(object):
         item = self.group_table.horizontalHeaderItem(15)
         item.setText(_translate("table_window", "29.05.2023"))
         self.exit_button.setText(_translate("table_window", "Выход"))
+        self.activate_button.setText(_translate("table_window", "Голосовой ввод"))
 
 
 if __name__ == "__main__":

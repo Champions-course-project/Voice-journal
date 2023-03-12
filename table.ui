@@ -463,6 +463,30 @@ background-color: rgb(255, 255, 255);</string>
      <string>Выход</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="activate_button">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>880</y>
+      <width>221</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(83, 83, 83);
+color: rgb(0, 0, 0);
+border-radius: 10px;
+background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Голосовой ввод</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

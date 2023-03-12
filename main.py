@@ -1,31 +1,41 @@
 import login_class
-from PyQt6.QtWidgets import *
-from PyQt6.QtGui import *
 from autorization import *
 from table import *
 import json
+import SR
 import rc
 
 ui = Ui_AuthWindow()
 
 def new_win():
+    year_cond = False
+    group_cond = False
+    faculty_name = ""
+    course_choose = ""
     auth = login_class.LogIn()
-    success = auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
+    success = True
+    #auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
 
-    with open('data.json', "r", encoding="utf-8") as f:
+    with open('data.json', "r", encoding="UTF-8") as f:
         var = json.load(f)
-    with open('students_list.json', "r", encoding="utf-8") as s_f:
+    with open('students_list.json', "r", encoding="UTF-8") as s_f:
         s_var = json.load(s_f)
 
     def addGroupItems():
         n_ui.group_list.clear()
+        print(n_ui.year_list.currentItem().text())
         for key in var[n_ui.faculty_list.currentItem().text()][n_ui.year_list.currentItem().text()]:
              n_ui.group_list.addItem(key)
+        nonlocal group_cond
+        group_cond = True
+
     def addYearItems():
         n_ui.year_list.clear()
         n_ui.group_list.clear()
         for key in var[n_ui.faculty_list.currentItem().text()]:
              n_ui.year_list.addItem(key)
+        nonlocal year_cond
+        year_cond = True
 
     def addStudents():
         try:
@@ -33,6 +43,25 @@ def new_win():
             n_ui.group_table.setVerticalHeaderLabels(s_var[n_ui.group_list.currentItem().text()])
         except KeyError:
             print("Такой группы нет!")
+
+    def activate_voice():
+        nonlocal faculty_name, course_choose
+        if year_cond and group_cond:
+            print(1)
+            group_choose = SR.get_group(faculty_name, str(course_choose + " курс"))
+            if group_choose + 1:
+                n_ui.faculty_list.setCurrentRow(group_choose)
+        if year_cond:
+            print(2)
+            course_choose = SR.get_course(faculty_name)
+            if course_choose + 1:
+                n_ui.year_list.setCurrentRow(course_choose-1)
+            addGroupItems()
+        else:
+            faculty_choose, faculty_name = SR.get_faculty()
+            if faculty_choose + 1:
+                n_ui.faculty_list.setCurrentRow(faculty_choose)
+                addYearItems()
 
     if success:
         global tableWindow
@@ -49,6 +78,7 @@ def new_win():
 
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.itemClicked.connect(addYearItems)
+        n_ui.activate_button.clicked.connect(activate_voice)
         n_ui.year_list.itemClicked.connect(addGroupItems)
         n_ui.group_list.itemClicked.connect(addStudents)
     else:
