@@ -25,6 +25,11 @@
     <height>327</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Roboto</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Voice journal</string>
   </property>
@@ -33,7 +38,7 @@
     <normaloff>:/icon/ProgrammIcon.ico</normaloff>:/icon/ProgrammIcon.ico</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(42, 42, 42);</string>
+   <string notr="true">background-color: rgb(17, 17, 17);</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
@@ -43,18 +48,23 @@
     <rect>
      <x>10</x>
      <y>280</y>
-     <width>151</width>
+     <width>181</width>
      <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Gotham Black</family>
      <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(75, 75, 75);
-color: rgb(255, 255, 255);</string>
+    <string notr="true">background-color: rgb(83, 83, 83);
+color: rgb(0, 0, 0);
+border-radius: 10px;
+background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Авторизироваться</string>
@@ -71,12 +81,17 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="font">
     <font>
+     <family>Gotham Black</family>
      <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(75, 75, 75);
-color: rgb(255, 255, 255);</string>
+    <string notr="true">background-color: rgb(83, 83, 83);
+color: rgb(0, 0, 0);
+border-radius: 10px;
+background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Выйти</string>
@@ -93,11 +108,14 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="font">
     <font>
+     <family>Gotham Black</family>
      <pointsize>20</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(75, 75, 75);
+    <string notr="true">background-color: rgb(30, 185, 85);
 color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
@@ -121,7 +139,11 @@ color: rgb(255, 255, 255);</string>
      <widget class="QLabel" name="login_label">
       <property name="font">
        <font>
+        <family>Gotham Black</family>
         <pointsize>16</pointsize>
+        <weight>75</weight>
+        <italic>false</italic>
+        <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -136,14 +158,15 @@ color: rgb(255, 255, 255);</string>
      <widget class="QLineEdit" name="login_lineEdit">
       <property name="font">
        <font>
+        <family>Gotham Medium</family>
         <pointsize>12</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
        <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(75, 75, 75);</string>
+background-color: rgb(83, 83, 83);</string>
       </property>
       <property name="text">
        <string/>
@@ -169,7 +192,10 @@ background-color: rgb(75, 75, 75);</string>
      <widget class="QLabel" name="password_label">
       <property name="font">
        <font>
+        <family>Gotham Black</family>
         <pointsize>16</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -184,6 +210,7 @@ background-color: rgb(75, 75, 75);</string>
      <widget class="QLineEdit" name="password_lineEdit">
       <property name="font">
        <font>
+        <family>Gotham Medium</family>
         <pointsize>12</pointsize>
         <weight>50</weight>
         <bold>false</bold>
@@ -191,7 +218,7 @@ background-color: rgb(75, 75, 75);</string>
       </property>
       <property name="styleSheet">
        <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(75, 75, 75);</string>
+background-color: rgb(83, 83, 83);</string>
       </property>
       <property name="inputMethodHints">
        <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
@@ -214,15 +241,17 @@ background-color: rgb(75, 75, 75);</string>
     <rect>
      <x>20</x>
      <y>240</y>
-     <width>171</width>
+     <width>191</width>
      <height>16</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Gotham Black</family>
      <pointsize>12</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">

@@ -10,6 +10,13 @@
     <height>1080</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Gotham Black</family>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Voice journal</string>
   </property>
@@ -21,8 +28,7 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(44, 44, 44);
-</string>
+   <string notr="true">background-color: rgb(17, 17, 17);</string>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
@@ -42,7 +48,11 @@
       <widget class="QLabel" name="faculty_label">
        <property name="font">
         <font>
+         <family>Gotham Black</family>
          <pointsize>20</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
         </font>
        </property>
        <property name="styleSheet">
@@ -60,18 +70,16 @@
       <widget class="QListWidget" name="faculty_list">
        <property name="font">
         <font>
+         <family>Gotham Medium</family>
          <pointsize>16</pointsize>
         </font>
        </property>
-       <property name="autoFillBackground">
-        <bool>true</bool>
-       </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(145, 145, 145);</string>
-       </property>
-       <property name="resizeMode">
-        <enum>QListView::Fixed</enum>
+background-color: rgb(83, 83, 83);
+selection-color: rgb(255, 255, 255);
+selection-background-color: rgb(30, 185, 85);
+border-radius: 10px;</string>
        </property>
       </widget>
      </item>
@@ -94,7 +102,10 @@ background-color: rgb(145, 145, 145);</string>
        </property>
        <property name="font">
         <font>
+         <family>Gotham Black</family>
          <pointsize>20</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="styleSheet">
@@ -112,12 +123,16 @@ background-color: rgb(145, 145, 145);</string>
       <widget class="QListWidget" name="year_list">
        <property name="font">
         <font>
+         <family>Gotham Medium</family>
          <pointsize>16</pointsize>
         </font>
        </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(145, 145, 145);</string>
+background-color: rgb(83, 83, 83);
+selection-background-color: rgb(30, 185, 85);
+border-radius: 10px;
+selection-color: rgb(255, 255, 255);</string>
        </property>
       </widget>
      </item>
@@ -128,7 +143,7 @@ background-color: rgb(145, 145, 145);</string>
      <rect>
       <x>420</x>
       <y>30</y>
-      <width>160</width>
+      <width>164</width>
       <height>621</height>
      </rect>
     </property>
@@ -137,7 +152,10 @@ background-color: rgb(145, 145, 145);</string>
       <widget class="QLabel" name="groupe_label">
        <property name="font">
         <font>
+         <family>Gotham Black</family>
          <pointsize>20</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="layoutDirection">
@@ -158,12 +176,17 @@ background-color: rgb(145, 145, 145);</string>
       <widget class="QListWidget" name="group_list">
        <property name="font">
         <font>
+         <family>Gotham Medium</family>
          <pointsize>16</pointsize>
         </font>
        </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(145, 145, 145);</string>
+selection-color: rgb(255, 255, 255);
+background-color: rgb(83, 83, 83);
+selection-background-color: rgb(30, 185, 85);
+border-radius: 10px;
+</string>
        </property>
       </widget>
      </item>
@@ -175,7 +198,7 @@ background-color: rgb(145, 145, 145);</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>650</x>
       <y>70</y>
       <width>1241</width>
       <height>751</height>
@@ -189,7 +212,11 @@ background-color: rgb(145, 145, 145);</string>
     </property>
     <property name="font">
      <font>
+      <family>Gotham Medium</family>
       <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="mouseTracking">
@@ -211,10 +238,11 @@ background-color: rgb(145, 145, 145);</string>
      <bool>true</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(75, 75, 75);
-alternate-background-color: rgb(90, 90, 90);
+     <string notr="true">background-color: rgb(83, 83, 83);
 color: rgb(255, 255, 255);
-</string>
+selection-background-color: rgb(30, 185, 85);
+alternate-background-color: rgb(179, 179, 179);
+gridline-color: rgb(17, 17, 17);</string>
     </property>
     <property name="inputMethodHints">
      <set>Qt::ImhNone</set>
@@ -224,6 +252,9 @@ color: rgb(255, 255, 255);
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
     </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAsNeeded</enum>
@@ -241,7 +272,7 @@ color: rgb(255, 255, 255);
      <bool>true</bool>
     </property>
     <property name="selectionMode">
-     <enum>QAbstractItemView::SingleSelection</enum>
+     <enum>QAbstractItemView::ContiguousSelection</enum>
     </property>
     <property name="selectionBehavior">
      <enum>QAbstractItemView::SelectItems</enum>
@@ -259,7 +290,7 @@ color: rgb(255, 255, 255);
      <bool>true</bool>
     </property>
     <property name="cornerButtonEnabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <attribute name="horizontalHeaderCascadingSectionResizes">
      <bool>false</bool>
@@ -375,24 +406,31 @@ color: rgb(255, 255, 255);
     </property>
     <property name="font">
      <font>
+      <family>Gotham Black</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">alternate-background-color: rgb(145, 145, 145);
-selection-background-color: rgb(154, 154, 154);
+     <string notr="true">alternate-background-color: rgb(83, 83, 83);
+selection-background-color: rgb(30, 185, 85);
 color: rgb(255, 255, 255);
 selection-color: rgb(255, 255, 255);
-background-color: rgb(75, 75, 75);</string>
+background-color: rgb(33, 33, 33);
+border-radius: 10px;</string>
     </property>
     <property name="gridVisible">
      <bool>false</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QCalendarWidget::NoSelection</enum>
     </property>
     <property name="horizontalHeaderFormat">
      <enum>QCalendarWidget::ShortDayNames</enum>
     </property>
     <property name="verticalHeaderFormat">
-     <enum>QCalendarWidget::ISOWeekNumbers</enum>
+     <enum>QCalendarWidget::NoVerticalHeader</enum>
     </property>
     <property name="navigationBarVisible">
      <bool>true</bool>
@@ -416,8 +454,10 @@ background-color: rgb(75, 75, 75);</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(75, 75, 75);
-color: rgb(255, 255, 255);</string>
+     <string notr="true">background-color: rgb(83, 83, 83);
+color: rgb(0, 0, 0);
+border-radius: 10px;
+background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>Выход</string>
@@ -436,8 +476,6 @@ color: rgb(255, 255, 255);</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="icon.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
