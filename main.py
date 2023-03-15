@@ -1,3 +1,5 @@
+from PyQt6.QtWidgets import QApplication
+
 import login_class
 from autorization import *
 from table import *
@@ -15,23 +17,27 @@ def new_win():
     auth = login_class.LogIn()
     success = True
     #auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
-
     with open('data.json', "r", encoding="UTF-8") as f:
         var = json.load(f)
     with open('students_list.json', "r", encoding="UTF-8") as s_f:
         s_var = json.load(s_f)
-
     def addGroupItems():
+        n_ui.error_label.hide()
         n_ui.group_list.clear()
         print(n_ui.year_list.currentItem().text())
+        i = 0
         for key in var[n_ui.faculty_list.currentItem().text()][n_ui.year_list.currentItem().text()]:
-             n_ui.group_list.addItem(key)
+             i+=1
+             n_ui.group_list.addItem(str(i) + ". " + key)
         nonlocal group_cond
         group_cond = True
 
     def addYearItems():
+        n_ui.error_label.hide()
         n_ui.year_list.clear()
         n_ui.group_list.clear()
+        nonlocal group_cond
+        group_cond = False
         for key in var[n_ui.faculty_list.currentItem().text()]:
              n_ui.year_list.addItem(key)
         nonlocal year_cond
@@ -39,43 +45,78 @@ def new_win():
 
     def addStudents():
         try:
-            n_ui.group_table.setRowCount(len(s_var[n_ui.group_list.currentItem().text()]))
-            n_ui.group_table.setVerticalHeaderLabels(s_var[n_ui.group_list.currentItem().text()])
+            n_ui.error_label.hide()
+            n_ui.group_table.setRowCount(0)
+            current = n_ui.group_list.currentItem().text()
+            current = current.split('. ')[1]
+            n_ui.group_table.setRowCount(len(s_var[current]))
+            n_ui.group_list.setStyleSheet("color: rgb(255, 255, 255);\n"
+                                          "selection-color: rgb(255, 255, 255);\n"
+                                          "background-color: rgb(83, 83, 83);\n"
+                                          "selection-background-color: rgb(30, 185, 85);\n"
+                                          "border-radius: 10px;\n"
+                                          "")
+            n_ui.group_table.setVerticalHeaderLabels(s_var[current])
         except KeyError:
+            print(current)
+            n_ui.group_list.setStyleSheet("color: rgb(255, 255, 255);\n"
+                                          "selection-color: rgb(255, 255, 255);\n"
+                                          "background-color: rgb(83, 83, 83);\n"
+                                           "selection-background-color: rgb(255, 29, 40);\n"
+                                          "border-radius: 10px;\n"
+                                           "")
             print("Такой группы нет!")
+        except Exception as exc:
+            print(type(exc).__name__)
+            print(exc.args)
+            return False
 
     def activate_voice():
         nonlocal faculty_name, course_choose
-        if year_cond and group_cond:
-            print(1)
-            group_choose = SR.get_group(faculty_name, str(course_choose + " курс"))
-            if group_choose + 1:
-                n_ui.faculty_list.setCurrentRow(group_choose)
-        if year_cond:
-            print(2)
-            course_choose = SR.get_course(faculty_name)
-            if course_choose + 1:
-                n_ui.year_list.setCurrentRow(course_choose-1)
-            addGroupItems()
-        else:
-            faculty_choose, faculty_name = SR.get_faculty()
-            if faculty_choose + 1:
-                n_ui.faculty_list.setCurrentRow(faculty_choose)
-                addYearItems()
+        n_ui.activate_button.hide()
+        n_ui.activate_button.update()
+        QApplication.processEvents()
+        try:
+            if year_cond and group_cond:
+                group_choose = SR.get_group(faculty_name, str(course_choose))
+                if type(group_choose) != bool and group_choose + 1:
+                    n_ui.group_list.setCurrentRow(group_choose-1)
+                    addStudents()
+                else:
+                    n_ui.error_label.show()
+            elif year_cond:
+                course_choose = SR.get_course(faculty_name)
+                # print(type(course_choose))
+                # print(course_choose)
+                if type(course_choose) != bool and course_choose + 1:
+                    n_ui.year_list.setCurrentRow(course_choose-1)
+                    addGroupItems()
+                else:
+                    n_ui.error_label.show()
+            else:
+                faculty_choose, faculty_name = SR.get_faculty()
+                if type(faculty_choose) != bool and faculty_choose + 1:
+                    n_ui.faculty_list.setCurrentRow(faculty_choose-1)
+                    addYearItems()
+                else:
+                    n_ui.error_label.show()
+        finally:
+            n_ui.activate_button.show()
+            n_ui.activate_button.update()
+            QApplication.processEvents()
 
     if success:
         global tableWindow
-
         tableWindow = QtWidgets.QMainWindow()
         n_ui = Ui_table_window()
         n_ui.setupUi(tableWindow)
+        n_ui.error_label.hide()
         tableWindow.showMaximized()
         MainWindow.close()
         n_ui.faculty_list.clear()
 
         for key in var:
             n_ui.faculty_list.addItem(key)
-
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.itemClicked.connect(addYearItems)
         n_ui.activate_button.clicked.connect(activate_voice)
@@ -89,7 +130,6 @@ def new_win():
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QDialog()
     app.setStyle(QtWidgets.QStyleFactory.create("Fusion"))

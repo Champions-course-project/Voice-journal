@@ -16,10 +16,10 @@ def convert_string(string):
         elif element in hundreds:
             converted.append((hundreds.index(element) + 1) * 100)
         else:
-            return False
+            return -1
     if converted:
         return sum(converted)
-    return False
+    return -1
 
 
 def convert_course(string):
@@ -27,7 +27,7 @@ def convert_course(string):
     string = string.lower().replace('ё', 'е')
     if string in ones_ord:
         return ones_ord.index(string) + 1
-    return False
+    return -1
 
 
 if __name__ == "__main__":

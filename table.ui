@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1080</height>
+    <height>1032</height>
    </rect>
   </property>
   <property name="font">
@@ -16,6 +16,9 @@
     <weight>75</weight>
     <bold>true</bold>
    </font>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
    <string>Voice journal</string>
@@ -31,16 +34,19 @@
    <string notr="true">background-color: rgb(17, 17, 17);</string>
   </property>
   <property name="toolButtonStyle">
-   <enum>Qt::ToolButtonIconOnly</enum>
+   <enum>Qt::ToolButtonFollowStyle</enum>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>30</y>
+      <y>70</y>
       <width>160</width>
-      <height>621</height>
+      <height>531</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="faculty_layout">
@@ -89,9 +95,9 @@ border-radius: 10px;</string>
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>30</y>
-      <width>160</width>
-      <height>621</height>
+      <y>70</y>
+      <width>161</width>
+      <height>531</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="year_layout">
@@ -141,10 +147,10 @@ selection-color: rgb(255, 255, 255);</string>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>30</y>
-      <width>164</width>
-      <height>621</height>
+      <x>410</x>
+      <y>70</y>
+      <width>181</width>
+      <height>531</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="group_layout">
@@ -198,10 +204,10 @@ border-radius: 10px;
     </property>
     <property name="geometry">
      <rect>
-      <x>650</x>
-      <y>70</y>
+      <x>620</x>
+      <y>110</y>
       <width>1241</width>
-      <height>751</height>
+      <height>721</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -399,7 +405,7 @@ gridline-color: rgb(17, 17, 17);</string>
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>680</y>
+      <y>640</y>
       <width>551</width>
       <height>351</height>
      </rect>
@@ -442,10 +448,10 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="exit_button">
     <property name="geometry">
      <rect>
-      <x>1780</x>
+      <x>1750</x>
       <y>910</y>
-      <width>91</width>
-      <height>41</height>
+      <width>111</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -466,8 +472,8 @@ background-color: rgb(255, 255, 255);</string>
    <widget class="QPushButton" name="activate_button">
     <property name="geometry">
      <rect>
-      <x>910</x>
-      <y>880</y>
+      <x>1050</x>
+      <y>890</y>
       <width>221</width>
       <height>71</height>
      </rect>
@@ -476,6 +482,9 @@ background-color: rgb(255, 255, 255);</string>
      <font>
       <pointsize>16</pointsize>
      </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(83, 83, 83);
@@ -486,20 +495,144 @@ background-color: rgb(255, 255, 255);</string>
     <property name="text">
      <string>Голосовой ввод</string>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>35</width>
+      <height>35</height>
+     </size>
+    </property>
    </widget>
+   <widget class="QPushButton" name="activate_button_2">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>890</y>
+      <width>221</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);
+background-color: rgb(255, 29, 40);
+border-radius: 10px;
+</string>
+    </property>
+    <property name="text">
+     <string>Идёт запись</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>Mic.ico</normaloff>Mic.ico</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>35</width>
+      <height>35</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="table_label">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>70</y>
+      <width>361</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gotham Black</family>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Журнал обучающихся</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="error_label">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>850</y>
+      <width>331</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gotham Black</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Ошибка ввода, попробуйте еще раз</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>870</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gotham Medium</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Примечание</string>
+    </property>
+   </widget>
+   <zorder>activate_button_2</zorder>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>verticalLayoutWidget_2</zorder>
+   <zorder>verticalLayoutWidget_3</zorder>
+   <zorder>group_table</zorder>
+   <zorder>calendar_Widget</zorder>
+   <zorder>exit_button</zorder>
+   <zorder>activate_button</zorder>
+   <zorder>table_label</zorder>
+   <zorder>error_label</zorder>
+   <zorder>label</zorder>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1920</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

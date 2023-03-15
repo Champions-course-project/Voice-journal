@@ -37,15 +37,17 @@ def get_faculty():
             if not words_list[0].isdigit():
                 number = convert_number.convert_string(number)
             number = int(number)
-            while number > len(faculties_list) or number < 1 or not number:
-                print("Назовите факультет ещё раз")
-                words_list = speech()
-                if words_list:
-                    number = words_list[0]
-                    if not words_list[0].isdigit():
-                        number = convert_number.convert_string(number)
-            print(faculties_list[number - 1])
-            return number - 1, faculties_list[number - 1]
+            # while number > len(faculties_list) or number < 1 or not number:
+            #     print("Назовите факультет ещё раз")
+            #     words_list = speech()
+            #     if words_list:
+            #         number = words_list[0]
+            #         if not words_list[0].isdigit():
+            #             number = convert_number.convert_string(number)
+            # print(faculties_list[number - 1])
+            return number, faculties_list[number]
+        else:
+            return False, False
     except Exception as exc:
         print(type(exc).__name__)
         print(exc.args)
@@ -64,15 +66,20 @@ def get_course(faculty):
         if words_list:
             course = words_list[0]
             if not words_list[0].isdigit():
+                # print(course)
+                # print(type(course))
                 course = convert_number.convert_course(course)
+            assert str(course) + " курс" in courses_list
             course = int(course)
-            while (str(course) + " курс" not in courses_list) or not course:
-                words_list = speech()
-                if words_list:
-                    course = words_list[0]
-                    if not words_list[0].isdigit():
-                        course = convert_number.convert_course(course)
+            # while (str(course) + " курс" not in courses_list) or not course:
+            #     words_list = speech()
+            #     if words_list:
+            #         course = words_list[0]
+            #         if not words_list[0].isdigit():
+            #             course = convert_number.convert_course(course)
             return course
+        else:
+            return False
     except Exception as exc:
         print(type(exc).__name__)
         print(exc.args)
@@ -84,9 +91,6 @@ def get_group(faculty, course):
         groups_dict = json.load(file)
     groups_list = groups_dict[faculty].get(str(course) + ' курс')
     if groups_list:
-        for group in groups_list:
-            print(f"{groups_list.index(group) + 1}. {group}")
-        print("Выберите номер группы: ")
         try:
             words_list = speech()
             if words_list:
@@ -94,14 +98,17 @@ def get_group(faculty, course):
                 if not words_list[0].isdigit():
                     group = convert_number.convert_string(group)
                 group = int(group)
-                while group > len(groups_list) or group < 1 or not group:
-                    print("Выберите номер группы: ")
-                    words_list = speech()
-                    if words_list:
-                        group = words_list[0]
-                        if not words_list[0].isdigit():
-                            group = convert_number.convert_string(group)
-                return group - 1
+                # while group > len(groups_list) or group < 1 or not group:
+                #     print("Выберите номер группы: ")
+                #     words_list = speech()
+                #     if words_list:
+                #         group = words_list[0]
+                #         if not words_list[0].isdigit():
+                #             group = convert_number.convert_string(group)
+                # print(group)
+                return group
+            else:
+                return False
         except Exception as exc:
             print(type(exc).__name__)
             print(exc.args)
