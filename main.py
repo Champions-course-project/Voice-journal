@@ -1,3 +1,5 @@
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QKeySequence
 from PyQt6.QtWidgets import QApplication
 
 import login_class
@@ -5,10 +7,9 @@ from autorization import *
 from table import *
 import json
 import SR
-import rc
+import icons
 
 ui = Ui_AuthWindow()
-
 def new_win():
     year_cond = False
     group_cond = False
@@ -21,7 +22,17 @@ def new_win():
         var = json.load(f)
     with open('students_list.json', "r", encoding="UTF-8") as s_f:
         s_var = json.load(s_f)
+    # def movewindow(event):
+    #     if MainWindow.isMaximized()== False:
+    #         print(event.buttons)
+    #         if event.button() == Qt.MouseButton.RightButton:
+    #             MainWindow.move(MainWindow.pos() + event.globalPos() - MainWindow.clickPosition)
+    #             MainWindow.clickPosition = event.globalPos()
+    #             event.accept()
+    # def mouseclickevent(event):
+    #     clickPosition = event.globalPos()
     def addGroupItems():
+        n_ui.help_label.setText("Примечание: для выбора группы с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер номер группы, указанный в списке.")
         n_ui.error_label.hide()
         n_ui.group_list.clear()
         print(n_ui.year_list.currentItem().text())
@@ -33,6 +44,7 @@ def new_win():
         group_cond = True
 
     def addYearItems():
+        n_ui.help_label.setText("Примечание: для выбора курса с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать <b>порядковый</b> номер курса.")
         n_ui.error_label.hide()
         n_ui.year_list.clear()
         n_ui.group_list.clear()
@@ -45,6 +57,8 @@ def new_win():
 
     def addStudents():
         try:
+            n_ui.help_label.setText(
+                "Примечание: для выбора учащегося с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать дату, фамилию, а затем оценку для студента.")
             n_ui.error_label.hide()
             n_ui.group_table.setRowCount(0)
             current = n_ui.group_list.currentItem().text()
@@ -86,8 +100,6 @@ def new_win():
                     n_ui.error_label.show()
             elif year_cond:
                 course_choose = SR.get_course(faculty_name)
-                # print(type(course_choose))
-                # print(course_choose)
                 if type(course_choose) != bool and course_choose + 1:
                     n_ui.year_list.setCurrentRow(course_choose-1)
                     addGroupItems()
@@ -110,6 +122,7 @@ def new_win():
         tableWindow = QtWidgets.QMainWindow()
         n_ui = Ui_table_window()
         n_ui.setupUi(tableWindow)
+        tableWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
         n_ui.error_label.hide()
         tableWindow.showMaximized()
         MainWindow.close()
@@ -120,6 +133,10 @@ def new_win():
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.itemClicked.connect(addYearItems)
         n_ui.activate_button.clicked.connect(activate_voice)
+        n_ui.hide_button.clicked.connect(tableWindow.showMinimized)
+        n_ui.close_button.clicked.connect(tableWindow.close)
+        n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
+        n_ui.exit_button.setShortcut(QKeySequence("Ctrl+Q"))
         n_ui.year_list.itemClicked.connect(addGroupItems)
         n_ui.group_list.itemClicked.connect(addStudents)
     else:
@@ -132,10 +149,14 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QDialog()
-    app.setStyle(QtWidgets.QStyleFactory.create("Fusion"))
+    app.setStyle('Fusion')
     ui.setupUi(MainWindow)
     ui.error_label.hide()
+    ui.hide_button_2.clicked.connect(MainWindow.showMinimized)
+    ui.close_button_2.clicked.connect(MainWindow.close)
+    MainWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
     MainWindow.show()
+
     ui.exit_button.clicked.connect(MainWindow.close)
     ui.auth_button.clicked.connect(new_win)
 
