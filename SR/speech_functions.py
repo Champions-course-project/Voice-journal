@@ -6,9 +6,9 @@ import SR.full_record as full_record
 import SR.convert_number as convert_number
 
 
-def speech():
+def speech(bytes_array, framerate):
     try:
-        result = full_record.STT.decode()
+        result = full_record.STT.decode_bytestream(bytes_array, framerate)
         if result:
             words_list = []
             for transcript in result['alternative']:
@@ -22,7 +22,7 @@ def speech():
         return False
 
 
-def get_faculty():
+def get_faculty(bytestream, framerate):
     with open(os.path.join("SR", "pnu_info", "Факультеты и институты.json"), 'r', encoding='UTF-8') as file:
         faculties_dict = json.load(file)
 
@@ -31,7 +31,7 @@ def get_faculty():
 
     # цикл выбора факультета
     try:
-        words_list = speech()
+        words_list = speech(bytestream, framerate)
         if words_list:
             number = words_list[0]
             if not words_list[0].isdigit():
@@ -54,7 +54,7 @@ def get_faculty():
         return False, False
 
 
-def get_course(faculty):
+def get_course(faculty, bytestream, framerate):
     with open(os.path.join("SR", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     courses_list = []
@@ -62,7 +62,7 @@ def get_course(faculty):
         courses_list.append(course_number)
 
     try:
-        words_list = speech()
+        words_list = speech(bytestream, framerate)
         if words_list:
             course = words_list[0]
             if not words_list[0].isdigit():
@@ -86,13 +86,13 @@ def get_course(faculty):
         return False
 
 
-def get_group(faculty, course):
+def get_group(faculty, course, bytestream, framerate):
     with open(os.path.join("SR", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     groups_list = groups_dict[faculty].get(str(course) + ' курс')
     if groups_list:
         try:
-            words_list = speech()
+            words_list = speech(bytestream, framerate)
             if words_list:
                 group = words_list[0]
                 if not words_list[0].isdigit():

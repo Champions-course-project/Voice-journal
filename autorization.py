@@ -65,7 +65,7 @@ class Ui_AuthWindow(object):
 "")
         self.exit_button.setObjectName("exit_button")
         self.authorization_label = QtWidgets.QLabel(parent=AuthWindow)
-        self.authorization_label.setGeometry(QtCore.QRect(0, 40, 381, 51))
+        self.authorization_label.setGeometry(QtCore.QRect(0, 30, 381, 61))
         font = QtGui.QFont()
         font.setFamily("Gotham Black")
         font.setPointSize(20)
@@ -158,16 +158,15 @@ class Ui_AuthWindow(object):
         self.error_label.setFont(font)
         self.error_label.setStyleSheet("color: rgb(255, 255, 255);")
         self.error_label.setObjectName("error_label")
-        self.title_bar = QtWidgets.QFrame(parent=AuthWindow)
-        self.title_bar.setGeometry(QtCore.QRect(0, 0, 375, 41))
+        self.title_bar = QtWidgets.QWidget(parent=AuthWindow)
+        self.title_bar.setGeometry(QtCore.QRect(0, 0, 375, 31))
         self.title_bar.setMouseTracking(True)
-        self.title_bar.setTabletTracking(False)
-        self.title_bar.setAcceptDrops(True)
+        self.title_bar.setTabletTracking(True)
+        self.title_bar.setAcceptDrops(False)
+        self.title_bar.setAutoFillBackground(False)
         self.title_bar.setStyleSheet("background-color: rgb(83, 83, 83);\n"
 "border-top-left-radius: 10px;\n"
 "border-top-right-radius: 10px;")
-        self.title_bar.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.title_bar.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.title_bar.setObjectName("title_bar")
         self.close_button = QtWidgets.QPushButton(parent=self.title_bar)
         self.close_button.setGeometry(QtCore.QRect(1890, 10, 31, 20))
@@ -190,7 +189,7 @@ class Ui_AuthWindow(object):
         self.hide_button.setIconSize(QtCore.QSize(25, 25))
         self.hide_button.setObjectName("hide_button")
         self.close_button_2 = QtWidgets.QPushButton(parent=self.title_bar)
-        self.close_button_2.setGeometry(QtCore.QRect(340, 10, 31, 20))
+        self.close_button_2.setGeometry(QtCore.QRect(340, 0, 31, 31))
         self.close_button_2.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(255, 0, 0);\n"
 "}\n"
@@ -204,7 +203,7 @@ class Ui_AuthWindow(object):
         self.close_button_2.setIconSize(QtCore.QSize(13, 13))
         self.close_button_2.setObjectName("close_button_2")
         self.hide_button_2 = QtWidgets.QPushButton(parent=self.title_bar)
-        self.hide_button_2.setGeometry(QtCore.QRect(300, 10, 31, 21))
+        self.hide_button_2.setGeometry(QtCore.QRect(290, 0, 41, 31))
         self.hide_button_2.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(121, 121, 121);\n"
 "}\n"

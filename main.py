@@ -1,13 +1,16 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QKeySequence
+from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtWidgets import QApplication
 
+import time
 import login_class
 from autorization import *
 from table import *
 import json
 import SR
+import SR.recorder as recorder
 import icons
+
 
 ui = Ui_AuthWindow()
 def new_win():
@@ -84,38 +87,86 @@ def new_win():
             print(type(exc).__name__)
             print(exc.args)
             return False
+    def buttonColor(f):
+        if f ==1:
+            n_ui.activate_button.setText("Распознавание...")
+            n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
+            n_ui.activate_button.setStyleSheet("QPushButton::hover{\n"
+                                               "background-color: rgb(255, 255, 0);\n"
+                                               "}\n"
+                                               "QPushButton{\n"
+                                               "color: rgb(0, 0, 0);\n"
+                                               "border-radius: 10px;\n"
+                                               "}\n"
+                                               "\n"
+                                               "")
+        if f ==2:
+            n_ui.activate_button.setText("Идёт запись...")
+            n_ui.activate_button.setStyleSheet(
+                                                 "background-color: rgb(255, 29, 40);\n"
+                                                 "border-radius: 10px;\n"
+                                                 "")
+            icon1 = QtGui.QIcon()
+            icon1.addPixmap(QtGui.QPixmap(":/in programm/icons/Mic.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+            n_ui.activate_button.setIcon(icon1)
+            n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
+        if f ==3:
+            n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
+            n_ui.activate_button.setText("Голосовой ввод")
+            n_ui.activate_button.setStyleSheet("QPushButton::hover{\n"
+                                               "background-color: rgb(194, 194, 194);\n"
+                                               "}\n"
+                                               "QPushButton{\n"
+                                               "background-color: rgb(83, 83, 83);\n"
+                                               "color: rgb(0, 0, 0);\n"
+                                               "border-radius: 10px;\n"
+                                               "background-color: rgb(255, 255, 255);\n"
+                                               "}\n"
+                                               "\n"
+                                               "")
 
     def activate_voice():
         nonlocal faculty_name, course_choose
-        n_ui.activate_button.hide()
+        buttonColor(2)
+        n_ui.activate_button.update()
+        QApplication.processEvents()
+        bytes_array = recorder.Recorder.record_data()
+        buttonColor(1)
         n_ui.activate_button.update()
         QApplication.processEvents()
         try:
             if year_cond and group_cond:
-                group_choose = SR.get_group(faculty_name, str(course_choose))
+                group_choose = SR.get_group(faculty_name, str(course_choose), bytes_array, recorder.Recorder.freq)
                 if type(group_choose) != bool and group_choose + 1:
                     n_ui.group_list.setCurrentRow(group_choose-1)
                     addStudents()
                 else:
                     n_ui.error_label.show()
             elif year_cond:
-                course_choose = SR.get_course(faculty_name)
+                course_choose = SR.get_course(faculty_name, bytes_array, recorder.Recorder.freq)
                 if type(course_choose) != bool and course_choose + 1:
                     n_ui.year_list.setCurrentRow(course_choose-1)
                     addGroupItems()
                 else:
                     n_ui.error_label.show()
             else:
-                faculty_choose, faculty_name = SR.get_faculty()
+                faculty_choose, faculty_name = SR.get_faculty(bytes_array, recorder.Recorder.freq)
                 if type(faculty_choose) != bool and faculty_choose + 1:
                     n_ui.faculty_list.setCurrentRow(faculty_choose-1)
                     addYearItems()
                 else:
                     n_ui.error_label.show()
         finally:
-            n_ui.activate_button.show()
+            buttonColor(3)
             n_ui.activate_button.update()
             QApplication.processEvents()
+
+    def fade():
+        for i in range(100):
+            i = i / 10
+            tableWindow.setWindowOpacity(1 - i)
+            time.sleep(0.05)
+        tableWindow.showMinimized
 
     if success:
         global tableWindow
@@ -123,6 +174,8 @@ def new_win():
         n_ui = Ui_table_window()
         n_ui.setupUi(tableWindow)
         tableWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
+        n_ui.group_table.horizontalHeaderItem(0).setFont(QFont("Gotham Lite", 12))
+        n_ui.group_table.setStyleSheet(n_ui.group_table.styleSheet() + "font: 12pt \"Gotham Lite\";\n")
         n_ui.error_label.hide()
         tableWindow.showMaximized()
         MainWindow.close()
@@ -130,12 +183,14 @@ def new_win():
 
         for key in var:
             n_ui.faculty_list.addItem(key)
+
+        n_ui.activate_button.setShortcut(QKeySequence("Ctrl+W"))
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.itemClicked.connect(addYearItems)
         n_ui.activate_button.clicked.connect(activate_voice)
         n_ui.hide_button.clicked.connect(tableWindow.showMinimized)
+        #tableWindow.showMinimized
         n_ui.close_button.clicked.connect(tableWindow.close)
-        n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
         n_ui.exit_button.setShortcut(QKeySequence("Ctrl+Q"))
         n_ui.year_list.itemClicked.connect(addGroupItems)
         n_ui.group_list.itemClicked.connect(addStudents)

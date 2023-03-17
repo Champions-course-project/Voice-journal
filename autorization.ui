@@ -115,9 +115,9 @@ background-color: rgb(255, 255, 255);
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>40</y>
+     <y>30</y>
      <width>381</width>
-     <height>51</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
@@ -285,34 +285,31 @@ background-color: rgb(83, 83, 83);
     <string>Ошибка авторизации!</string>
    </property>
   </widget>
-  <widget class="QFrame" name="title_bar">
+  <widget class="QWidget" name="title_bar" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>375</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="mouseTracking">
     <bool>true</bool>
    </property>
    <property name="tabletTracking">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="acceptDrops">
-    <bool>true</bool>
+    <bool>false</bool>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(83, 83, 83);
 border-top-left-radius: 10px;
 border-top-right-radius: 10px;</string>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
    </property>
    <widget class="QPushButton" name="close_button">
     <property name="geometry">
@@ -372,9 +369,9 @@ border-top-right-radius: 10px;</string>
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>10</y>
+      <y>0</y>
       <width>31</width>
-      <height>20</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -404,10 +401,10 @@ border-radius: 3px;
    <widget class="QPushButton" name="hide_button_2">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>10</y>
-      <width>31</width>
-      <height>21</height>
+      <x>290</x>
+      <y>0</y>
+      <width>41</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
