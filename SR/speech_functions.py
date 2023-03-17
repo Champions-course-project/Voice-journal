@@ -1,4 +1,4 @@
-from .check_name import check
+from check_name import check
 import os
 import time
 import json
@@ -6,7 +6,7 @@ import SR.full_record as full_record
 import SR.convert_number as convert_number
 
 
-def speech(bytes_array, framerate):
+def speech(bytes_array: bytes, framerate: int):
     try:
         result = full_record.STT.decode_bytestream(bytes_array, framerate)
         if result:
@@ -22,7 +22,7 @@ def speech(bytes_array, framerate):
         return False
 
 
-def get_faculty(bytestream, framerate):
+def get_faculty(bytestream: bytes, framerate: int):
     with open(os.path.join("SR", "pnu_info", "Факультеты и институты.json"), 'r', encoding='UTF-8') as file:
         faculties_dict = json.load(file)
 
@@ -54,7 +54,7 @@ def get_faculty(bytestream, framerate):
         return False, False
 
 
-def get_course(faculty, bytestream, framerate):
+def get_course(faculty: str, bytestream: bytes, framerate: int):
     with open(os.path.join("SR", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     courses_list = []
@@ -86,7 +86,7 @@ def get_course(faculty, bytestream, framerate):
         return False
 
 
-def get_group(faculty, course, bytestream, framerate):
+def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
     with open(os.path.join("SR", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     groups_list = groups_dict[faculty].get(str(course) + ' курс')
@@ -117,8 +117,8 @@ def get_group(faculty, course, bytestream, framerate):
         return False
 
 
-def get_date():
-    words_list = speech()
+def get_date(bytestream: bytes, framerate: int):
+    words_list = speech(bytestream, framerate)
 
     if words_list:
 
@@ -185,7 +185,8 @@ def get_date():
                     for element in string:
                         date += element.lower().replace('ё', 'е') + " "
                     if date[:-1] in days_list:
-                        date = date.replace(date[:-1], str(days_list.index(date[:-1]) + 1))
+                        date = date.replace(
+                            date[:-1], str(days_list.index(date[:-1]) + 1))
                         date = date[:-1] + "." + month + "."
                         # !!! Внимание на "2023" - это затычка
                         if date + "2023" in dates_list:
@@ -199,8 +200,8 @@ def get_date():
     return False
 
 
-def get_student_name():
-    words_list = speech()
+def get_student_name(bytestream: bytes, framerate: int):
+    words_list = speech(bytestream, framerate)
 
     if words_list:
 
@@ -222,7 +223,8 @@ def get_student_name():
                         possible_names_list.append(student_name)
         if possible_names_list:
             if len(possible_names_list) == 1:
-                print(f"Возможно вы имели в виду фамилию {possible_names_list[0]}?(Да/Нет)")
+                print(
+                    f"Возможно вы имели в виду фамилию {possible_names_list[0]}?(Да/Нет)")
                 print("Ваш ответ: ")
                 choice = input().lower()
                 while choice != "да" and choice != "нет":
@@ -236,7 +238,8 @@ def get_student_name():
             else:
                 print("Выберите один из возможных вариантов фамилий(номер):")
                 for name_index in range(len(possible_names_list)):
-                    print(f"{name_index + 1}. {possible_names_list[name_index]}")
+                    print(
+                        f"{name_index + 1}. {possible_names_list[name_index]}")
                 try:
                     choice = int(input("Ваш выбор: "))
                     while choice <= 0 or choice > len(possible_names_list):
@@ -246,7 +249,8 @@ def get_student_name():
                     choice = int(input("Введите корректный номер: "))
                     while choice <= 0 or choice > len(possible_names_list):
                         choice = int(input("Введите корректный номер: "))
-                print(f"Ваш выбор по номеру {choice} - {possible_names_list[choice - 1]}")
+                print(
+                    f"Ваш выбор по номеру {choice} - {possible_names_list[choice - 1]}")
                 return possible_names_list[choice - 1]
         print("Распознавание не прошло! Попробуйте еще раз!")
         return False
@@ -254,8 +258,8 @@ def get_student_name():
     return False
 
 
-def get_status():
-    words_list = speech()
+def get_status(bytestream: bytes, framerate: int):
+    words_list = speech(bytestream, framerate)
 
     if words_list:
         excellent_list = ['отлично', 'пять', 'пятерка']
@@ -264,7 +268,9 @@ def get_status():
         bad_list = ['неудовлетворительно', 'два', 'двойка']
         absent_list = ['неявка', 'отсутствие', 'отсутствует']
         present_list = ['явка', 'присутствие', 'присутствует']
-        reason_list = ['болеет']
+        reason_list = ['болеет', 'причина']
+        exam_good_list = ['зачёт', 'зачет']
+        exam_bad_list = ['незачёт', 'незачет']
         status = words_list[0]
         if status in excellent_list:
             return "Отлично"
@@ -280,6 +286,10 @@ def get_status():
             return "Явка"
         elif status in reason_list:
             return "Болеет"
+        elif status in exam_good_list:
+            return "Зачёт"
+        elif status in exam_bad_list:
+            return "Незачёт"
     print("Попробуйте еще раз!")
     return False
 
@@ -290,7 +300,8 @@ def update_status(date, student_name, status):
     students_dict[student_name][date] = status
     with open(os.path.join("SR", "students_status.json"), 'w', encoding='UTF-8') as file:
         json.dump(students_dict, file, indent=4, ensure_ascii=False)
-    print(f"Статус на <{date}> студента <{student_name}> успешно изменен на <{status}>!")
+    print(
+        f"Статус на <{date}> студента <{student_name}> успешно изменен на <{status}>!")
     return True
 
 
