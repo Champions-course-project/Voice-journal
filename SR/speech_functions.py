@@ -1,4 +1,4 @@
-from check_name import check
+from .check_name import check
 import os
 import time
 import json
