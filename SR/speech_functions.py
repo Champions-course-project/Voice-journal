@@ -208,58 +208,71 @@ def get_date(bytestream: bytes, framerate: int):
     return False
 
 
-def get_student_name(bytestream: bytes, framerate: int):
+def get_student_name(students_list: list[str], bytestream: bytes, framerate: int):
+    """
+    Пытается распознать произнесенную фамилию и сравнивает с имеющимся списком.\n
+    При совпадении (полном или частичном, но не более одной фамилии) возвращает её.\n
+    Иначе возвращает False.
+    """
     words_list = speech(bytestream, framerate)
 
     if words_list:
 
-        with open(os.path.join("SR", "students_status.json"), 'r', encoding='UTF-8') as file:
-            students_dict = json.load(file)
+        # with open(os.path.join("SR", "students_status.json"), 'r', encoding='UTF-8') as file:
+        #     students_dict = json.load(file)
 
-        possible_names_list = []
-        for student_name in students_dict.keys():
+        # распознавание фамилий: полное или частичное
+        possible_names_list = set()
+        definite_names_list = set()
+        for student_name in students_list:
 
             for word in words_list:
 
-                status = check(student_name, word)
+                status = check(student_name.split(" ")[0], word)
 
                 if status == 2:
-                    print(f"Есть полное совпадение по фамилии {student_name}!")
-                    return student_name
+                    definite_names_list.add(student_name)
                 elif status == 1:
-                    if student_name not in possible_names_list:
-                        possible_names_list.append(student_name)
-        if possible_names_list:
+                    possible_names_list.add(student_name)
+
+        if definite_names_list:
+            if len(definite_names_list) == 1:
+                return (str)((list)(definite_names_list)[0])
+            return False
+
+        elif possible_names_list:
             if len(possible_names_list) == 1:
-                print(
-                    f"Возможно вы имели в виду фамилию {possible_names_list[0]}?(Да/Нет)")
-                print("Ваш ответ: ")
-                choice = input().lower()
-                while choice != "да" and choice != "нет":
-                    print("Назовите корректный ответ(Да/Нет): ")
-                    choice = input().lower()
-                if choice == "да":
-                    return possible_names_list[0]
-                elif choice == "нет":
-                    print("Попробуйте еще раз!")
-                    return False
-            else:
-                print("Выберите один из возможных вариантов фамилий(номер):")
-                for name_index in range(len(possible_names_list)):
-                    print(
-                        f"{name_index + 1}. {possible_names_list[name_index]}")
-                try:
-                    choice = int(input("Ваш выбор: "))
-                    while choice <= 0 or choice > len(possible_names_list):
-                        choice = int(input("Введите корректный номер: "))
-                except ValueError:
-                    print("Введен недопустимый символ!")
-                    choice = int(input("Введите корректный номер: "))
-                    while choice <= 0 or choice > len(possible_names_list):
-                        choice = int(input("Введите корректный номер: "))
-                print(
-                    f"Ваш выбор по номеру {choice} - {possible_names_list[choice - 1]}")
-                return possible_names_list[choice - 1]
+                return (str)((list)(definite_names_list)[0])
+            return False
+            #     print(
+            #         f"Возможно вы имели в виду фамилию {possible_names_list[0]}?(Да/Нет)")
+            #     print("Ваш ответ: ")
+            #     choice = input().lower()
+            #     while choice != "да" and choice != "нет":
+            #         print("Назовите корректный ответ(Да/Нет): ")
+            #         choice = input().lower()
+            #     if choice == "да":
+            #         return possible_names_list[0]
+            #     elif choice == "нет":
+            #         print("Попробуйте еще раз!")
+            #         return False
+            # else:
+            #     print("Выберите один из возможных вариантов фамилий(номер):")
+            #     for name_index in range(len(possible_names_list)):
+            #         print(
+            #             f"{name_index + 1}. {possible_names_list[name_index]}")
+            #     try:
+            #         choice = int(input("Ваш выбор: "))
+            #         while choice <= 0 or choice > len(possible_names_list):
+            #             choice = int(input("Введите корректный номер: "))
+            #     except ValueError:
+            #         print("Введен недопустимый символ!")
+            #         choice = int(input("Введите корректный номер: "))
+            #         while choice <= 0 or choice > len(possible_names_list):
+            #             choice = int(input("Введите корректный номер: "))
+            #     print(
+            #         f"Ваш выбор по номеру {choice} - {possible_names_list[choice - 1]}")
+            #     return possible_names_list[choice - 1]
         print("Распознавание не прошло! Попробуйте еще раз!")
         return False
     print("Не молчите в микрофон!")
