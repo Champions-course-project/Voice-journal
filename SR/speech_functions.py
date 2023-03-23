@@ -13,7 +13,7 @@ def speech(bytes_array: bytes, framerate: int):
             words_list = []
             for transcript in result['alternative']:
                 words_list.append(transcript['transcript'])
-                return words_list
+            return words_list
         else:
             return False
     except Exception as exc:
