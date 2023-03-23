@@ -1,6 +1,6 @@
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QItemSelectionModel
 from PyQt6.QtGui import QKeySequence, QFont
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 
 import time
 import login_class
@@ -16,6 +16,9 @@ ui = Ui_AuthWindow()
 def new_win():
     year_cond = False
     group_cond = False
+    table_cond = False
+    column_choose = -1
+    row_choose = -1
     faculty_name = ""
     course_choose = ""
     auth = login_class.LogIn()
@@ -43,6 +46,8 @@ def new_win():
         for key in var[n_ui.faculty_list.currentItem().text()][n_ui.year_list.currentItem().text()]:
              i+=1
              n_ui.group_list.addItem(str(i) + ". " + key)
+        nonlocal table_cond
+        table_cond = False
         nonlocal group_cond
         group_cond = True
 
@@ -52,6 +57,8 @@ def new_win():
         n_ui.year_list.clear()
         n_ui.group_list.clear()
         nonlocal group_cond
+        nonlocal table_cond
+        table_cond = False
         group_cond = False
         for key in var[n_ui.faculty_list.currentItem().text()]:
              n_ui.year_list.addItem(key)
@@ -60,6 +67,7 @@ def new_win():
 
     def addStudents():
         try:
+            nonlocal table_cond
             n_ui.help_label.setText(
                 "Примечание: для выбора учащегося с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать дату, фамилию, а затем оценку для студента.")
             n_ui.error_label.hide()
@@ -87,6 +95,11 @@ def new_win():
                                         "border-radius: 10px;\n"
                                         "}")
             n_ui.group_table.setVerticalHeaderLabels(s_var[current])
+            table_cond = True
+            nonlocal column_choose
+            column_choose = -1
+            nonlocal row_choose
+            row_choose = -1
         except KeyError:
             print(current)
             n_ui.group_list.setStyleSheet("QListWidget{\n"
@@ -111,11 +124,57 @@ def new_win():
                                         "selection-background-color: rgb(255, 0, 0);\n"
                                         "border-radius: 10px;\n"
                                         "}")
+            table_cond = False
             print("Такой группы нет!")
         except Exception as exc:
             print(type(exc).__name__)
             print(exc.args)
             return False
+    def select_cell(row_index,column_index):
+        item = n_ui.group_table.item(row_index,column_index)
+        n_ui.group_table.clearSelection()
+        # n_ui.group_table.setItem(row_index, column_index, QTableWidgetItem("1"))
+        # if item.text() != " ":
+        #     print(111111111)
+        #     n_ui.group_table.setItem(row_index,column_index,QTableWidgetItem(" "))
+        # print(item.text())
+        item.setSelected(True)
+        n_ui.group_table.setItem(row_choose, column_choose, QTableWidgetItem(""))
+        # if item.text() == " ":
+        #     n_ui.group_table.setItem(row_index,column_index,QTableWidgetItem(""))
+        # print(item.text())
+        # index = n_ui.group_table.model().index(row_index,column_index)
+        # n_ui.group_table.selectionModel().select(index,QItemSelectionModel.select())
+        # n_ui.group_table.item(row_index,column_index)
+    def studentChoose(name):
+        number = n_ui.group_table.verticalHeader().count()
+        index = -1
+        for i in range(number):
+            if name == n_ui.group_table.verticalHeaderItem(i).text():
+                index = i
+                break
+        if index == -1:
+            return
+        n_ui.group_table.selectRow(index)
+        nonlocal row_choose
+        row_choose = index
+    def dateChoose(date):
+        print(1)
+        print(date)
+        number = n_ui.group_table.horizontalHeader().count()
+        index = -1
+        for i in range(number):
+            if date + "2023" == n_ui.group_table.horizontalHeaderItem(i).text():
+                index = i
+                break
+        if index == -1:
+            print(2)
+            return
+        print(3)
+        n_ui.group_table.selectColumn(index)
+        nonlocal column_choose
+        column_choose = index
+
     def buttonColor(f):
         if f ==1:
             n_ui.activate_button.setText("Распознавание...")
@@ -164,7 +223,7 @@ def new_win():
     #     n_ui.faculty_list.clearSelection()
     #     n_ui.group_table.setRowCount(0)
     def activate_voice():
-        nonlocal faculty_name, course_choose
+        nonlocal faculty_name, course_choose, table_cond
         buttonColor(2)
         n_ui.activate_button.update()
         QApplication.processEvents()
@@ -173,7 +232,27 @@ def new_win():
         n_ui.activate_button.update()
         QApplication.processEvents()
         try:
-            if year_cond and group_cond:
+            nonlocal row_choose, column_choose
+            if table_cond:
+                date_choose = SR.get_date(bytes_array, recorder.Recorder.freq)
+                if type(date_choose) != bool:
+                    dateChoose(date_choose)
+                    if row_choose != -1 and column_choose != -1:
+                        n_ui.group_table.setItem(row_choose, column_choose, QTableWidgetItem(" "))
+                        select_cell(row_choose,column_choose)
+                else:
+                    current = n_ui.group_list.currentItem().text()
+                    current = current.split('. ')[1]
+                    student_list = s_var[current]
+                    student_selected = SR.get_student_name(student_list, bytes_array, recorder.Recorder.freq)
+                    if type(student_selected) != bool:
+                        studentChoose(student_selected)
+                        if row_choose != -1 and column_choose != -1:
+                            n_ui.group_table.setItem(row_choose, column_choose, QTableWidgetItem(" "))
+                            select_cell(row_choose,column_choose)
+                    else:
+                        pass
+            elif year_cond and group_cond:
                 group_choose = SR.get_group(faculty_name, str(course_choose), bytes_array, recorder.Recorder.freq)
                 if type(group_choose) != bool and group_choose + 1:
                     n_ui.group_list.setCurrentRow(group_choose-1)
