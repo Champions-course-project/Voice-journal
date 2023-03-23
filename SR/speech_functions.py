@@ -112,18 +112,22 @@ def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
 
 
 def get_date(bytestream: bytes, framerate: int):
+    """
+    Возвращает произнесенную дату в формате: ДД.ММ.ГГГГ.\n
+    В случае неверного распознавания возвращает False.
+    """
     words_list = speech(bytestream, framerate)
 
     if words_list:
 
         days_list = [
-            'первое', 'второе', 'третье', 'четвёртое',
+            'первое', 'второе', 'третье', 'четвертое',
             'пятое', 'шестое', 'седьмое', 'восьмое',
             'девятое', 'десятое', 'одиннадцатое', 'двенадцатое',
             'тринадцатое', 'четырнадцатое', 'пятнадцатое', 'шестнадцатое',
             'семнадцатое', 'восемнадцатое', 'девятнадцатое', 'двадцатое',
             'двадцать первое', 'двадцать второе', 'двадцать третье',
-            'двадацать четвёртое', 'двадцать пятое', 'двадцать шестое',
+            'двадацать четвертое', 'двадцать пятое', 'двадцать шестое',
             'двадцать седьмое', 'двадцать восьмое', 'двадцать девятое',
             'тридцатое', 'тридцать первое'
         ]
@@ -133,23 +137,24 @@ def get_date(bytestream: bytes, framerate: int):
         ]
         # Список дат из журнала
         dates_list = []
-        with open(os.path.join("SR", "students_status.json"), 'r', encoding='UTF-8') as file:
-            students_dict = json.load(file)
-        for student in students_dict.keys():
-            for date in students_dict[student].keys():
-                dates_list.append(date)
-            break
-        del students_dict
+        with open(os.path.join("SR", "Dates.txt"), 'r', encoding='UTF-8') as F:
+            for date in F:
+                dates_list.append(date.replace("\n", ""))
 
         date = ""
         for string in words_list:
             month = string.split(' ')[-1]
             if month.lower() in months_list:
+
+                # создание номера месяца
                 month = str(months_list.index(month) + 1)
                 if len(month) == 1:
                     month = "0" + month
+
                 string = string.split(' ')[:-1]
+                # возврат числа
                 if string[0].isdigit():
+                    # если вернул число - дополняет его до даты
                     if len(string[0]) == 1:
                         day = "0" + string[0]
                     else:
@@ -158,12 +163,14 @@ def get_date(bytestream: bytes, framerate: int):
                     # !!! Внимание на "2023" - это затычка
                     if date + "2023" in dates_list:
                         return date
-                    else:
-                        print(f"Такой даты нет в журнале! | {date}2023")
-                        return False
+                    print(f"Такой даты нет в журнале! | {date}2023")
+                    return False
+
+                # если слово "первое", "второе", ..., но не "двадцать первое"
                 elif len(string) == 1:
                     day = string[0].lower().replace('ё', 'е')
                     if day in days_list:
+                        # конвертировали в день
                         day = str(days_list.index(day) + 1)
                         if len(day) == 1:
                             day = "0" + day
@@ -175,13 +182,14 @@ def get_date(bytestream: bytes, framerate: int):
                             return False
                     print("Распознавание даты не прошло!")
                     return False
+
+                # если слова "двадцать первое", "двадцать второе", ...
                 elif len(string) == 2:
                     for element in string:
                         date += element.lower().replace('ё', 'е') + " "
                     if date[:-1] in days_list:
-                        date = date.replace(
-                            date[:-1], str(days_list.index(date[:-1]) + 1))
-                        date = date[:-1] + "." + month + "."
+                        date = str(days_list.index(date[:-1]) + 1)
+                        date = date + "." + month + "."
                         # !!! Внимание на "2023" - это затычка
                         if date + "2023" in dates_list:
                             return date
