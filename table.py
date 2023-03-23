@@ -57,6 +57,18 @@ class Ui_table_window(object):
 "selection-color: rgb(255, 255, 255);\n"
 "selection-background-color: rgb(30, 185, 85);\n"
 "border-radius: 10px;\n"
+"}\n"
+"QListWidget::item::hover{\n"
+"background-color: rgb(75, 75,75);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QListWidget::item::selected::hover{\n"
+"background-color: rgb(30, 185, 85);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QListWidget::item::selected{\n"
+"background-color: rgb(30, 185, 85);\n"
+"border-radius: 10px;\n"
 "}")
         self.faculty_list.setObjectName("faculty_list")
         self.faculty_layout.addWidget(self.faculty_list)
@@ -89,11 +101,23 @@ class Ui_table_window(object):
 "selection-color: rgb(255, 255, 255);\n"
 "selection-background-color: rgb(30, 185, 85);\n"
 "border-radius: 10px;\n"
+"}\n"
+"QListWidget::item::hover{\n"
+"background-color: rgb(75, 75,75);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QListWidget::item::selected::hover{\n"
+"background-color: rgb(30, 185, 85);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QListWidget::item::selected{\n"
+"background-color: rgb(30, 185, 85);\n"
+"border-radius: 10px;\n"
 "}")
         self.year_list.setObjectName("year_list")
         self.year_layout.addWidget(self.year_list)
         self.verticalLayoutWidget_3 = QtWidgets.QWidget(parent=self.centralwidget)
-        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(410, 70, 181, 531))
+        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(410, 70, 211, 531))
         self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
         self.group_layout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
         self.group_layout.setContentsMargins(0, 0, 0, 0)
@@ -121,12 +145,24 @@ class Ui_table_window(object):
 "selection-color: rgb(255, 255, 255);\n"
 "selection-background-color: rgb(30, 185, 85);\n"
 "border-radius: 10px;\n"
+"}\n"
+"QListWidget::item::hover{\n"
+"background-color: rgb(75, 75,75);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QListWidget::item::selected::hover{\n"
+"background-color: rgb(30, 185, 85);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QListWidget::item::selected{\n"
+"background-color: rgb(30, 185, 85);\n"
+"border-radius: 10px;\n"
 "}")
         self.group_list.setObjectName("group_list")
         self.group_layout.addWidget(self.group_list)
         self.group_table = QtWidgets.QTableWidget(parent=self.centralwidget)
         self.group_table.setEnabled(True)
-        self.group_table.setGeometry(QtCore.QRect(620, 110, 1271, 721))
+        self.group_table.setGeometry(QtCore.QRect(650, 110, 1241, 721))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.MinimumExpanding, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -237,7 +273,7 @@ class Ui_table_window(object):
         self.calendar_Widget.setDateEditEnabled(False)
         self.calendar_Widget.setObjectName("calendar_Widget")
         self.exit_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.exit_button.setGeometry(QtCore.QRect(1740, 910, 121, 51))
+        self.exit_button.setGeometry(QtCore.QRect(1770, 950, 121, 51))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.exit_button.setFont(font)
@@ -254,7 +290,7 @@ class Ui_table_window(object):
 "")
         self.exit_button.setObjectName("exit_button")
         self.activate_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.activate_button.setGeometry(QtCore.QRect(1130, 890, 231, 71))
+        self.activate_button.setGeometry(QtCore.QRect(1160, 910, 231, 71))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.activate_button.setFont(font)
@@ -289,7 +325,7 @@ class Ui_table_window(object):
         self.table_label.setObjectName("table_label")
         self.error_label = QtWidgets.QLabel(parent=self.centralwidget)
         self.error_label.setEnabled(True)
-        self.error_label.setGeometry(QtCore.QRect(1080, 850, 331, 32))
+        self.error_label.setGeometry(QtCore.QRect(1110, 870, 331, 32))
         font = QtGui.QFont()
         font.setFamily("Gotham Black")
         font.setPointSize(12)
@@ -300,7 +336,7 @@ class Ui_table_window(object):
         self.error_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.error_label.setObjectName("error_label")
         self.help_label = QtWidgets.QLabel(parent=self.centralwidget)
-        self.help_label.setGeometry(QtCore.QRect(620, 880, 351, 141))
+        self.help_label.setGeometry(QtCore.QRect(650, 880, 351, 141))
         font = QtGui.QFont()
         font.setFamily("Gotham Medium")
         font.setPointSize(12)
@@ -353,30 +389,29 @@ class Ui_table_window(object):
         self.hide_button.setIcon(icon3)
         self.hide_button.setIconSize(QtCore.QSize(25, 25))
         self.hide_button.setObjectName("hide_button")
-        self.Hotkey_label = QtWidgets.QLabel(parent=self.centralwidget)
-        self.Hotkey_label.setEnabled(True)
-        self.Hotkey_label.setGeometry(QtCore.QRect(1200, 970, 91, 20))
+        self.reset_button = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.reset_button.setGeometry(QtCore.QRect(590, 640, 51, 41))
         font = QtGui.QFont()
-        font.setFamily("Gotham Black")
-        font.setPointSize(12)
-        font.setBold(True)
-        font.setWeight(75)
-        self.Hotkey_label.setFont(font)
-        self.Hotkey_label.setStyleSheet("color: rgb(56, 56, 56);")
-        self.Hotkey_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.Hotkey_label.setObjectName("Hotkey_label")
-        self.Hotkey2_label = QtWidgets.QLabel(parent=self.centralwidget)
-        self.Hotkey2_label.setEnabled(True)
-        self.Hotkey2_label.setGeometry(QtCore.QRect(1770, 970, 61, 20))
-        font = QtGui.QFont()
-        font.setFamily("Gotham Black")
-        font.setPointSize(12)
-        font.setBold(True)
-        font.setWeight(75)
-        self.Hotkey2_label.setFont(font)
-        self.Hotkey2_label.setStyleSheet("color: rgb(56, 56, 56);")
-        self.Hotkey2_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.Hotkey2_label.setObjectName("Hotkey2_label")
+        font.setPointSize(16)
+        self.reset_button.setFont(font)
+        self.reset_button.setAutoFillBackground(False)
+        self.reset_button.setStyleSheet("QPushButton::hover{\n"
+"background-color: rgb(194, 194, 194);\n"
+"}\n"
+"QPushButton{\n"
+"background-color: rgb(83, 83, 83);\n"
+"color: rgb(0, 0, 0);\n"
+"border-radius: 10px;\n"
+"background-color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"")
+        self.reset_button.setText("")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("icons/reload.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.reset_button.setIcon(icon4)
+        self.reset_button.setIconSize(QtCore.QSize(25, 25))
+        self.reset_button.setObjectName("reset_button")
         table_window.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(table_window)
@@ -421,13 +456,17 @@ class Ui_table_window(object):
         item.setText(_translate("table_window", "22.04.2023"))
         item = self.group_table.horizontalHeaderItem(15)
         item.setText(_translate("table_window", "29.05.2023"))
+        self.exit_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Q</span></p></body></html>"))
+        self.exit_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Q</p></body></html>"))
         self.exit_button.setText(_translate("table_window", "Выход"))
+        self.activate_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Space</span></p></body></html>"))
+        self.activate_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Space</p></body></html>"))
         self.activate_button.setText(_translate("table_window", "Голосовой ввод"))
         self.table_label.setText(_translate("table_window", "Журнал обучающихся"))
         self.error_label.setText(_translate("table_window", "Ошибка ввода, попробуйте еще раз"))
         self.help_label.setText(_translate("table_window", "Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер факультета, указанный в списке."))
-        self.Hotkey_label.setText(_translate("table_window", "Ctrl+Space"))
-        self.Hotkey2_label.setText(_translate("table_window", "Ctrl+Q"))
+        self.reset_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Сбросить выбранные списки</span></p></body></html>"))
+        self.reset_button.setWhatsThis(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Сбросить выбранные списки</span></p></body></html>"))
 
 
 if __name__ == "__main__":

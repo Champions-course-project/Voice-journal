@@ -67,21 +67,50 @@ def new_win():
             current = n_ui.group_list.currentItem().text()
             current = current.split('. ')[1]
             n_ui.group_table.setRowCount(len(s_var[current]))
-            n_ui.group_list.setStyleSheet("color: rgb(255, 255, 255);\n"
-                                          "selection-color: rgb(255, 255, 255);\n"
-                                          "background-color: rgb(83, 83, 83);\n"
-                                          "selection-background-color: rgb(30, 185, 85);\n"
-                                          "border-radius: 10px;\n"
-                                          "")
+            n_ui.group_list.setStyleSheet("QListWidget{\n"
+                                        "color: rgb(255, 255, 255);\n"
+                                        "background-color: rgb(83, 83, 83);\n"
+                                        "selection-color: rgb(255, 255, 255);\n"
+                                        "selection-background-color: rgb(30, 185, 85);\n"
+                                        "border-radius: 10px;\n"
+                                        "}\n"
+                                        "QListWidget::item::hover{\n"
+                                        "background-color: rgb(75, 75,75);\n"
+                                        "border-radius: 10px;\n"
+                                        "}\n"
+                                        "QListWidget::item::selected::hover{\n"
+                                        "background-color: rgb(30, 185, 85);\n"
+                                        "border-radius: 10px;\n"
+                                        "}\n"
+                                        "QListWidget::item::selected{\n"
+                                        "background-color: rgb(30, 185, 85);\n"
+                                        "border-radius: 10px;\n"
+                                        "}")
             n_ui.group_table.setVerticalHeaderLabels(s_var[current])
         except KeyError:
             print(current)
-            n_ui.group_list.setStyleSheet("color: rgb(255, 255, 255);\n"
-                                          "selection-color: rgb(255, 255, 255);\n"
-                                          "background-color: rgb(83, 83, 83);\n"
-                                           "selection-background-color: rgb(255, 29, 40);\n"
-                                          "border-radius: 10px;\n"
-                                           "")
+            n_ui.group_list.setStyleSheet("QListWidget{\n"
+                                        "color: rgb(255, 255, 255);\n"
+                                        "background-color: rgb(83, 83, 83);\n"
+                                        "selection-color: rgb(255, 255, 255);\n"
+                                        "selection-background-color: rgb(30, 185, 85);\n"
+                                        "border-radius: 10px;\n"
+                                        "}\n"
+                                        "QListWidget::item::hover{\n"
+                                        "background-color: rgb(75, 75,75);\n"
+                                        "border-radius: 10px;\n"
+                                        "}\n"
+                                        "QListWidget::item::selected::hover{\n"
+                                        "background-color: rgb(255, 0, 0);\n"
+                                        "border-radius: 10px;\n"
+                                        "}\n"
+                                        "QListWidget::item::selected{\n"
+                                        "background-color: rgb(255, 0, 0);\n"
+                                        "color: rgb(255, 255, 255);\n"
+                                        "selection-color: rgb(255, 255, 255);\n"
+                                        "selection-background-color: rgb(255, 0, 0);\n"
+                                        "border-radius: 10px;\n"
+                                        "}")
             print("Такой группы нет!")
         except Exception as exc:
             print(type(exc).__name__)
@@ -124,7 +153,16 @@ def new_win():
                                                "}\n"
                                                "\n"
                                                "")
-
+    # def reset_lists():
+    #     nonlocal year_cond
+    #     nonlocal group_cond
+    #     n_ui.help_label.setText("Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер факультета, указанный в списке.")
+    #     n_ui.group_list.clear()
+    #     year_cond = False
+    #     group_cond = False
+    #     n_ui.year_list.clear()
+    #     n_ui.faculty_list.clearSelection()
+    #     n_ui.group_table.setRowCount(0)
     def activate_voice():
         nonlocal faculty_name, course_choose
         buttonColor(2)
@@ -151,6 +189,7 @@ def new_win():
                     n_ui.error_label.show()
             else:
                 faculty_choose, faculty_name = SR.get_faculty(bytes_array, recorder.Recorder.freq)
+                print(faculty_name)
                 if type(faculty_choose) != bool and faculty_choose + 1:
                     n_ui.faculty_list.setCurrentRow(faculty_choose-1)
                     addYearItems()
@@ -183,13 +222,17 @@ def new_win():
 
         for key in var:
             n_ui.faculty_list.addItem(key)
+            n_ui.faculty_list.clearSelection()
+            # reset_lists()
 
+        n_ui.faculty_list.clearSelection()
         n_ui.activate_button.setShortcut(QKeySequence("Ctrl+W"))
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.itemClicked.connect(addYearItems)
         n_ui.activate_button.clicked.connect(activate_voice)
         n_ui.hide_button.clicked.connect(tableWindow.showMinimized)
         #tableWindow.showMinimized
+        # n_ui.reset_button.clicked.connect(reset_lists)
         n_ui.close_button.clicked.connect(tableWindow.close)
         n_ui.exit_button.setShortcut(QKeySequence("Ctrl+Q"))
         n_ui.year_list.itemClicked.connect(addGroupItems)

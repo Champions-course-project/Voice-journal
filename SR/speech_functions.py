@@ -37,14 +37,7 @@ def get_faculty(bytestream: bytes, framerate: int):
             if not words_list[0].isdigit():
                 number = convert_number.convert_string(number)
             number = int(number)
-            # while number > len(faculties_list) or number < 1 or not number:
-            #     print("Назовите факультет ещё раз")
-            #     words_list = speech()
-            #     if words_list:
-            #         number = words_list[0]
-            #         if not words_list[0].isdigit():
-            #             number = convert_number.convert_string(number)
-            # print(faculties_list[number - 1])
+
             return number, faculties_list[number]
         else:
             return False, False
@@ -77,6 +70,7 @@ def get_course(faculty: str, bytestream: bytes, framerate: int):
             #         course = words_list[0]
             #         if not words_list[0].isdigit():
             #             course = convert_number.convert_course(course)
+
             return course
         else:
             return False
