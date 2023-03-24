@@ -389,29 +389,6 @@ class Ui_table_window(object):
         self.hide_button.setIcon(icon3)
         self.hide_button.setIconSize(QtCore.QSize(25, 25))
         self.hide_button.setObjectName("hide_button")
-        self.reset_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.reset_button.setGeometry(QtCore.QRect(590, 640, 51, 41))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.reset_button.setFont(font)
-        self.reset_button.setAutoFillBackground(False)
-        self.reset_button.setStyleSheet("QPushButton::hover{\n"
-"background-color: rgb(194, 194, 194);\n"
-"}\n"
-"QPushButton{\n"
-"background-color: rgb(83, 83, 83);\n"
-"color: rgb(0, 0, 0);\n"
-"border-radius: 10px;\n"
-"background-color: rgb(255, 255, 255);\n"
-"}\n"
-"\n"
-"")
-        self.reset_button.setText("")
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("icons/reload.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.reset_button.setIcon(icon4)
-        self.reset_button.setIconSize(QtCore.QSize(25, 25))
-        self.reset_button.setObjectName("reset_button")
         table_window.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(table_window)
@@ -465,8 +442,6 @@ class Ui_table_window(object):
         self.table_label.setText(_translate("table_window", "Журнал обучающихся"))
         self.error_label.setText(_translate("table_window", "Ошибка ввода, попробуйте еще раз"))
         self.help_label.setText(_translate("table_window", "Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер факультета, указанный в списке."))
-        self.reset_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Сбросить выбранные списки</span></p></body></html>"))
-        self.reset_button.setWhatsThis(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Сбросить выбранные списки</span></p></body></html>"))
 
 
 if __name__ == "__main__":

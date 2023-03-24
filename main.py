@@ -28,15 +28,6 @@ def new_win():
         var = json.load(f)
     with open('students_list.json', "r", encoding="UTF-8") as s_f:
         s_var = json.load(s_f)
-    # def movewindow(event):
-    #     if MainWindow.isMaximized()== False:
-    #         print(event.buttons)
-    #         if event.button() == Qt.MouseButton.RightButton:
-    #             MainWindow.move(MainWindow.pos() + event.globalPos() - MainWindow.clickPosition)
-    #             MainWindow.clickPosition = event.globalPos()
-    #             event.accept()
-    # def mouseclickevent(event):
-    #     clickPosition = event.globalPos()
     def addGroupItems():
         n_ui.help_label.setText("Примечание: для выбора группы с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер номер группы, указанный в списке.")
         n_ui.error_label.hide()
@@ -133,19 +124,8 @@ def new_win():
     def select_cell(row_index,column_index):
         item = n_ui.group_table.item(row_index,column_index)
         n_ui.group_table.clearSelection()
-        # n_ui.group_table.setItem(row_index, column_index, QTableWidgetItem("1"))
-        # if item.text() != " ":
-        #     print(111111111)
-        #     n_ui.group_table.setItem(row_index,column_index,QTableWidgetItem(" "))
-        # print(item.text())
         item.setSelected(True)
         n_ui.group_table.setItem(row_choose, column_choose, QTableWidgetItem(""))
-        # if item.text() == " ":
-        #     n_ui.group_table.setItem(row_index,column_index,QTableWidgetItem(""))
-        # print(item.text())
-        # index = n_ui.group_table.model().index(row_index,column_index)
-        # n_ui.group_table.selectionModel().select(index,QItemSelectionModel.select())
-        # n_ui.group_table.item(row_index,column_index)
     def studentChoose(name):
         number = n_ui.group_table.verticalHeader().count()
         index = -1
@@ -212,16 +192,6 @@ def new_win():
                                                "}\n"
                                                "\n"
                                                "")
-    # def reset_lists():
-    #     nonlocal year_cond
-    #     nonlocal group_cond
-    #     n_ui.help_label.setText("Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер факультета, указанный в списке.")
-    #     n_ui.group_list.clear()
-    #     year_cond = False
-    #     group_cond = False
-    #     n_ui.year_list.clear()
-    #     n_ui.faculty_list.clearSelection()
-    #     n_ui.group_table.setRowCount(0)
     def activate_voice():
         nonlocal faculty_name, course_choose, table_cond
         buttonColor(2)
@@ -279,13 +249,6 @@ def new_win():
             n_ui.activate_button.update()
             QApplication.processEvents()
 
-    def fade():
-        for i in range(100):
-            i = i / 10
-            tableWindow.setWindowOpacity(1 - i)
-            time.sleep(0.05)
-        tableWindow.showMinimized
-
     if success:
         global tableWindow
         tableWindow = QtWidgets.QMainWindow()
@@ -302,7 +265,6 @@ def new_win():
         for key in var:
             n_ui.faculty_list.addItem(key)
             n_ui.faculty_list.clearSelection()
-            # reset_lists()
 
         n_ui.faculty_list.clearSelection()
         n_ui.activate_button.setShortcut(QKeySequence("Ctrl+W"))
@@ -310,8 +272,6 @@ def new_win():
         n_ui.faculty_list.itemClicked.connect(addYearItems)
         n_ui.activate_button.clicked.connect(activate_voice)
         n_ui.hide_button.clicked.connect(tableWindow.showMinimized)
-        #tableWindow.showMinimized
-        # n_ui.reset_button.clicked.connect(reset_lists)
         n_ui.close_button.clicked.connect(tableWindow.close)
         n_ui.exit_button.setShortcut(QKeySequence("Ctrl+Q"))
         n_ui.year_list.itemClicked.connect(addGroupItems)
