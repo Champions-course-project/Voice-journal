@@ -7,6 +7,15 @@ import SR.convert_number as convert_number
 
 
 def speech(bytes_array: bytes, framerate: int):
+    """
+    Распознаватель речи.\n
+    Входные аргументы:
+    - bytes_array - байтовый поток с аудиоинформацией;
+    - framerate - частота записи.\n
+    Выходные данные:
+    - список возможных словосочетаний - при успешном распознавании;
+    - False - при ошибке во время распознавания.
+    """
     try:
         result = full_record.STT.decode_bytestream(bytes_array, framerate)
         if result:
@@ -23,6 +32,15 @@ def speech(bytes_array: bytes, framerate: int):
 
 
 def get_faculty(bytestream: bytes, framerate: int):
+    """
+    Распознаватель факультета на основе имеющегося списка.\n
+    Входные аргументы:
+    - bytes_array - байтовый поток с аудиоинформацией;
+    - framerate - частота записи.\n
+    Выходные данные:
+    - пара "число - название факультета" в случае успеха;
+    - пара False - False в противном случае.
+    """
     with open(os.path.join("SR", "pnu_info", "Факультеты и институты.json"), 'r', encoding='UTF-8') as file:
         faculties_dict = json.load(file)
 
@@ -37,7 +55,6 @@ def get_faculty(bytestream: bytes, framerate: int):
             if not words_list[0].isdigit():
                 number = convert_number.convert_string(number)
             number = int(number)
-
             return number, faculties_list[number]
         else:
             return False, False
@@ -48,6 +65,16 @@ def get_faculty(bytestream: bytes, framerate: int):
 
 
 def get_course(faculty: str, bytestream: bytes, framerate: int):
+    """
+    Распознаватель номера курса на основе имеющегося списка.\n
+    Входные аргументы:
+    - bytes_array - байтовый поток с аудиоинформацией;
+    - framerate - частота записи;
+    - faculty - наименование факультета в списке.\n
+    Выходные данные:
+    - число, соответствующее номеру курса в случае успеха;
+    - False в противном случае.
+    """
     with open(os.path.join("SR", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     courses_list = []
@@ -59,18 +86,9 @@ def get_course(faculty: str, bytestream: bytes, framerate: int):
         if words_list:
             course = words_list[0]
             if not words_list[0].isdigit():
-                # print(course)
-                # print(type(course))
                 course = convert_number.convert_course(course)
             assert str(course) + " курс" in courses_list
             course = int(course)
-            # while (str(course) + " курс" not in courses_list) or not course:
-            #     words_list = speech()
-            #     if words_list:
-            #         course = words_list[0]
-            #         if not words_list[0].isdigit():
-            #             course = convert_number.convert_course(course)
-
             return course
         else:
             return False
@@ -81,6 +99,17 @@ def get_course(faculty: str, bytestream: bytes, framerate: int):
 
 
 def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
+    """
+    Распознаватель произнесенного номера группы на основе списка групп.\n
+    Входные аргументы:
+    - bytes_array - байтовый поток с аудиоинформацией;
+    - framerate - частота записи;
+    - faculty - наименование факультета в списке;
+    - course - порядковый номер курса.\n
+    Выходные данные:
+    - номер группы в списке групп в случае успеха;
+    - False в противном случае.
+    """
     with open(os.path.join("SR", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     groups_list = groups_dict[faculty].get(str(course) + ' курс')
@@ -92,14 +121,6 @@ def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
                 if not words_list[0].isdigit():
                     group = convert_number.convert_string(group)
                 group = int(group)
-                # while group > len(groups_list) or group < 1 or not group:
-                #     print("Выберите номер группы: ")
-                #     words_list = speech()
-                #     if words_list:
-                #         group = words_list[0]
-                #         if not words_list[0].isdigit():
-                #             group = convert_number.convert_string(group)
-                # print(group)
                 return group
             else:
                 return False
@@ -113,8 +134,13 @@ def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
 
 def get_date(bytestream: bytes, framerate: int):
     """
-    Возвращает произнесенную дату в формате: ДД.ММ.ГГГГ.\n
-    В случае неверного распознавания возвращает False.
+    Распознаватель произнесённой даты.\n
+    Входные аргументы:
+    - bytes_array - байтовый поток с аудиоинформацией;
+    - framerate - частота записи.\n
+    Выходные данные:
+    - дата в формате ДД.ММ.ГГГГ в случае успеха;
+    - False в противном случае.
     """
     words_list = speech(bytestream, framerate)
 
@@ -204,16 +230,19 @@ def get_date(bytestream: bytes, framerate: int):
 
 def get_student_name(students_list: list[str], bytestream: bytes, framerate: int):
     """
-    Пытается распознать произнесенную фамилию и сравнивает с имеющимся списком.\n
-    При совпадении (полном или частичном, но не более одной фамилии) возвращает её.\n
-    Иначе возвращает False.
+    Распознаватель произнесенных фамилий.\n
+    Входные аргументы:
+    - bytes_array - байтовый поток с аудиоинформацией;
+    - framerate - частота записи;
+    - students_list - список студентов с именами в формате:
+    Фамилия Имя Отчество.\n
+    Выходные данные:
+    - ФИО студента в случае успешного распознавания и совпадения;
+    - False в противном случае.
     """
     words_list = speech(bytestream, framerate)
 
     if words_list:
-
-        # with open(os.path.join("SR", "students_status.json"), 'r', encoding='UTF-8') as file:
-        #     students_dict = json.load(file)
 
         # распознавание фамилий: полное или частичное
         possible_names_list = set()
@@ -238,35 +267,7 @@ def get_student_name(students_list: list[str], bytestream: bytes, framerate: int
             if len(possible_names_list) == 1:
                 return (str)((list)(definite_names_list)[0])
             return False
-            #     print(
-            #         f"Возможно вы имели в виду фамилию {possible_names_list[0]}?(Да/Нет)")
-            #     print("Ваш ответ: ")
-            #     choice = input().lower()
-            #     while choice != "да" and choice != "нет":
-            #         print("Назовите корректный ответ(Да/Нет): ")
-            #         choice = input().lower()
-            #     if choice == "да":
-            #         return possible_names_list[0]
-            #     elif choice == "нет":
-            #         print("Попробуйте еще раз!")
-            #         return False
-            # else:
-            #     print("Выберите один из возможных вариантов фамилий(номер):")
-            #     for name_index in range(len(possible_names_list)):
-            #         print(
-            #             f"{name_index + 1}. {possible_names_list[name_index]}")
-            #     try:
-            #         choice = int(input("Ваш выбор: "))
-            #         while choice <= 0 or choice > len(possible_names_list):
-            #             choice = int(input("Введите корректный номер: "))
-            #     except ValueError:
-            #         print("Введен недопустимый символ!")
-            #         choice = int(input("Введите корректный номер: "))
-            #         while choice <= 0 or choice > len(possible_names_list):
-            #             choice = int(input("Введите корректный номер: "))
-            #     print(
-            #         f"Ваш выбор по номеру {choice} - {possible_names_list[choice - 1]}")
-            #     return possible_names_list[choice - 1]
+
         print("Распознавание не прошло! Попробуйте еще раз!")
         return False
     print("Не молчите в микрофон!")
@@ -274,6 +275,15 @@ def get_student_name(students_list: list[str], bytestream: bytes, framerate: int
 
 
 def get_status(bytestream: bytes, framerate: int):
+    """
+    Распознаватель произнесенных оценок и статусов студентов.\n
+    Входные аргументы:
+    - bytes_array - байтовый поток с аудиоинформацией;
+    - framerate - частота записи.\n
+    Выходные данные:
+    - строка, указывающая на состояние, в случае успеха;
+    - False в противном случае.
+    """
     words_list = speech(bytestream, framerate)
 
     if words_list:
@@ -307,40 +317,3 @@ def get_status(bytestream: bytes, framerate: int):
             return "Незачёт"
     print("Попробуйте еще раз!")
     return False
-
-
-def update_status(date, student_name, status):
-    with open(os.path.join("SR", "students_status.json"), 'r', encoding='UTF-8') as file:
-        students_dict = json.load(file)
-    students_dict[student_name][date] = status
-    with open(os.path.join("SR", "students_status.json"), 'w', encoding='UTF-8') as file:
-        json.dump(students_dict, file, indent=4, ensure_ascii=False)
-    print(
-        f"Статус на <{date}> студента <{student_name}> успешно изменен на <{status}>!")
-    return True
-
-
-def main():
-    print("Вас приветствует голосовой ассистент!")
-    time.sleep(2)
-    faculty_input = get_faculty()
-    if faculty_input:
-        course_input = get_course(faculty_input)
-        if course_input:
-            print(get_group(faculty_input, course_input))
-    print("Назовите <дату>...")
-    date = get_date()
-    if date:
-        print("Назовите <фамилию студента>...")
-        student_name = get_student_name()
-        if student_name:
-            print("Назовите <статус>...")
-            status = get_status()
-            if status:
-                # !!! Внимание, затычка "2023"
-                if update_status(date + "2023", student_name, status):
-                    return True
-    print("Ошибочка!")
-    return False
-
-# get_student_name()
