@@ -133,7 +133,7 @@ def new_win():
                                         "selection-background-color: rgb(255, 0, 0);\n"
                                         "border-radius: 10px;\n"
                                         "}")
-            table_cond = True
+            table_cond = False
         except Exception as exc:
             print(type(exc).__name__)
             print(exc.args)
@@ -196,7 +196,7 @@ def new_win():
                                                "\n"
                                                "")
     def activate_voice():
-        nonlocal faculty_name, course_choose, table_cond
+        nonlocal faculty_name, course_choose, table_cond, group_cond
         buttonColor(2)
         n_ui.activate_button.update()
         QApplication.processEvents()
@@ -206,11 +206,7 @@ def new_win():
         QApplication.processEvents()
         try:
             nonlocal row_choose, column_choose
-            if n_ui.group_table.rowCount() == 0:
-                pass
-            elif table_cond:
-                if n_ui.group_table.rowCount() < 0:
-                    pass
+            if table_cond:
                 date_choose = SR.get_date(bytes_array, recorder.Recorder.freq)
                 if type(date_choose) != bool:
                     dateChoose(date_choose)
