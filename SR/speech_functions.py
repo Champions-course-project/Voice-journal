@@ -55,7 +55,7 @@ def get_faculty(bytestream: bytes, framerate: int):
             if not words_list[0].isdigit():
                 number = convert_number.convert_string(number)
             number = int(number)
-            return number, faculties_list[number]
+            return number, faculties_list[number - 1]
         else:
             return False, False
     except Exception as exc:
@@ -121,6 +121,7 @@ def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
                 if not words_list[0].isdigit():
                     group = convert_number.convert_string(group)
                 group = int(group)
+                assert group > 0 and group <= len(groups_list)
                 return group
             else:
                 return False
@@ -294,17 +295,17 @@ def get_status(bytestream: bytes, framerate: int):
         absent_list = ['неявка', 'отсутствие', 'отсутствует']
         present_list = ['явка', 'присутствие', 'присутствует']
         reason_list = ['болеет', 'причина']
-        exam_good_list = ['зачёт', 'зачет']
-        exam_bad_list = ['незачёт', 'незачет']
+        exam_good_list = ['зачёт', 'зачет', 'зачтено']
+        exam_bad_list = ['незачёт', 'незачет', 'не зачтено']
         status = words_list[0]
         if status in excellent_list:
             return "Отлично"
         elif status in good_list:
             return "Хорошо"
         elif status in satisfactory_list:
-            return "Удовлетворительно"
+            return "Удовл."
         elif status in bad_list:
-            return "Неудовлетворительно"
+            return "Неудовл."
         elif status in absent_list:
             return "Неявка"
         elif status in present_list:
@@ -317,3 +318,44 @@ def get_status(bytestream: bytes, framerate: int):
             return "Незачёт"
     print("Попробуйте еще раз!")
     return False
+
+
+# def update_status(date, student_name, status):
+#     """
+#     Функция для изменения статуса. Не используется в оконном приложении.
+#     """
+#     with open(os.path.join("SR", "students_status.json"), 'r', encoding='UTF-8') as file:
+#         students_dict = json.load(file)
+#     students_dict[student_name][date] = status
+#     with open(os.path.join("SR", "students_status.json"), 'w', encoding='UTF-8') as file:
+#         json.dump(students_dict, file, indent=4, ensure_ascii=False)
+#     print(
+#         f"Статус на <{date}> студента <{student_name}> успешно изменен на <{status}>!")
+#     return True
+
+
+# def main():
+#     """
+#     Основная функция. Не используется в оконном приложении.
+#     """
+#     print("Вас приветствует голосовой ассистент!")
+#     time.sleep(2)
+#     faculty_input = get_faculty()
+#     if faculty_input:
+#         course_input = get_course(faculty_input)
+#         if course_input:
+#             print(get_group(faculty_input, course_input))
+#     print("Назовите <дату>...")
+#     date = get_date()
+#     if date:
+#         print("Назовите <фамилию студента>...")
+#         student_name = get_student_name()
+#         if student_name:
+#             print("Назовите <статус>...")
+#             status = get_status()
+#             if status:
+#                 # !!! Внимание, затычка "2023"
+#                 if update_status(date + "2023", student_name, status):
+#                     return True
+#     print("Ошибочка!")
+#     return False
