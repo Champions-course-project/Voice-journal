@@ -195,6 +195,9 @@ border-radius: 10px;
          <pointsize>16</pointsize>
         </font>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="styleSheet">
         <string notr="true">QListWidget{
 color: rgb(255, 255, 255);
@@ -215,6 +218,15 @@ QListWidget::item::selected{
 background-color: rgb(30, 185, 85);
 border-radius: 10px;
 }</string>
+       </property>
+       <property name="autoScroll">
+        <bool>true</bool>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -261,6 +273,9 @@ border-radius: 10px;
          <family>Gotham Medium</family>
          <pointsize>16</pointsize>
         </font>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="styleSheet">
         <string notr="true">QListWidget{
@@ -380,7 +395,7 @@ gridline-color: rgb(17, 17, 17);</string>
      <enum>Qt::SolidLine</enum>
     </property>
     <property name="sortingEnabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="wordWrap">
      <bool>true</bool>
@@ -389,7 +404,10 @@ gridline-color: rgb(17, 17, 17);</string>
      <bool>true</bool>
     </property>
     <attribute name="horizontalHeaderCascadingSectionResizes">
-     <bool>false</bool>
+     <bool>true</bool>
+    </attribute>
+    <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+     <bool>true</bool>
     </attribute>
     <attribute name="horizontalHeaderStretchLastSection">
      <bool>false</bool>
@@ -731,6 +749,9 @@ border-radius: 3px;
      </property>
      <item>
       <widget class="QPushButton" name="activate_button">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="minimumSize">
         <size>
          <width>231</width>
@@ -741,6 +762,12 @@ border-radius: 3px;
         <font>
          <pointsize>16</pointsize>
         </font>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="tabletTracking">
+        <bool>true</bool>
        </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Hotkey - Ctrl + Space&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -776,6 +803,12 @@ background-color: rgb(255, 255, 255);
          <width>35</width>
          <height>35</height>
         </size>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

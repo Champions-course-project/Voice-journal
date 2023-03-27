@@ -111,6 +111,7 @@ class Ui_table_window(object):
         font.setFamily("Gotham Medium")
         font.setPointSize(16)
         self.year_list.setFont(font)
+        self.year_list.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.year_list.setStyleSheet("QListWidget{\n"
 "color: rgb(255, 255, 255);\n"
 "background-color: rgb(83, 83, 83);\n"
@@ -130,6 +131,9 @@ class Ui_table_window(object):
 "background-color: rgb(30, 185, 85);\n"
 "border-radius: 10px;\n"
 "}")
+        self.year_list.setAutoScroll(True)
+        self.year_list.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.year_list.setProperty("showDropIndicator", False)
         self.year_list.setObjectName("year_list")
         self.year_layout.addWidget(self.year_list)
         self.verticalLayoutWidget_3 = QtWidgets.QWidget(parent=self.centralwidget)
@@ -155,6 +159,7 @@ class Ui_table_window(object):
         font.setFamily("Gotham Medium")
         font.setPointSize(16)
         self.group_list.setFont(font)
+        self.group_list.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.group_list.setStyleSheet("QListWidget{\n"
 "color: rgb(255, 255, 255);\n"
 "background-color: rgb(83, 83, 83);\n"
@@ -262,7 +267,8 @@ class Ui_table_window(object):
         self.group_table.setHorizontalHeaderItem(14, item)
         item = QtWidgets.QTableWidgetItem()
         self.group_table.setHorizontalHeaderItem(15, item)
-        self.group_table.horizontalHeader().setCascadingSectionResizes(False)
+        self.group_table.horizontalHeader().setCascadingSectionResizes(True)
+        self.group_table.horizontalHeader().setSortIndicatorShown(True)
         self.group_table.horizontalHeader().setStretchLastSection(False)
         self.group_table.verticalHeader().setCascadingSectionResizes(False)
         self.group_table.verticalHeader().setSortIndicatorShown(False)
@@ -368,10 +374,13 @@ class Ui_table_window(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.activate_button = QtWidgets.QPushButton(parent=self.horizontalLayoutWidget)
+        self.activate_button.setEnabled(True)
         self.activate_button.setMinimumSize(QtCore.QSize(231, 71))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.activate_button.setFont(font)
+        self.activate_button.setMouseTracking(True)
+        self.activate_button.setTabletTracking(True)
         self.activate_button.setAutoFillBackground(False)
         self.activate_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(194, 194, 194);\n"
@@ -388,6 +397,8 @@ class Ui_table_window(object):
         icon3.addPixmap(QtGui.QPixmap(":/in programm/icons/Mic.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.activate_button.setIcon(icon3)
         self.activate_button.setIconSize(QtCore.QSize(35, 35))
+        self.activate_button.setAutoDefault(True)
+        self.activate_button.setDefault(True)
         self.activate_button.setObjectName("activate_button")
         self.horizontalLayout.addWidget(self.activate_button)
         spacerItem = QtWidgets.QSpacerItem(58, 17, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -428,7 +439,7 @@ class Ui_table_window(object):
         self.faculty_label.setText(_translate("table_window", "Факультет"))
         self.year_label.setText(_translate("table_window", "Курс"))
         self.groupe_label.setText(_translate("table_window", "Группа"))
-        self.group_table.setSortingEnabled(True)
+        self.group_table.setSortingEnabled(False)
         item = self.group_table.horizontalHeaderItem(0)
         item.setText(_translate("table_window", "14.01.2023"))
         item = self.group_table.horizontalHeaderItem(1)

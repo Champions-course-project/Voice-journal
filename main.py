@@ -1,5 +1,5 @@
-from PyQt6.QtCore import Qt, QPoint
-from PyQt6.QtGui import QKeySequence, QFont
+from PyQt6.QtCore import Qt, QPoint, QThread
+from PyQt6.QtGui import QKeySequence, QFont, QShortcut
 from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 import sys
 import login_class
@@ -31,10 +31,12 @@ def new_win():
         s_var = json.load(s_f)
     def addGroupItems():
         try:
+            n_ui.group_list.clear()
             n_ui.help_label.setText("Примечание: для выбора группы с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер номер группы, указанный в списке.")
             n_ui.error_label.hide()
+            QApplication.processEvents()
+            n_ui.help_label.update()
             n_ui.group_table.setRowCount(0)
-            n_ui.group_list.clear()
             i = 0
             for key in var[n_ui.faculty_list.currentItem().text()][n_ui.year_list.currentItem().text()]:
                  i+=1
@@ -49,10 +51,12 @@ def new_win():
             return False
     def addYearItems():
         try:
+            n_ui.year_list.clear()
             n_ui.help_label.setText("Примечание: для выбора курса с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать <b>порядковый</b> номер курса.")
             n_ui.error_label.hide()
+            n_ui.help_label.update()
+            QApplication.processEvents()
             n_ui.group_table.setRowCount(0)
-            n_ui.year_list.clear()
             nonlocal group_cond
             nonlocal table_cond
             table_cond = False
@@ -71,6 +75,8 @@ def new_win():
             n_ui.help_label.setText(
                 "Примечание: для выбора учащегося с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать дату, фамилию, а затем оценку для студента.")
             n_ui.error_label.hide()
+            n_ui.help_label.update()
+            QApplication.processEvents()
             n_ui.group_table.setRowCount(0)
             current = n_ui.group_list.currentItem().text()
             current = current.split('. ')[1]
@@ -101,6 +107,10 @@ def new_win():
             nonlocal row_choose
             row_choose = -1
         except KeyError:
+            n_ui.help_label.setText(
+                "Примечание: в данной группе нет студентов, выберете другую!")
+            n_ui.help_label.update()
+            QApplication.processEvents()
             n_ui.group_list.setStyleSheet("QListWidget{\n"
                                         "color: rgb(255, 255, 255);\n"
                                         "background-color: rgb(83, 83, 83);\n"
@@ -123,7 +133,7 @@ def new_win():
                                         "selection-background-color: rgb(255, 0, 0);\n"
                                         "border-radius: 10px;\n"
                                         "}")
-            table_cond = False
+            table_cond = True
         except Exception as exc:
             print(type(exc).__name__)
             print(exc.args)
@@ -161,24 +171,15 @@ def new_win():
         if f ==1:
             n_ui.activate_button.setText("Распознавание...")
             n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
-            n_ui.activate_button.setStyleSheet("QPushButton::hover{\n"
-                                               "background-color: rgb(255, 255, 0);\n"
-                                               "}\n"
-                                               "QPushButton{\n"
-                                               "color: rgb(0, 0, 0);\n"
-                                               "border-radius: 10px;\n"
-                                               "}\n"
-                                               "\n"
-                                               "")
+            n_ui.activate_button.setStyleSheet("background-color: rgb(255, 255, 0);\n"
+                                                 "border-radius: 10px;\n"
+                                                 "")
         if f ==2:
             n_ui.activate_button.setText("Идёт запись...")
             n_ui.activate_button.setStyleSheet(
-                                                 "background-color: rgb(255, 29, 40);\n"
+                                                 "background-color: rgb(255, 0, 0);\n"
                                                  "border-radius: 10px;\n"
                                                  "")
-            icon1 = QtGui.QIcon()
-            icon1.addPixmap(QtGui.QPixmap(":/in programm/icons/Mic.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-            n_ui.activate_button.setIcon(icon1)
             n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
         if f ==3:
             n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
@@ -205,11 +206,11 @@ def new_win():
         QApplication.processEvents()
         try:
             nonlocal row_choose, column_choose
-            # if table_cond and row_choose>-1 and column_choose>-1:
-            #     mark_choose = SR.get_status(bytes_array, recorder.Recorder.freq)
-            #     n_ui.group_table.setItem(row_choose, column_choose, QTableWidgetItem(mark_choose))
-
-            if table_cond:
+            if n_ui.group_table.rowCount() == 0:
+                pass
+            elif table_cond:
+                if n_ui.group_table.rowCount() < 0:
+                    pass
                 date_choose = SR.get_date(bytes_array, recorder.Recorder.freq)
                 if type(date_choose) != bool:
                     dateChoose(date_choose)
@@ -255,6 +256,15 @@ def new_win():
             buttonColor(3)
             n_ui.activate_button.update()
             QApplication.processEvents()
+
+    def horizontalColumnActivated():
+        nonlocal column_choose
+        column_choose = n_ui.group_table.currentColumn()
+
+    def verticalColumnActivated():
+        nonlocal row_choose
+        row_choose = n_ui.group_table.currentRow()
+
     if success:
         global tableWindow
         tableWindow = QtWidgets.QMainWindow()
@@ -273,7 +283,8 @@ def new_win():
             n_ui.faculty_list.clearSelection()
 
         n_ui.faculty_list.clearSelection()
-        n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Shift+Space"))
+        n_ui.group_table.horizontalHeader().sectionClicked.connect(horizontalColumnActivated)
+        n_ui.group_table.verticalHeader().sectionClicked.connect(verticalColumnActivated)
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
         n_ui.activate_button.clicked.connect(activate_voice)
@@ -290,7 +301,6 @@ def new_win():
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-
     MainWindow = QtWidgets.QDialog()
     app.setStyle('Fusion')
     ui.setupUi(MainWindow)
