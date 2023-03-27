@@ -12,13 +12,12 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_table_window(object):
     def setupUi(self, table_window):
         table_window.setObjectName("table_window")
-        table_window.resize(1920, 1032)
+        table_window.resize(1933, 1032)
         font = QtGui.QFont()
         font.setFamily("Gotham Black")
         font.setBold(True)
         font.setWeight(75)
         table_window.setFont(font)
-        table_window.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("ProgrammIcon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         table_window.setWindowIcon(icon)
@@ -51,6 +50,11 @@ class Ui_table_window(object):
         font.setFamily("Gotham Medium")
         font.setPointSize(16)
         self.faculty_list.setFont(font)
+        self.faculty_list.setMouseTracking(False)
+        self.faculty_list.setTabletTracking(False)
+        self.faculty_list.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
+        self.faculty_list.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
+        self.faculty_list.setAcceptDrops(False)
         self.faculty_list.setStyleSheet("QListWidget{\n"
 "color: rgb(255, 255, 255);\n"
 "background-color: rgb(83, 83, 83);\n"
@@ -70,6 +74,18 @@ class Ui_table_window(object):
 "background-color: rgb(30, 185, 85);\n"
 "border-radius: 10px;\n"
 "}")
+        self.faculty_list.setAutoScroll(False)
+        self.faculty_list.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.faculty_list.setProperty("showDropIndicator", False)
+        self.faculty_list.setDragEnabled(False)
+        self.faculty_list.setDragDropOverwriteMode(False)
+        self.faculty_list.setDefaultDropAction(QtCore.Qt.DropAction.CopyAction)
+        self.faculty_list.setAlternatingRowColors(False)
+        self.faculty_list.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
+        self.faculty_list.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectItems)
+        self.faculty_list.setMovement(QtWidgets.QListView.Movement.Static)
+        self.faculty_list.setFlow(QtWidgets.QListView.Flow.TopToBottom)
+        self.faculty_list.setViewMode(QtWidgets.QListView.ViewMode.ListMode)
         self.faculty_list.setObjectName("faculty_list")
         self.faculty_layout.addWidget(self.faculty_list)
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(parent=self.centralwidget)
@@ -251,66 +267,6 @@ class Ui_table_window(object):
         self.group_table.verticalHeader().setCascadingSectionResizes(False)
         self.group_table.verticalHeader().setSortIndicatorShown(False)
         self.group_table.verticalHeader().setStretchLastSection(False)
-        self.calendar_Widget = QtWidgets.QCalendarWidget(parent=self.centralwidget)
-        self.calendar_Widget.setGeometry(QtCore.QRect(30, 640, 551, 351))
-        font = QtGui.QFont()
-        font.setFamily("Gotham Black")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
-        self.calendar_Widget.setFont(font)
-        self.calendar_Widget.setStyleSheet("alternate-background-color: rgb(83, 83, 83);\n"
-"selection-background-color: rgb(30, 185, 85);\n"
-"color: rgb(255, 255, 255);\n"
-"selection-color: rgb(255, 255, 255);\n"
-"background-color: rgb(33, 33, 33);\n"
-"border-radius: 10px;")
-        self.calendar_Widget.setGridVisible(False)
-        self.calendar_Widget.setSelectionMode(QtWidgets.QCalendarWidget.SelectionMode.NoSelection)
-        self.calendar_Widget.setHorizontalHeaderFormat(QtWidgets.QCalendarWidget.HorizontalHeaderFormat.ShortDayNames)
-        self.calendar_Widget.setVerticalHeaderFormat(QtWidgets.QCalendarWidget.VerticalHeaderFormat.NoVerticalHeader)
-        self.calendar_Widget.setNavigationBarVisible(True)
-        self.calendar_Widget.setDateEditEnabled(False)
-        self.calendar_Widget.setObjectName("calendar_Widget")
-        self.exit_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.exit_button.setGeometry(QtCore.QRect(1770, 950, 121, 51))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.exit_button.setFont(font)
-        self.exit_button.setStyleSheet("QPushButton::hover{\n"
-"background-color: rgb(194, 194, 194);\n"
-"}\n"
-"QPushButton{\n"
-"background-color: rgb(83, 83, 83);\n"
-"color: rgb(0, 0, 0);\n"
-"border-radius: 10px;\n"
-"background-color: rgb(255, 255, 255);\n"
-"}\n"
-"\n"
-"")
-        self.exit_button.setObjectName("exit_button")
-        self.activate_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.activate_button.setGeometry(QtCore.QRect(1160, 910, 231, 71))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.activate_button.setFont(font)
-        self.activate_button.setAutoFillBackground(False)
-        self.activate_button.setStyleSheet("QPushButton::hover{\n"
-"background-color: rgb(194, 194, 194);\n"
-"}\n"
-"QPushButton{\n"
-"background-color: rgb(83, 83, 83);\n"
-"color: rgb(0, 0, 0);\n"
-"border-radius: 10px;\n"
-"background-color: rgb(255, 255, 255);\n"
-"}\n"
-"\n"
-"")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/in programm/icons/Mic.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.activate_button.setIcon(icon1)
-        self.activate_button.setIconSize(QtCore.QSize(35, 35))
-        self.activate_button.setObjectName("activate_button")
         self.table_label = QtWidgets.QLabel(parent=self.centralwidget)
         self.table_label.setGeometry(QtCore.QRect(1090, 70, 361, 32))
         font = QtGui.QFont()
@@ -367,9 +323,9 @@ class Ui_table_window(object):
 "}\n"
 "")
         self.close_button.setText("")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/window/icons/close_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.close_button.setIcon(icon2)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/window/icons/close_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.close_button.setIcon(icon1)
         self.close_button.setIconSize(QtCore.QSize(13, 13))
         self.close_button.setObjectName("close_button")
         self.hide_button = QtWidgets.QPushButton(parent=self.title_bar)
@@ -384,11 +340,83 @@ class Ui_table_window(object):
 "\n"
 "")
         self.hide_button.setText("")
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/window/icons/hide_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.hide_button.setIcon(icon3)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/window/icons/hide_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.hide_button.setIcon(icon2)
         self.hide_button.setIconSize(QtCore.QSize(25, 25))
         self.hide_button.setObjectName("hide_button")
+        self.context_help = QtWidgets.QLabel(parent=self.centralwidget)
+        self.context_help.setGeometry(QtCore.QRect(30, 650, 591, 361))
+        font = QtGui.QFont()
+        font.setFamily("Gotham Medium")
+        font.setPointSize(12)
+        self.context_help.setFont(font)
+        self.context_help.setStyleSheet("color: rgb(140, 140, 140);")
+        self.context_help.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
+        self.context_help.setWordWrap(True)
+        self.context_help.setObjectName("context_help")
+        self.horizontalLayoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(1160, 930, 751, 73))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.horizontalLayoutWidget.sizePolicy().hasHeightForWidth())
+        self.horizontalLayoutWidget.setSizePolicy(sizePolicy)
+        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.activate_button = QtWidgets.QPushButton(parent=self.horizontalLayoutWidget)
+        self.activate_button.setMinimumSize(QtCore.QSize(231, 71))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.activate_button.setFont(font)
+        self.activate_button.setAutoFillBackground(False)
+        self.activate_button.setStyleSheet("QPushButton::hover{\n"
+"background-color: rgb(194, 194, 194);\n"
+"}\n"
+"QPushButton{\n"
+"background-color: rgb(83, 83, 83);\n"
+"color: rgb(0, 0, 0);\n"
+"border-radius: 10px;\n"
+"background-color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/in programm/icons/Mic.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.activate_button.setIcon(icon3)
+        self.activate_button.setIconSize(QtCore.QSize(35, 35))
+        self.activate_button.setObjectName("activate_button")
+        self.horizontalLayout.addWidget(self.activate_button)
+        spacerItem = QtWidgets.QSpacerItem(58, 17, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.exit_button = QtWidgets.QPushButton(parent=self.horizontalLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.exit_button.sizePolicy().hasHeightForWidth())
+        self.exit_button.setSizePolicy(sizePolicy)
+        self.exit_button.setMinimumSize(QtCore.QSize(101, 49))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.exit_button.setFont(font)
+        self.exit_button.setStyleSheet("QPushButton::hover{\n"
+"background-color: rgb(194, 194, 194);\n"
+"}\n"
+"QPushButton{\n"
+"background-color: rgb(83, 83, 83);\n"
+"color: rgb(0, 0, 0);\n"
+"border-radius: 10px;\n"
+"background-color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"")
+        self.exit_button.setObjectName("exit_button")
+        self.horizontalLayout.addWidget(self.exit_button)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
         table_window.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(table_window)
@@ -433,15 +461,16 @@ class Ui_table_window(object):
         item.setText(_translate("table_window", "22.04.2023"))
         item = self.group_table.horizontalHeaderItem(15)
         item.setText(_translate("table_window", "29.05.2023"))
-        self.exit_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Q</span></p></body></html>"))
-        self.exit_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Q</p></body></html>"))
-        self.exit_button.setText(_translate("table_window", "Выход"))
-        self.activate_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Space</span></p></body></html>"))
-        self.activate_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Space</p></body></html>"))
-        self.activate_button.setText(_translate("table_window", "Голосовой ввод"))
         self.table_label.setText(_translate("table_window", "Журнал обучающихся"))
         self.error_label.setText(_translate("table_window", "Ошибка ввода, попробуйте еще раз"))
         self.help_label.setText(_translate("table_window", "Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер факультета, указанный в списке."))
+        self.context_help.setText(_translate("table_window", "!"))
+        self.activate_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Space</span></p></body></html>"))
+        self.activate_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Space</p></body></html>"))
+        self.activate_button.setText(_translate("table_window", "Голосовой ввод"))
+        self.exit_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Q</span></p></body></html>"))
+        self.exit_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Q</p></body></html>"))
+        self.exit_button.setText(_translate("table_window", "Выход"))
 
 
 if __name__ == "__main__":
