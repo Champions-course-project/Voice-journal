@@ -7,6 +7,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import Qt
 
 
 class Ui_AuthWindow(object):
@@ -229,7 +230,8 @@ class Ui_AuthWindow(object):
         self.error_label.raise_()
         self.title_bar.raise_()
         self.authorization_label.raise_()
-
+        # self.title_bar.mouseMoveEvent = self.moveWindow
+        # self.title_bar.mousePressEvent = self.mousePress
         self.retranslateUi(AuthWindow)
         QtCore.QMetaObject.connectSlotsByName(AuthWindow)
 
@@ -242,6 +244,18 @@ class Ui_AuthWindow(object):
         self.login_label.setText(_translate("AuthWindow", "Логин"))
         self.password_label.setText(_translate("AuthWindow", "Пароль"))
         self.error_label.setText(_translate("AuthWindow", "Ошибка авторизации!"))
+    # def mousePress(self,event):
+    #     self.dragPos = AuthWindow.pos()
+    #     self.mouse_original_pos = AuthWindow.mapToGlobal(event.pos())
+    #
+    # def moveWindow(self,event):
+    #     if AuthWindow.isMaximized():
+    #         AuthWindow.showNormal()
+    #     else:
+    #         if event.buttons() == Qt.MouseButton.LeftButton:
+    #             AuthWindow_last_pos = self.dragPos + AuthWindow.mapToGlobal(event.pos()) - self.mouse_original_pos
+    #             AuthWindow.move(AuthWindow_last_pos)
+    #             event.accept()
 
 
 if __name__ == "__main__":

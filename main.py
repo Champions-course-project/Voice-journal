@@ -12,7 +12,6 @@ import icons
 import ctypes
 myappid = 'mycompany.myproduct.subproduct.version'
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-
 ui = Ui_AuthWindow()
 def new_win():
     year_cond = False
@@ -271,7 +270,7 @@ def new_win():
         n_ui.group_table.setStyleSheet(n_ui.group_table.styleSheet() + "font: 12pt \"Gotham Lite\";\n")
         n_ui.error_label.hide()
         tableWindow.showMaximized()
-        MainWindow.close()
+        AuthWindow.close()
         n_ui.faculty_list.clear()
 
         for key in var:
@@ -295,17 +294,37 @@ def new_win():
         ui.password_lineEdit.setText("")
 
 
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QDialog()
+    AuthWindow = QtWidgets.QDialog()
     app.setStyle('Fusion')
-    ui.setupUi(MainWindow)
+    ui.setupUi(AuthWindow)
     ui.error_label.hide()
-    ui.hide_button_2.clicked.connect(MainWindow.showMinimized)
-    ui.close_button_2.clicked.connect(MainWindow.close)
-    MainWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
-    MainWindow.show()
-    ui.exit_button.clicked.connect(MainWindow.close)
+    ui.hide_button_2.clicked.connect(AuthWindow.showMinimized)
+    ui.close_button_2.clicked.connect(AuthWindow.close)
+    AuthWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
+    AuthWindow.show()
+    ui.exit_button.clicked.connect(AuthWindow.close)
     ui.auth_button.clicked.connect(new_win)
-    MainWindow.setWindowIcon(QtGui.QIcon('ProgrammIcon.ico'))
+
+    dragPos = 0
+    mouse_original_pos = 0
+
+    def mousePress(event):
+        global dragPos, mouse_original_pos
+        dragPos = AuthWindow.pos()
+        mouse_original_pos = AuthWindow.mapToGlobal(event.pos())
+
+    def moveWindow(event):
+        if AuthWindow.isMaximized():
+            AuthWindow.showNormal()
+        else:
+            if event.buttons() == Qt.MouseButton.LeftButton:
+                AuthWindow_last_pos = dragPos + AuthWindow.mapToGlobal(event.pos()) - mouse_original_pos
+                AuthWindow.move(AuthWindow_last_pos)
+    ui.title_bar.mouseMoveEvent = moveWindow
+    ui.title_bar.mousePressEvent = mousePress
+
+    AuthWindow.setWindowIcon(QtGui.QIcon('ProgrammIcon.ico'))
     sys.exit(app.exec())
