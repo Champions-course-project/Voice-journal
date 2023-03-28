@@ -17,6 +17,7 @@ class Ui_AuthWindow(object):
         AuthWindow.resize(375, 368)
         AuthWindow.setMinimumSize(QtCore.QSize(375, 368))
         AuthWindow.setMaximumSize(QtCore.QSize(375, 368))
+        AuthWindow.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         font = QtGui.QFont()
         font.setFamily("Roboto")
         AuthWindow.setFont(font)
@@ -256,7 +257,6 @@ class Ui_AuthWindow(object):
     #             AuthWindow_last_pos = self.dragPos + AuthWindow.mapToGlobal(event.pos()) - self.mouse_original_pos
     #             AuthWindow.move(AuthWindow_last_pos)
     #             event.accept()
-
 
 if __name__ == "__main__":
     import sys
