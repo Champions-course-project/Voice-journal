@@ -266,7 +266,7 @@ def get_student_name(students_list: list[str], bytestream: bytes, framerate: int
 
         elif possible_names_list:
             if len(possible_names_list) == 1:
-                return (str)((list)(definite_names_list)[0])
+                return (str)((list)(possible_names_list)[0])
             return False
 
         print("Распознавание не прошло! Попробуйте еще раз!")
