@@ -302,6 +302,14 @@ def new_win():
         nonlocal row_choose
         row_choose = n_ui.group_table.currentRow()
 
+    def cellActivated():
+        nonlocal column_choose, row_choose
+        column_choose = n_ui.group_table.currentColumn()
+        row_choose = n_ui.group_table.currentRow()
+        n_ui.group_table.setItem(
+            row_choose, column_choose, QTableWidgetItem(" "))
+        pass
+
     if success:
         global tableWindow
         tableWindow = QtWidgets.QMainWindow()
@@ -324,6 +332,7 @@ def new_win():
         n_ui.faculty_list.clearSelection()
         n_ui.group_table.horizontalHeader().sectionClicked.connect(horizontalColumnActivated)
         n_ui.group_table.verticalHeader().sectionClicked.connect(verticalColumnActivated)
+        n_ui.group_table.cellClicked.connect(cellActivated)
         n_ui.exit_button.clicked.connect(tableWindow.close)
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
         n_ui.activate_button.clicked.connect(activate_voice)
