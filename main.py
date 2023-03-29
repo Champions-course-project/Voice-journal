@@ -247,6 +247,8 @@ def new_win():
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
             elif year_cond and group_cond:
                 course_choose = (str)(n_ui.year_list.currentRow() + 1)
+                faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                    1]
                 group_choose = recognizer.get_group(faculty_name, str(
                     course_choose), bytes_array, recorder.Recorder.freq)
                 if type(group_choose) != bool and group_choose + 1:
