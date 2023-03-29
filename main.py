@@ -6,8 +6,8 @@ import login_class
 from autorization import *
 from table import *
 import json
-import SR as recognizer
-import SR.recorder as recorder
+import Vosk as recognizer
+import Vosk.recorder as recorder
 import icons
 import ctypes
 myappid = 'mycompany.myproduct.subproduct.version'
@@ -246,6 +246,7 @@ def new_win():
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
             elif year_cond and group_cond:
+                course_choose = (str)(n_ui.year_list.currentRow() + 1)
                 group_choose = recognizer.get_group(faculty_name, str(
                     course_choose), bytes_array, recorder.Recorder.freq)
                 if type(group_choose) != bool and group_choose + 1:
@@ -254,6 +255,8 @@ def new_win():
                 else:
                     n_ui.error_label.show()
             elif year_cond:
+                faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                    1]
                 course_choose = recognizer.get_course(
                     faculty_name, bytes_array, recorder.Recorder.freq)
                 if type(course_choose) != bool and course_choose + 1:
