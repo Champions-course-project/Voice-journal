@@ -355,7 +355,7 @@ class Ui_table_window(object):
         self.context_help.setGeometry(QtCore.QRect(30, 650, 591, 361))
         font = QtGui.QFont()
         font.setFamily("Gotham Medium")
-        font.setPointSize(12)
+        font.setPointSize(18)
         self.context_help.setFont(font)
         self.context_help.setStyleSheet("color: rgb(140, 140, 140);")
         self.context_help.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
@@ -475,7 +475,12 @@ class Ui_table_window(object):
         self.table_label.setText(_translate("table_window", "Журнал обучающихся"))
         self.error_label.setText(_translate("table_window", "Ошибка ввода, попробуйте еще раз"))
         self.help_label.setText(_translate("table_window", "Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер факультета, указанный в списке."))
-        self.context_help.setText(_translate("table_window", "!"))
+        self.context_help.setText(_translate("table_window", "Список голосовых команд:\n"
+"\"Выбрать факультет\"\n"
+"\"Выбрать курс\" \n"
+"\"Выбрать группу\"\n"
+"\"Сохранить\"\n"
+"\"Отменить\""))
         self.activate_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Space</span></p></body></html>"))
         self.activate_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Space</p></body></html>"))
         self.activate_button.setText(_translate("table_window", "Голосовой ввод"))

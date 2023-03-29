@@ -6,8 +6,8 @@ import login_class
 from autorization import *
 from table import *
 import json
-import Vosk as recognizer
-import Vosk.recorder as recorder
+import SR as recognizer
+import SR.recorder as recorder
 import icons
 import ctypes
 myappid = 'mycompany.myproduct.subproduct.version'
@@ -335,7 +335,6 @@ if __name__ == "__main__":
     AuthWindow.show()
     ui.exit_button.clicked.connect(AuthWindow.close)
     ui.auth_button.clicked.connect(new_win)
-
     dragPos = 0
     mouse_original_pos = 0
 

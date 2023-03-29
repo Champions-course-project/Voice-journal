@@ -27,7 +27,7 @@ class Ui_AuthWindow(object):
         AuthWindow.setStyleSheet("background-color: rgb(17, 17, 17);")
         AuthWindow.setSizeGripEnabled(False)
         self.auth_button = QtWidgets.QPushButton(parent=AuthWindow)
-        self.auth_button.setGeometry(QtCore.QRect(10, 320, 181, 31))
+        self.auth_button.setGeometry(QtCore.QRect(10, 310, 181, 31))
         font = QtGui.QFont()
         font.setFamily("Gotham Black")
         font.setPointSize(12)
@@ -47,7 +47,7 @@ class Ui_AuthWindow(object):
 "")
         self.auth_button.setObjectName("auth_button")
         self.exit_button = QtWidgets.QPushButton(parent=AuthWindow)
-        self.exit_button.setGeometry(QtCore.QRect(280, 320, 81, 31))
+        self.exit_button.setGeometry(QtCore.QRect(280, 310, 81, 31))
         font = QtGui.QFont()
         font.setFamily("Gotham Black")
         font.setPointSize(12)
@@ -150,7 +150,7 @@ class Ui_AuthWindow(object):
         self.password_layout.addWidget(self.password_lineEdit)
         self.error_label = QtWidgets.QLabel(parent=AuthWindow)
         self.error_label.setEnabled(True)
-        self.error_label.setGeometry(QtCore.QRect(20, 280, 191, 16))
+        self.error_label.setGeometry(QtCore.QRect(20, 270, 191, 16))
         font = QtGui.QFont()
         font.setFamily("Gotham Black")
         font.setPointSize(12)
@@ -220,8 +220,13 @@ class Ui_AuthWindow(object):
         self.hide_button_2.setIconSize(QtCore.QSize(25, 25))
         self.hide_button_2.setObjectName("hide_button_2")
         self.background = QtWidgets.QWidget(parent=AuthWindow)
-        self.background.setGeometry(QtCore.QRect(0, 20, 371, 351))
-        self.background.setStyleSheet("border radius: 10px;")
+        self.background.setGeometry(QtCore.QRect(0, 70, 375, 291))
+        self.background.setStyleSheet("QWidget{\n"
+"\n"
+"border-radius: 10px;\n"
+"border-bottom-left-radius: 10px;\n"
+"border-bottom-right-radius: 10px;\n"
+"}")
         self.background.setObjectName("background")
         self.background.raise_()
         self.auth_button.raise_()
@@ -231,8 +236,7 @@ class Ui_AuthWindow(object):
         self.error_label.raise_()
         self.title_bar.raise_()
         self.authorization_label.raise_()
-        # self.title_bar.mouseMoveEvent = self.moveWindow
-        # self.title_bar.mousePressEvent = self.mousePress
+
         self.retranslateUi(AuthWindow)
         QtCore.QMetaObject.connectSlotsByName(AuthWindow)
 
@@ -245,18 +249,7 @@ class Ui_AuthWindow(object):
         self.login_label.setText(_translate("AuthWindow", "Логин"))
         self.password_label.setText(_translate("AuthWindow", "Пароль"))
         self.error_label.setText(_translate("AuthWindow", "Ошибка авторизации!"))
-    # def mousePress(self,event):
-    #     self.dragPos = AuthWindow.pos()
-    #     self.mouse_original_pos = AuthWindow.mapToGlobal(event.pos())
-    #
-    # def moveWindow(self,event):
-    #     if AuthWindow.isMaximized():
-    #         AuthWindow.showNormal()
-    #     else:
-    #         if event.buttons() == Qt.MouseButton.LeftButton:
-    #             AuthWindow_last_pos = self.dragPos + AuthWindow.mapToGlobal(event.pos()) - self.mouse_original_pos
-    #             AuthWindow.move(AuthWindow_last_pos)
-    #             event.accept()
+
 
 if __name__ == "__main__":
     import sys
