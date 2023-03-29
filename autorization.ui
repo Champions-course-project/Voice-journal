@@ -10,19 +10,19 @@
     <x>0</x>
     <y>0</y>
     <width>375</width>
-    <height>327</height>
+    <height>368</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>375</width>
-    <height>327</height>
+    <height>368</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>375</width>
-    <height>327</height>
+    <height>368</height>
    </size>
   </property>
   <property name="font">
@@ -47,7 +47,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>280</y>
+     <y>310</y>
      <width>181</width>
      <height>31</height>
     </rect>
@@ -61,10 +61,17 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(83, 83, 83);
+    <string notr="true">QPushButton::hover{
+background-color: rgb(194, 194, 194);
+}
+QPushButton{
+background-color: rgb(83, 83, 83);
 color: rgb(0, 0, 0);
 border-radius: 10px;
-background-color: rgb(255, 255, 255);</string>
+background-color: rgb(255, 255, 255);
+}
+
+</string>
    </property>
    <property name="text">
     <string>Авторизироваться</string>
@@ -74,7 +81,7 @@ background-color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>280</y>
+     <y>310</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -88,10 +95,17 @@ background-color: rgb(255, 255, 255);</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(83, 83, 83);
+    <string notr="true">QPushButton::hover{
+background-color: rgb(194, 194, 194);
+}
+QPushButton{
+background-color: rgb(83, 83, 83);
 color: rgb(0, 0, 0);
 border-radius: 10px;
-background-color: rgb(255, 255, 255);</string>
+background-color: rgb(255, 255, 255);
+}
+
+</string>
    </property>
    <property name="text">
     <string>Выйти</string>
@@ -101,9 +115,9 @@ background-color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>0</y>
+     <y>30</y>
      <width>381</width>
-     <height>51</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
@@ -129,7 +143,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>60</y>
+     <y>100</y>
      <width>284</width>
      <height>80</height>
     </rect>
@@ -165,8 +179,13 @@ color: rgb(255, 255, 255);</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(83, 83, 83);</string>
+       <string notr="true">QLineEdit::hover{
+background-color: rgb(54, 54, 54);
+}
+QLineEdit{
+color: rgb(255, 255, 255);
+background-color: rgb(83, 83, 83);
+}</string>
       </property>
       <property name="text">
        <string/>
@@ -182,7 +201,7 @@ background-color: rgb(83, 83, 83);</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>150</y>
+     <y>190</y>
      <width>281</width>
      <height>80</height>
     </rect>
@@ -217,8 +236,13 @@ background-color: rgb(83, 83, 83);</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(83, 83, 83);</string>
+       <string notr="true">QLineEdit::hover{
+background-color: rgb(54, 54, 54);
+}
+QLineEdit{
+color: rgb(255, 255, 255);
+background-color: rgb(83, 83, 83);
+}</string>
       </property>
       <property name="inputMethodHints">
        <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
@@ -240,7 +264,7 @@ background-color: rgb(83, 83, 83);</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>240</y>
+     <y>270</y>
      <width>191</width>
      <height>16</height>
     </rect>
@@ -261,7 +285,183 @@ background-color: rgb(83, 83, 83);</string>
     <string>Ошибка авторизации!</string>
    </property>
   </widget>
+  <widget class="QWidget" name="title_bar" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>375</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+   <property name="tabletTracking">
+    <bool>true</bool>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(83, 83, 83);
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;</string>
+   </property>
+   <widget class="QPushButton" name="close_button">
+    <property name="geometry">
+     <rect>
+      <x>1890</x>
+      <y>10</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 2px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/window/icons/close_icon.png</normaloff>:/window/icons/close_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>13</width>
+      <height>13</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="hide_button">
+    <property name="geometry">
+     <rect>
+      <x>1860</x>
+      <y>10</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 2px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/window/icons/hide_icon.png</normaloff>:/window/icons/hide_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="close_button_2">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>0</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton::hover{
+background-color: rgb(255, 0, 0);
+}
+QPushButton{
+background-color: rgb(83, 83, 83);
+border-radius: 3px;
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/window/icons/close_icon.png</normaloff>:/window/icons/close_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>13</width>
+      <height>13</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="hide_button_2">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>0</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton::hover{
+background-color: rgb(121, 121, 121);
+}
+QPushButton{
+background-color: rgb(83, 83, 83);
+border-radius: 3px;
+}
+
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/window/icons/hide_icon.png</normaloff>:/window/icons/hide_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="background" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>70</y>
+     <width>375</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget{
+
+border-radius: 10px;
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;
+}</string>
+   </property>
+  </widget>
+  <zorder>background</zorder>
+  <zorder>auth_button</zorder>
+  <zorder>exit_button</zorder>
+  <zorder>horizontalLayoutWidget</zorder>
+  <zorder>horizontalLayoutWidget_2</zorder>
+  <zorder>error_label</zorder>
+  <zorder>title_bar</zorder>
+  <zorder>authorization_label</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
