@@ -350,7 +350,6 @@ if __name__ == "__main__":
     AuthWindow.show()
     ui.exit_button.clicked.connect(AuthWindow.close)
     ui.auth_button.clicked.connect(new_win)
-
     dragPos = 0
     mouse_original_pos = 0
 

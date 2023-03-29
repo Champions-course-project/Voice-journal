@@ -47,7 +47,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>320</y>
+     <y>310</y>
      <width>181</width>
      <height>31</height>
     </rect>
@@ -81,7 +81,7 @@ background-color: rgb(255, 255, 255);
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>320</y>
+     <y>310</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -264,7 +264,7 @@ background-color: rgb(83, 83, 83);
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>280</y>
+     <y>270</y>
      <width>191</width>
      <height>16</height>
     </rect>
@@ -437,13 +437,18 @@ border-radius: 3px;
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>20</y>
-     <width>371</width>
-     <height>351</height>
+     <y>70</y>
+     <width>375</width>
+     <height>291</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border radius: 10px;</string>
+    <string notr="true">QWidget{
+
+border-radius: 10px;
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;
+}</string>
    </property>
   </widget>
   <zorder>background</zorder>

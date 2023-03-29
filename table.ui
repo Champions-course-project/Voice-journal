@@ -712,14 +712,19 @@ border-radius: 3px;
     <property name="font">
      <font>
       <family>Gotham Medium</family>
-      <pointsize>12</pointsize>
+      <pointsize>18</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(140, 140, 140);</string>
     </property>
     <property name="text">
-     <string>!</string>
+     <string>Список голосовых команд:
+&quot;Выбрать факультет&quot;
+&quot;Выбрать курс&quot; 
+&quot;Выбрать группу&quot;
+&quot;Сохранить&quot;
+&quot;Отменить&quot;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
