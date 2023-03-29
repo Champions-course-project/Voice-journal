@@ -54,6 +54,7 @@ def get_faculty(bytestream: bytes, framerate: int):
             if not words_list[0].isdigit():
                 number = convert_number.convert_string(number)
             number = int(number)
+            assert number != -1
             return number, faculties_list[number - 1]
         else:
             return False, False
