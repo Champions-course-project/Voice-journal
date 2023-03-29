@@ -30,7 +30,7 @@ def speech(bytes_array: bytes, framerate: int):
         return False
 
 
-def get_faculty(bytestream: bytes, framerate: int):
+def get_faculty(words_list: list):
     """
     Распознаватель факультета на основе имеющегося списка.\n
     Входные аргументы:
@@ -48,7 +48,6 @@ def get_faculty(bytestream: bytes, framerate: int):
 
     # цикл выбора факультета
     try:
-        words_list = speech(bytestream, framerate)
         if words_list:
             number = words_list[0]
             if not words_list[0].isdigit():
@@ -64,7 +63,7 @@ def get_faculty(bytestream: bytes, framerate: int):
         return False, False
 
 
-def get_course(faculty: str, bytestream: bytes, framerate: int):
+def get_course(faculty: str, words_list: list):
     """
     Распознаватель номера курса на основе имеющегося списка.\n
     Входные аргументы:
@@ -82,7 +81,6 @@ def get_course(faculty: str, bytestream: bytes, framerate: int):
         courses_list.append(course_number)
 
     try:
-        words_list = speech(bytestream, framerate)
         if words_list:
             course = words_list[0]
             if not words_list[0].isdigit():
@@ -98,7 +96,7 @@ def get_course(faculty: str, bytestream: bytes, framerate: int):
         return False
 
 
-def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
+def get_group(faculty: str, course: int, words_list: list):
     """
     Распознаватель произнесенного номера группы на основе списка групп.\n
     Входные аргументы:
@@ -115,7 +113,6 @@ def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
     groups_list = groups_dict[faculty].get(str(course) + ' курс')
     if groups_list:
         try:
-            words_list = speech(bytestream, framerate)
             if words_list:
                 group = words_list[0]
                 if not words_list[0].isdigit():
@@ -133,7 +130,7 @@ def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
         return False
 
 
-def get_date(bytestream: bytes, framerate: int):
+def get_date(words_list: list):
     """
     Распознаватель произнесённой даты.\n
     Входные аргументы:
@@ -143,8 +140,6 @@ def get_date(bytestream: bytes, framerate: int):
     - дата в формате ДД.ММ.ГГГГ в случае успеха;
     - False в противном случае.
     """
-    words_list = speech(bytestream, framerate)
-
     if words_list:
 
         days_list = [
@@ -229,7 +224,7 @@ def get_date(bytestream: bytes, framerate: int):
     return False
 
 
-def get_student_name(students_list: list[str], bytestream: bytes, framerate: int):
+def get_student_name(students_list: list[str], words_list: list):
     """
     Распознаватель произнесенных фамилий.\n
     Входные аргументы:
@@ -241,8 +236,6 @@ def get_student_name(students_list: list[str], bytestream: bytes, framerate: int
     - ФИО студента в случае успешного распознавания и совпадения;
     - False в противном случае.
     """
-    words_list = speech(bytestream, framerate)
-
     if words_list:
 
         # распознавание фамилий: полное или частичное
@@ -275,7 +268,7 @@ def get_student_name(students_list: list[str], bytestream: bytes, framerate: int
     return False
 
 
-def get_status(bytestream: bytes, framerate: int):
+def get_status(words_list: list):
     """
     Распознаватель произнесенных оценок и статусов студентов.\n
     Входные аргументы:
@@ -285,8 +278,6 @@ def get_status(bytestream: bytes, framerate: int):
     - строка, указывающая на состояние, в случае успеха;
     - False в противном случае.
     """
-    words_list = speech(bytestream, framerate)
-
     if words_list:
         excellent_list = ['отлично', 'пять', 'пятерка']
         good_list = ['хорошо', 'четыре', 'четверка']
