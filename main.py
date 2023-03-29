@@ -216,41 +216,54 @@ def new_win():
         buttonColor(1)
         n_ui.activate_button.update()
         QApplication.processEvents()
+        words_list = recognizer.speech(bytes_array, recorder.Recorder.freq)
         try:
+            # вызов функций по распознаванию команды
             nonlocal row_choose, column_choose
             if table_cond:
-                date_choose = recognizer.get_date(
-                    bytes_array, recorder.Recorder.freq)
+                print(2)
+                date_choose = recognizer.get_date(words_list)
                 if type(date_choose) != bool:
+                    print(3)
                     dateChoose(date_choose)
                     if row_choose != -1 and column_choose != -1:
+                        print(4)
                         n_ui.group_table.setItem(
                             row_choose, column_choose, QTableWidgetItem(" "))
                         select_cell(row_choose, column_choose)
                 else:
+                    print(5)
                     current = n_ui.group_list.currentItem().text()
                     current = current.split('. ')[1]
                     student_list = s_var[current]
                     student_selected = recognizer.get_student_name(
-                        student_list, bytes_array, recorder.Recorder.freq)
+                        student_list, words_list)
                     if type(student_selected) != bool:
+                        print(6)
                         studentChoose(student_selected)
+                        n_ui.group_table.update()
+                        QApplication.processEvents()
                         if row_choose != -1 and column_choose != -1:
+                            print(7)
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(" "))
                             select_cell(row_choose, column_choose)
                     elif row_choose > -1 and column_choose > -1:
-                        mark_choose = recognizer.get_status(
-                            bytes_array, recorder.Recorder.freq)
+                        print(8)
+                        mark_choose = recognizer.get_status(words_list)
                         if type(mark_choose) != bool:
+                            print(9)
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
+                # print(10)
+                # n_ui.group_table.update()
+                # QApplication.processEvents()
             elif year_cond and group_cond:
                 course_choose = (str)(n_ui.year_list.currentRow() + 1)
                 faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
                     1]
-                group_choose = recognizer.get_group(faculty_name, str(
-                    course_choose), bytes_array, recorder.Recorder.freq)
+                group_choose = recognizer.get_group(
+                    faculty_name, str(course_choose), words_list)
                 if type(group_choose) != bool and group_choose + 1:
                     n_ui.group_list.setCurrentRow(group_choose-1)
                     addStudents()
@@ -259,8 +272,7 @@ def new_win():
             elif year_cond:
                 faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
                     1]
-                course_choose = recognizer.get_course(
-                    faculty_name, bytes_array, recorder.Recorder.freq)
+                course_choose = recognizer.get_course(faculty_name, words_list)
                 if type(course_choose) != bool and course_choose + 1:
                     n_ui.year_list.setCurrentRow(course_choose-1)
                     addGroupItems()
@@ -268,12 +280,15 @@ def new_win():
                     n_ui.error_label.show()
             else:
                 faculty_choose, faculty_name = recognizer.get_faculty(
-                    bytes_array, recorder.Recorder.freq)
+                    words_list)
                 if type(faculty_choose) != bool and faculty_choose:
                     n_ui.faculty_list.setCurrentRow(faculty_choose-1)
                     addYearItems()
                 else:
                     n_ui.error_label.show()
+        except AssertionError:
+            # print("Пустой список, или какая-то проблема при распознавании!")
+            pass
         finally:
             buttonColor(3)
             n_ui.activate_button.update()

@@ -1,6 +1,5 @@
 from .check_name import check
 import os
-import time
 import json
 import SR.full_record as full_record
 import SR.convert_number as convert_number
@@ -31,7 +30,7 @@ def speech(bytes_array: bytes, framerate: int):
         return False
 
 
-def get_faculty(bytestream: bytes, framerate: int):
+def get_faculty(words_list: list):
     """
     Распознаватель факультета на основе имеющегося списка.\n
     Входные аргументы:
@@ -49,7 +48,6 @@ def get_faculty(bytestream: bytes, framerate: int):
 
     # цикл выбора факультета
     try:
-        words_list = speech(bytestream, framerate)
         if words_list:
             number = words_list[0]
             if not words_list[0].isdigit():
@@ -65,7 +63,7 @@ def get_faculty(bytestream: bytes, framerate: int):
         return False, False
 
 
-def get_course(faculty: str, bytestream: bytes, framerate: int):
+def get_course(faculty: str, words_list: list):
     """
     Распознаватель номера курса на основе имеющегося списка.\n
     Входные аргументы:
@@ -83,7 +81,6 @@ def get_course(faculty: str, bytestream: bytes, framerate: int):
         courses_list.append(course_number)
 
     try:
-        words_list = speech(bytestream, framerate)
         if words_list:
             course = words_list[0]
             if not words_list[0].isdigit():
@@ -99,7 +96,7 @@ def get_course(faculty: str, bytestream: bytes, framerate: int):
         return False
 
 
-def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
+def get_group(faculty: str, course: int, words_list: list):
     """
     Распознаватель произнесенного номера группы на основе списка групп.\n
     Входные аргументы:
@@ -116,7 +113,6 @@ def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
     groups_list = groups_dict[faculty].get(str(course) + ' курс')
     if groups_list:
         try:
-            words_list = speech(bytestream, framerate)
             if words_list:
                 group = words_list[0]
                 if not words_list[0].isdigit():
@@ -134,7 +130,7 @@ def get_group(faculty: str, course: int, bytestream: bytes, framerate: int):
         return False
 
 
-def get_date(bytestream: bytes, framerate: int):
+def get_date(words_list: list):
     """
     Распознаватель произнесённой даты.\n
     Входные аргументы:
@@ -144,8 +140,6 @@ def get_date(bytestream: bytes, framerate: int):
     - дата в формате ДД.ММ.ГГГГ в случае успеха;
     - False в противном случае.
     """
-    words_list = speech(bytestream, framerate)
-
     if words_list:
 
         days_list = [
@@ -230,7 +224,7 @@ def get_date(bytestream: bytes, framerate: int):
     return False
 
 
-def get_student_name(students_list: list[str], bytestream: bytes, framerate: int):
+def get_student_name(students_list: list[str], words_list: list):
     """
     Распознаватель произнесенных фамилий.\n
     Входные аргументы:
@@ -242,8 +236,6 @@ def get_student_name(students_list: list[str], bytestream: bytes, framerate: int
     - ФИО студента в случае успешного распознавания и совпадения;
     - False в противном случае.
     """
-    words_list = speech(bytestream, framerate)
-
     if words_list:
 
         # распознавание фамилий: полное или частичное
@@ -276,7 +268,7 @@ def get_student_name(students_list: list[str], bytestream: bytes, framerate: int
     return False
 
 
-def get_status(bytestream: bytes, framerate: int):
+def get_status(words_list: list):
     """
     Распознаватель произнесенных оценок и статусов студентов.\n
     Входные аргументы:
@@ -286,8 +278,6 @@ def get_status(bytestream: bytes, framerate: int):
     - строка, указывающая на состояние, в случае успеха;
     - False в противном случае.
     """
-    words_list = speech(bytestream, framerate)
-
     if words_list:
         excellent_list = ['отлично', 'пять', 'пятерка']
         good_list = ['хорошо', 'четыре', 'четверка']
@@ -319,44 +309,3 @@ def get_status(bytestream: bytes, framerate: int):
             return "Незачёт"
     print("Попробуйте еще раз!")
     return False
-
-
-# def update_status(date, student_name, status):
-#     """
-#     Функция для изменения статуса. Не используется в оконном приложении.
-#     """
-#     with open(os.path.join("SR", "students_status.json"), 'r', encoding='UTF-8') as file:
-#         students_dict = json.load(file)
-#     students_dict[student_name][date] = status
-#     with open(os.path.join("SR", "students_status.json"), 'w', encoding='UTF-8') as file:
-#         json.dump(students_dict, file, indent=4, ensure_ascii=False)
-#     print(
-#         f"Статус на <{date}> студента <{student_name}> успешно изменен на <{status}>!")
-#     return True
-
-
-# def main():
-#     """
-#     Основная функция. Не используется в оконном приложении.
-#     """
-#     print("Вас приветствует голосовой ассистент!")
-#     time.sleep(2)
-#     faculty_input = get_faculty()
-#     if faculty_input:
-#         course_input = get_course(faculty_input)
-#         if course_input:
-#             print(get_group(faculty_input, course_input))
-#     print("Назовите <дату>...")
-#     date = get_date()
-#     if date:
-#         print("Назовите <фамилию студента>...")
-#         student_name = get_student_name()
-#         if student_name:
-#             print("Назовите <статус>...")
-#             status = get_status()
-#             if status:
-#                 # !!! Внимание, затычка "2023"
-#                 if update_status(date + "2023", student_name, status):
-#                     return True
-#     print("Ошибочка!")
-#     return False
