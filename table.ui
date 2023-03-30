@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
-    <height>1080</height>
+    <width>1933</width>
+    <height>1032</height>
    </rect>
   </property>
   <property name="font">
@@ -31,16 +31,19 @@
    <string notr="true">background-color: rgb(17, 17, 17);</string>
   </property>
   <property name="toolButtonStyle">
-   <enum>Qt::ToolButtonIconOnly</enum>
+   <enum>Qt::ToolButtonFollowStyle</enum>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>30</y>
+      <y>70</y>
       <width>160</width>
-      <height>621</height>
+      <height>531</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="faculty_layout">
@@ -74,12 +77,77 @@
          <pointsize>16</pointsize>
         </font>
        </property>
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
+       <property name="tabletTracking">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
+        <string notr="true">QListWidget{
+color: rgb(255, 255, 255);
 background-color: rgb(83, 83, 83);
 selection-color: rgb(255, 255, 255);
 selection-background-color: rgb(30, 185, 85);
-border-radius: 10px;</string>
+border-radius: 10px;
+}
+QListWidget::item::hover{
+background-color: rgb(75, 75,75);
+border-radius: 10px;
+}
+QListWidget::item::selected::hover{
+background-color: rgb(30, 185, 85);
+border-radius: 10px;
+}
+QListWidget::item::selected{
+background-color: rgb(30, 185, 85);
+border-radius: 10px;
+}</string>
+       </property>
+       <property name="autoScroll">
+        <bool>false</bool>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>false</bool>
+       </property>
+       <property name="dragEnabled">
+        <bool>false</bool>
+       </property>
+       <property name="dragDropOverwriteMode">
+        <bool>false</bool>
+       </property>
+       <property name="defaultDropAction">
+        <enum>Qt::CopyAction</enum>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>false</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectItems</enum>
+       </property>
+       <property name="movement">
+        <enum>QListView::Static</enum>
+       </property>
+       <property name="flow">
+        <enum>QListView::TopToBottom</enum>
+       </property>
+       <property name="viewMode">
+        <enum>QListView::ListMode</enum>
        </property>
       </widget>
      </item>
@@ -89,9 +157,9 @@ border-radius: 10px;</string>
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>30</y>
-      <width>160</width>
-      <height>621</height>
+      <y>70</y>
+      <width>161</width>
+      <height>531</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="year_layout">
@@ -127,12 +195,38 @@ border-radius: 10px;</string>
          <pointsize>16</pointsize>
         </font>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
+        <string notr="true">QListWidget{
+color: rgb(255, 255, 255);
 background-color: rgb(83, 83, 83);
+selection-color: rgb(255, 255, 255);
 selection-background-color: rgb(30, 185, 85);
 border-radius: 10px;
-selection-color: rgb(255, 255, 255);</string>
+}
+QListWidget::item::hover{
+background-color: rgb(75, 75,75);
+border-radius: 10px;
+}
+QListWidget::item::selected::hover{
+background-color: rgb(30, 185, 85);
+border-radius: 10px;
+}
+QListWidget::item::selected{
+background-color: rgb(30, 185, 85);
+border-radius: 10px;
+}</string>
+       </property>
+       <property name="autoScroll">
+        <bool>true</bool>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -141,10 +235,10 @@ selection-color: rgb(255, 255, 255);</string>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>30</y>
-      <width>164</width>
-      <height>621</height>
+      <x>410</x>
+      <y>70</y>
+      <width>211</width>
+      <height>531</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="group_layout">
@@ -180,13 +274,29 @@ selection-color: rgb(255, 255, 255);</string>
          <pointsize>16</pointsize>
         </font>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
-selection-color: rgb(255, 255, 255);
+        <string notr="true">QListWidget{
+color: rgb(255, 255, 255);
 background-color: rgb(83, 83, 83);
+selection-color: rgb(255, 255, 255);
 selection-background-color: rgb(30, 185, 85);
 border-radius: 10px;
-</string>
+}
+QListWidget::item::hover{
+background-color: rgb(75, 75,75);
+border-radius: 10px;
+}
+QListWidget::item::selected::hover{
+background-color: rgb(30, 185, 85);
+border-radius: 10px;
+}
+QListWidget::item::selected{
+background-color: rgb(30, 185, 85);
+border-radius: 10px;
+}</string>
        </property>
       </widget>
      </item>
@@ -199,9 +309,9 @@ border-radius: 10px;
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>70</y>
+      <y>110</y>
       <width>1241</width>
-      <height>751</height>
+      <height>721</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -212,9 +322,9 @@ border-radius: 10px;
     </property>
     <property name="font">
      <font>
-      <family>Gotham Medium</family>
+      <family>Gotham Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
+      <weight>3</weight>
       <italic>false</italic>
       <bold>false</bold>
      </font>
@@ -226,7 +336,7 @@ border-radius: 10px;
      <bool>false</bool>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::NoFocus</enum>
     </property>
     <property name="contextMenuPolicy">
      <enum>Qt::DefaultContextMenu</enum>
@@ -239,6 +349,7 @@ border-radius: 10px;
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(83, 83, 83);
+font: 25 12pt &quot;Gotham Light&quot;;
 color: rgb(255, 255, 255);
 selection-background-color: rgb(30, 185, 85);
 alternate-background-color: rgb(179, 179, 179);
@@ -272,7 +383,7 @@ gridline-color: rgb(17, 17, 17);</string>
      <bool>true</bool>
     </property>
     <property name="selectionMode">
-     <enum>QAbstractItemView::ContiguousSelection</enum>
+     <enum>QAbstractItemView::SingleSelection</enum>
     </property>
     <property name="selectionBehavior">
      <enum>QAbstractItemView::SelectItems</enum>
@@ -284,39 +395,30 @@ gridline-color: rgb(17, 17, 17);</string>
      <enum>Qt::SolidLine</enum>
     </property>
     <property name="sortingEnabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="wordWrap">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="cornerButtonEnabled">
      <bool>true</bool>
     </property>
-    <attribute name="horizontalHeaderCascadingSectionResizes">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="horizontalHeaderStretchLastSection">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="verticalHeaderCascadingSectionResizes">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="verticalHeaderStretchLastSection">
-     <bool>false</bool>
-    </attribute>
     <column>
      <property name="text">
       <string>14.01.2023</string>
      </property>
      <property name="font">
       <font>
-       <pointsize>8</pointsize>
+       <family>Gotham Light</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
        <underline>false</underline>
        <strikeout>false</strikeout>
       </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
      </property>
     </column>
     <column>
@@ -395,87 +497,392 @@ gridline-color: rgb(17, 17, 17);</string>
      </property>
     </column>
    </widget>
-   <widget class="QCalendarWidget" name="calendar_Widget">
+   <widget class="QLabel" name="table_label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>680</y>
-      <width>551</width>
-      <height>351</height>
+      <x>1090</x>
+      <y>70</y>
+      <width>361</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Gotham Black</family>
-      <pointsize>16</pointsize>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Журнал обучающихся</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="error_label">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>870</y>
+      <width>331</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gotham Black</family>
+      <pointsize>12</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">alternate-background-color: rgb(83, 83, 83);
-selection-background-color: rgb(30, 185, 85);
-color: rgb(255, 255, 255);
-selection-color: rgb(255, 255, 255);
-background-color: rgb(33, 33, 33);
-border-radius: 10px;</string>
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
-    <property name="gridVisible">
-     <bool>false</bool>
+    <property name="text">
+     <string>Ошибка ввода, попробуйте еще раз</string>
     </property>
-    <property name="selectionMode">
-     <enum>QCalendarWidget::NoSelection</enum>
-    </property>
-    <property name="horizontalHeaderFormat">
-     <enum>QCalendarWidget::ShortDayNames</enum>
-    </property>
-    <property name="verticalHeaderFormat">
-     <enum>QCalendarWidget::NoVerticalHeader</enum>
-    </property>
-    <property name="navigationBarVisible">
-     <bool>true</bool>
-    </property>
-    <property name="dateEditEnabled">
-     <bool>false</bool>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="exit_button">
+   <widget class="QLabel" name="help_label">
     <property name="geometry">
      <rect>
-      <x>1780</x>
-      <y>910</y>
-      <width>91</width>
-      <height>41</height>
+      <x>650</x>
+      <y>880</y>
+      <width>351</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <family>Gotham Medium</family>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(83, 83, 83);
-color: rgb(0, 0, 0);
-border-radius: 10px;
-background-color: rgb(255, 255, 255);</string>
+     <string notr="true">color: rgb(140, 140, 140);</string>
     </property>
     <property name="text">
-     <string>Выход</string>
+     <string>Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку &quot;Голосовой ввод&quot; и назвать номер факультета, указанный в списке.</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
     </property>
    </widget>
+   <widget class="QFrame" name="title_bar">
+    <property name="geometry">
+     <rect>
+      <x>-10</x>
+      <y>0</y>
+      <width>1951</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="tabletTracking">
+     <bool>false</bool>
+    </property>
+    <property name="acceptDrops">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(83, 83, 83);
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="close_button">
+     <property name="geometry">
+      <rect>
+       <x>1890</x>
+       <y>0</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton::hover{
+background-color: rgb(255, 0, 0);
+}
+QPushButton{
+background-color: rgb(83, 83, 83);
+border-radius: 3px;
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="icons.qrc">
+       <normaloff>:/window/icons/close_icon.png</normaloff>:/window/icons/close_icon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>13</width>
+       <height>13</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="hide_button">
+     <property name="geometry">
+      <rect>
+       <x>1840</x>
+       <y>0</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton::hover{
+background-color: rgb(121, 121, 121);
+}
+QPushButton{
+background-color: rgb(83, 83, 83);
+border-radius: 3px;
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="icons.qrc">
+       <normaloff>:/window/icons/hide_icon.png</normaloff>:/window/icons/hide_icon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="context_help">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>650</y>
+      <width>591</width>
+      <height>361</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gotham Medium</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(140, 140, 140);</string>
+    </property>
+    <property name="text">
+     <string>Список голосовых команд:
+&quot;Выбрать факультет&quot;
+&quot;Выбрать курс&quot; 
+&quot;Выбрать группу&quot;
+&quot;Сохранить&quot;
+&quot;Отменить&quot;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>930</y>
+      <width>751</width>
+      <height>73</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+     <item>
+      <widget class="QPushButton" name="activate_button">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>231</width>
+         <height>71</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="tabletTracking">
+        <bool>true</bool>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Hotkey - Ctrl + Space&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hotkey - Ctrl + Space&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton::hover{
+background-color: rgb(194, 194, 194);
+}
+QPushButton{
+background-color: rgb(83, 83, 83);
+color: rgb(0, 0, 0);
+border-radius: 10px;
+background-color: rgb(255, 255, 255);
+}
+
+</string>
+       </property>
+       <property name="text">
+        <string>Голосовой ввод</string>
+       </property>
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/in programm/icons/Mic.ico</normaloff>:/in programm/icons/Mic.ico</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>35</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>58</width>
+         <height>17</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="exit_button">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>101</width>
+         <height>49</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Hotkey - Ctrl + Q&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hotkey - Ctrl + Q&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton::hover{
+background-color: rgb(194, 194, 194);
+}
+QPushButton{
+background-color: rgb(83, 83, 83);
+color: rgb(0, 0, 0);
+border-radius: 10px;
+background-color: rgb(255, 255, 255);
+}
+
+</string>
+       </property>
+       <property name="text">
+        <string>Выход</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1920</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
