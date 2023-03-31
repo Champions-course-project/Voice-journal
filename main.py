@@ -1,10 +1,7 @@
-from PyQt6.QtCore import Qt, QPoint, QThread
-from PyQt6.QtGui import QKeySequence, QFont, QShortcut
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 import sys
-
-import Functions.convert_number
-import Vosk.recorder
 import login_class
 from autorization import *
 from table import *
@@ -14,6 +11,7 @@ import Vosk as recognizer
 import Vosk.recorder as recorder
 import icons
 import ctypes
+
 myappid = 'mycompany.myproduct.subproduct.version'
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 ui = Ui_AuthWindow()
@@ -258,13 +256,16 @@ def new_win():
                     student_list = s_var[current]
                     student_selected = functions.get_student_name(
                         student_list, words_list)
-                    if type(student_selected) == bool:
-                        words_list[0] = Functions.convert_number.convert_string(words_list[0])
-                        words_list[0] = n_ui.group_table.verticalHeaderItem(words_list[0] - 1).text()
-                        sp = words_list[0].split(". ")
-                        words_list[0] = sp[1]
-                        student_selected = functions.get_student_name(
-                            student_list, words_list)
+                    if type(student_selected) == bool and len(words_list) > 0:
+                        try:
+                            words_list[0] = functions.convert_number.convert_string(words_list[0])
+                            words_list[0] = n_ui.group_table.verticalHeaderItem(words_list[0] - 1).text()
+                            sp = words_list[0].split(". ")
+                            words_list[0] = sp[1]
+                            student_selected = functions.get_student_name(
+                                student_list, words_list)
+                        except AttributeError:
+                            pass
                     if type(student_selected) != bool:
                         studentChoose(student_selected)
                         n_ui.group_table.update()
@@ -278,6 +279,7 @@ def new_win():
                         if type(mark_choose) != bool:
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
+
             elif year_cond and group_cond:
                 course_choose = (str)(n_ui.year_list.currentRow() + 1)
                 faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
