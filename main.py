@@ -6,8 +6,9 @@ import login_class
 from autorization import *
 from table import *
 import json
-import SR as recognizer
-import SR.recorder as recorder
+import Functions as functions
+import Vosk as recognizer
+import Vosk.recorder as recorder
 import icons
 import ctypes
 myappid = 'mycompany.myproduct.subproduct.version'
@@ -221,48 +222,37 @@ def new_win():
             # вызов функций по распознаванию команды
             nonlocal row_choose, column_choose
             if table_cond:
-                print(2)
-                date_choose = recognizer.get_date(words_list)
+                date_choose = functions.get_date(words_list)
                 if type(date_choose) != bool:
-                    print(3)
                     dateChoose(date_choose)
                     if row_choose != -1 and column_choose != -1:
-                        print(4)
                         n_ui.group_table.setItem(
                             row_choose, column_choose, QTableWidgetItem(" "))
                         select_cell(row_choose, column_choose)
                 else:
-                    print(5)
                     current = n_ui.group_list.currentItem().text()
                     current = current.split('. ')[1]
                     student_list = s_var[current]
-                    student_selected = recognizer.get_student_name(
+                    student_selected = functions.get_student_name(
                         student_list, words_list)
                     if type(student_selected) != bool:
-                        print(6)
                         studentChoose(student_selected)
                         n_ui.group_table.update()
                         QApplication.processEvents()
                         if row_choose != -1 and column_choose != -1:
-                            print(7)
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(" "))
                             select_cell(row_choose, column_choose)
                     elif row_choose > -1 and column_choose > -1:
-                        print(8)
-                        mark_choose = recognizer.get_status(words_list)
+                        mark_choose = functions.get_status(words_list)
                         if type(mark_choose) != bool:
-                            print(9)
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
-                # print(10)
-                # n_ui.group_table.update()
-                # QApplication.processEvents()
             elif year_cond and group_cond:
                 course_choose = (str)(n_ui.year_list.currentRow() + 1)
                 faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
                     1]
-                group_choose = recognizer.get_group(
+                group_choose = functions.get_group(
                     faculty_name, str(course_choose), words_list)
                 if type(group_choose) != bool and group_choose + 1:
                     n_ui.group_list.setCurrentRow(group_choose-1)
@@ -272,14 +262,14 @@ def new_win():
             elif year_cond:
                 faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
                     1]
-                course_choose = recognizer.get_course(faculty_name, words_list)
+                course_choose = functions.get_course(faculty_name, words_list)
                 if type(course_choose) != bool and course_choose + 1:
                     n_ui.year_list.setCurrentRow(course_choose-1)
                     addGroupItems()
                 else:
                     n_ui.error_label.show()
             else:
-                faculty_choose, faculty_name = recognizer.get_faculty(
+                faculty_choose, faculty_name = functions.get_faculty(
                     words_list)
                 if type(faculty_choose) != bool and faculty_choose:
                     n_ui.faculty_list.setCurrentRow(faculty_choose-1)
