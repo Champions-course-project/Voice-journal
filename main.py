@@ -108,6 +108,8 @@ def new_win():
                                           "border-radius: 10px;\n"
                                           "}")
             n_ui.group_table.setVerticalHeaderLabels(s_var[current])
+            for i in range(len(s_var[current])):
+                n_ui.group_table.verticalHeaderItem(i).setText(str(i+1) + ". " + n_ui.group_table.verticalHeaderItem(i).text())
             table_cond = True
             nonlocal column_choose
             column_choose = -1
@@ -157,7 +159,7 @@ def new_win():
         number = n_ui.group_table.verticalHeader().count()
         index = -1
         for i in range(number):
-            if name == n_ui.group_table.verticalHeaderItem(i).text():
+            if name == n_ui.group_table.verticalHeaderItem(i).text().split(". ")[1]:
                 index = i
                 break
         if index == -1:
@@ -165,6 +167,7 @@ def new_win():
         n_ui.group_table.selectRow(index)
         nonlocal row_choose
         row_choose = index
+        n_ui.group_table.clearSelection()
         if column_choose == -1:
             for i in range(n_ui.group_table.horizontalHeader().count()):
                 n_ui.group_table.setItem(
@@ -177,6 +180,7 @@ def new_win():
     def dateChoose(date):
         number = n_ui.group_table.horizontalHeader().count()
         index = -1
+        n_ui.group_table.clearSelection()
         for i in range(number):
             if date + "2023" == n_ui.group_table.horizontalHeaderItem(i).text():
                 index = i
