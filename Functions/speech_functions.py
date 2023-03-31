@@ -1,33 +1,7 @@
-import Vosk.vosk_class as vosk_class
-from .check_name import check
-import os
 import json
-import Vosk.convert_number as convert_number
-
-
-def speech(bytes_array: bytes, framerate: int):
-    """
-    Распознаватель речи.\n
-    Входные аргументы:
-    - bytes_array - байтовый поток с аудиоинформацией;
-    - framerate - частота записи.\n
-    Выходные данные:
-    - список возможных словосочетаний - при успешном распознавании;
-    - False - при ошибке во время распознавания.
-    """
-    try:
-        result = vosk_class.STT.decode_bytestream(bytes_array, framerate)
-        if result:
-            word = result["text"].replace("!SIL", "")
-            if word == "":
-                return []
-            return [word]
-        else:
-            return False
-    except Exception as ex:
-        print(type(ex).__name__)
-        print(ex.args)
-        return False
+import os
+from .check_name import check
+import Functions.convert_number as convert_number
 
 
 def get_faculty(words_list: list):
@@ -40,7 +14,7 @@ def get_faculty(words_list: list):
     - пара "число - название факультета" в случае успеха;
     - пара False - False в противном случае.
     """
-    with open(os.path.join("Vosk", "pnu_info", "Факультеты и институты.json"), 'r', encoding='UTF-8') as file:
+    with open(os.path.join("Functions", "pnu_info", "Факультеты и институты.json"), 'r', encoding='UTF-8') as file:
         faculties_dict = json.load(file)
 
     # Отображение факультетов и институтов
@@ -74,7 +48,7 @@ def get_course(faculty: str, words_list: list):
     - число, соответствующее номеру курса в случае успеха;
     - False в противном случае.
     """
-    with open(os.path.join("Vosk", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
+    with open(os.path.join("Functions", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     courses_list = []
     for course_number in groups_dict[faculty].keys():
@@ -108,7 +82,7 @@ def get_group(faculty: str, course: int, words_list: list):
     - номер группы в списке групп в случае успеха;
     - False в противном случае.
     """
-    with open(os.path.join("Vosk", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
+    with open(os.path.join("Functions", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     groups_list = groups_dict[faculty].get(str(course) + ' курс')
     if groups_list:
@@ -159,7 +133,7 @@ def get_date(words_list: list):
         ]
         # Список дат из журнала
         dates_list = []
-        with open(os.path.join("Vosk", "Dates.txt"), 'r', encoding='UTF-8') as F:
+        with open(os.path.join("Functions", "Dates.txt"), 'r', encoding='UTF-8') as F:
             for date in F:
                 dates_list.append(date.replace("\n", ""))
 
