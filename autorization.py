@@ -7,7 +7,6 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtCore import Qt
 
 
 class Ui_AuthWindow(object):
@@ -17,7 +16,6 @@ class Ui_AuthWindow(object):
         AuthWindow.resize(375, 368)
         AuthWindow.setMinimumSize(QtCore.QSize(375, 368))
         AuthWindow.setMaximumSize(QtCore.QSize(375, 368))
-        AuthWindow.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         font = QtGui.QFont()
         font.setFamily("Roboto")
         AuthWindow.setFont(font)

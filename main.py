@@ -165,6 +165,14 @@ def new_win():
         n_ui.group_table.selectRow(index)
         nonlocal row_choose
         row_choose = index
+        if column_choose == -1:
+            for i in range(n_ui.group_table.horizontalHeader().count()):
+                n_ui.group_table.setItem(
+                    row_choose, i, QTableWidgetItem(""))
+                item = n_ui.group_table.item(row_choose, i)
+                item.setSelected(True)
+                n_ui.activate_button.update()
+                QApplication.processEvents()
 
     def dateChoose(date):
         number = n_ui.group_table.horizontalHeader().count()
@@ -178,6 +186,14 @@ def new_win():
         n_ui.group_table.selectColumn(index)
         nonlocal column_choose
         column_choose = index
+        if row_choose == -1:
+            for i in range(n_ui.group_table.verticalHeader().count()):
+                n_ui.group_table.setItem(
+                    i, column_choose, QTableWidgetItem(""))
+                item = n_ui.group_table.item(i, column_choose)
+                item.setSelected(True)
+                n_ui.activate_button.update()
+                QApplication.processEvents()
 
     def buttonColor(f):
         if f == 1:
@@ -287,9 +303,21 @@ def new_win():
     def horizontalColumnActivated():
         nonlocal column_choose
         column_choose = n_ui.group_table.currentColumn()
-
+        n_ui.group_table.selectColumn(column_choose)
+        if row_choose != -1 and column_choose != -1:
+            n_ui.group_table.setItem(
+                row_choose, column_choose, QTableWidgetItem(" "))
+            select_cell(row_choose, column_choose)
     def verticalColumnActivated():
         nonlocal row_choose
+        row_choose = n_ui.group_table.currentRow()
+        if row_choose != -1 and column_choose != -1:
+            n_ui.group_table.setItem(
+                row_choose, column_choose, QTableWidgetItem(" "))
+            select_cell(row_choose, column_choose)
+    def cell():
+        nonlocal column_choose, row_choose
+        column_choose = n_ui.group_table.currentColumn()
         row_choose = n_ui.group_table.currentRow()
 
     def cellActivated():
@@ -320,6 +348,7 @@ def new_win():
             n_ui.faculty_list.clearSelection()
 
         n_ui.faculty_list.clearSelection()
+        n_ui.group_table.cellClicked.connect(cell)
         n_ui.group_table.horizontalHeader().sectionClicked.connect(horizontalColumnActivated)
         n_ui.group_table.verticalHeader().sectionClicked.connect(verticalColumnActivated)
         n_ui.group_table.cellClicked.connect(cellActivated)
