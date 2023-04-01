@@ -7,6 +7,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtGui import QFontDatabase
 
 
 class Ui_table_window(object):
@@ -14,6 +15,8 @@ class Ui_table_window(object):
         table_window.setObjectName("table_window")
         table_window.resize(1933, 1032)
         font = QtGui.QFont()
+        QFontDatabase.addApplicationFont("gotham_black.otf")
+        QFontDatabase.addApplicationFont("gotham_medium.otf")
         font.setFamily("Gotham Black")
         font.setBold(True)
         font.setWeight(75)
@@ -221,6 +224,7 @@ class Ui_table_window(object):
         self.group_table.setAlternatingRowColors(True)
         self.group_table.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
         self.group_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectItems)
+        self.group_table.setTextElideMode(QtCore.Qt.TextElideMode.ElideNone)
         self.group_table.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollMode.ScrollPerItem)
         self.group_table.setShowGrid(True)
         self.group_table.setGridStyle(QtCore.Qt.PenStyle.SolidLine)
@@ -229,8 +233,6 @@ class Ui_table_window(object):
         self.group_table.setObjectName("group_table")
         self.group_table.setColumnCount(16)
         self.group_table.setRowCount(0)
-        self.group_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
-        self.group_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         font = QtGui.QFont()
@@ -272,8 +274,6 @@ class Ui_table_window(object):
         self.group_table.setHorizontalHeaderItem(14, item)
         item = QtWidgets.QTableWidgetItem()
         self.group_table.setHorizontalHeaderItem(15, item)
-        self.group_table.horizontalHeader().setMinimumSectionSize(100)
-        self.group_table.verticalHeader().setMinimumSectionSize(30)
         self.table_label = QtWidgets.QLabel(parent=self.centralwidget)
         self.table_label.setGeometry(QtCore.QRect(1090, 70, 361, 32))
         font = QtGui.QFont()

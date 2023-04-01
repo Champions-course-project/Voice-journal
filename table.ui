@@ -394,6 +394,9 @@ gridline-color: rgb(17, 17, 17);</string>
     <property name="selectionBehavior">
      <enum>QAbstractItemView::SelectItems</enum>
     </property>
+    <property name="textElideMode">
+     <enum>Qt::ElideNone</enum>
+    </property>
     <property name="verticalScrollMode">
      <enum>QAbstractItemView::ScrollPerItem</enum>
     </property>
