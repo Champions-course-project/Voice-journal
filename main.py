@@ -43,6 +43,7 @@ def new_win():
         n_ui.activate_button.update()
         QApplication.processEvents()
         words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
+        print(words_list)
         try:
             # вызов функций по распознаванию команды
             nonlocal row_choose, column_choose
@@ -55,21 +56,17 @@ def new_win():
                             row_choose, column_choose, QTableWidgetItem(" "))
                         select_cell(row_choose, column_choose)
                 else:
-                    current = n_ui.group_list.currentItem().text()
-                    current = current.split('. ')[1]
+                    number = Functions.convert_number.convert_string(
+                        words_list[0])
+                    if number != -1:
+                        word = n_ui.group_table.verticalHeaderItem(
+                            number - 1).text()
+                        words_list[0] = word.split(". ")[1]
+                    current = n_ui.group_list.currentItem().text().split(". ")[
+                        1]
                     student_list = s_var[current]
                     student_selected = Functions.get_student_name(
                         student_list, words_list)
-                    if type(student_selected) == bool and len(words_list) > 0:
-                        try:
-                            words_list[0] = Functions.convert_number.convert_string(words_list[0])
-                            words_list[0] = n_ui.group_table.verticalHeaderItem(words_list[0] - 1).text()
-                            sp = words_list[0].split(". ")
-                            words_list[0] = sp[1]
-                            student_selected = Functions.get_student_name(
-                                student_list, words_list)
-                        except AttributeError:
-                            pass
                     if type(student_selected) != bool:
                         studentChoose(student_selected)
                         n_ui.group_table.update()
@@ -79,7 +76,9 @@ def new_win():
                                 row_choose, column_choose, QTableWidgetItem(" "))
                             select_cell(row_choose, column_choose)
                     elif row_choose > -1 and column_choose > -1:
+                        print(words_list)
                         mark_choose = Functions.get_status(words_list)
+                        print(mark_choose)
                         if type(mark_choose) != bool:
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
@@ -358,8 +357,10 @@ def new_win():
         tableWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
         n_ui.group_table.horizontalHeaderItem(
             0).setFont(QFont("Gotham Lite", 12))
-        n_ui.group_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
-        n_ui.group_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
+        n_ui.group_table.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.Fixed)
+        n_ui.group_table.verticalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.Fixed)
         n_ui.group_table.setStyleSheet(
             n_ui.group_table.styleSheet() + "font: 12pt \"Gotham Lite\";\n")
         n_ui.error_label.hide()
@@ -406,12 +407,10 @@ if __name__ == "__main__":
     dragPos = 0
     mouse_original_pos = 0
 
-
     def mousePress(event):
         global dragPos, mouse_original_pos
         dragPos = AuthWindow.pos()
         mouse_original_pos = AuthWindow.mapToGlobal(event.pos())
-
 
     def moveWindow(event):
         if AuthWindow.isMaximized():
@@ -419,9 +418,8 @@ if __name__ == "__main__":
         else:
             if event.buttons() == Qt.MouseButton.LeftButton:
                 AuthWindow_last_pos = dragPos + \
-                                      AuthWindow.mapToGlobal(event.pos()) - mouse_original_pos
+                    AuthWindow.mapToGlobal(event.pos()) - mouse_original_pos
                 AuthWindow.move(AuthWindow_last_pos)
-
 
     ui.title_bar.mouseMoveEvent = moveWindow
     ui.title_bar.mousePressEvent = mousePress
