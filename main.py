@@ -358,6 +358,8 @@ def new_win():
         tableWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
         n_ui.group_table.horizontalHeaderItem(
             0).setFont(QFont("Gotham Lite", 12))
+        n_ui.group_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
+        n_ui.group_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
         n_ui.group_table.setStyleSheet(
             n_ui.group_table.styleSheet() + "font: 12pt \"Gotham Lite\";\n")
         n_ui.error_label.hide()
@@ -394,6 +396,7 @@ if __name__ == "__main__":
     app.setStyle('Fusion')
     ui.setupUi(AuthWindow)
     ui.error_label.hide()
+    AuthWindow.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
     ui.hide_button_2.clicked.connect(AuthWindow.showMinimized)
     ui.close_button_2.clicked.connect(AuthWindow.close)
     AuthWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
