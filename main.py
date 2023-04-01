@@ -55,30 +55,34 @@ def new_win():
                             row_choose, column_choose, QTableWidgetItem(" "))
                         select_cell(row_choose, column_choose)
                 else:
-                    number = Functions.convert_number.convert_string(
-                        words_list[0])
-                    if number != -1:
-                        word = n_ui.group_table.verticalHeaderItem(
-                            number - 1).text()
-                        words_list[0] = word.split(". ")[1]
-                    current = n_ui.group_list.currentItem().text().split(". ")[
-                        1]
-                    student_list = s_var[current]
-                    student_selected = Functions.get_student_name(
-                        student_list, words_list)
-                    if type(student_selected) != bool:
-                        studentChoose(student_selected)
-                        n_ui.group_table.update()
-                        QApplication.processEvents()
-                        if row_choose != -1 and column_choose != -1:
-                            n_ui.group_table.setItem(
-                                row_choose, column_choose, QTableWidgetItem(" "))
-                            select_cell(row_choose, column_choose)
-                    elif row_choose > -1 and column_choose > -1:
-                        mark_choose = Functions.get_status(words_list)
-                        if type(mark_choose) != bool:
-                            n_ui.group_table.setItem(
-                                row_choose, column_choose, QTableWidgetItem(mark_choose))
+                    try:
+                        assert words_list
+                        number = Functions.convert_number.convert_string(
+                            words_list[0])
+                        if number != -1:
+                            word = n_ui.group_table.verticalHeaderItem(
+                                number - 1).text()
+                            words_list[0] = word.split(". ")[1]
+                        current = n_ui.group_list.currentItem().text().split(". ")[
+                            1]
+                        student_list = s_var[current]
+                        student_selected = Functions.get_student_name(
+                            student_list, words_list)
+                        if type(student_selected) != bool:
+                            studentChoose(student_selected)
+                            n_ui.group_table.update()
+                            QApplication.processEvents()
+                            if row_choose != -1 and column_choose != -1:
+                                n_ui.group_table.setItem(
+                                    row_choose, column_choose, QTableWidgetItem(" "))
+                                select_cell(row_choose, column_choose)
+                        elif row_choose > -1 and column_choose > -1:
+                            mark_choose = Functions.get_status(words_list)
+                            if type(mark_choose) != bool:
+                                n_ui.group_table.setItem(
+                                    row_choose, column_choose, QTableWidgetItem(mark_choose))
+                    except (AssertionError, AttributeError):
+                        n_ui.error_label.show()
 
             elif year_cond and group_cond:
                 course_choose = (str(n_ui.year_list.currentRow() + 1))
