@@ -43,7 +43,6 @@ def new_win():
         n_ui.activate_button.update()
         QApplication.processEvents()
         words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
-        print(words_list)
         try:
             # вызов функций по распознаванию команды
             nonlocal row_choose, column_choose
@@ -76,9 +75,7 @@ def new_win():
                                 row_choose, column_choose, QTableWidgetItem(" "))
                             select_cell(row_choose, column_choose)
                     elif row_choose > -1 and column_choose > -1:
-                        print(words_list)
                         mark_choose = Functions.get_status(words_list)
-                        print(mark_choose)
                         if type(mark_choose) != bool:
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
