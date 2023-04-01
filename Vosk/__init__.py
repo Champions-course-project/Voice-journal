@@ -1,1 +1,1 @@
-from .vosk_functions import *
+from .Vosk_speech import *
