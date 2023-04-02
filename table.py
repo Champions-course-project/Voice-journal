@@ -7,7 +7,6 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtGui import QFontDatabase
 
 
 class Ui_table_window(object):
@@ -15,8 +14,6 @@ class Ui_table_window(object):
         table_window.setObjectName("table_window")
         table_window.resize(1933, 1032)
         font = QtGui.QFont()
-        QFontDatabase.addApplicationFont("gotham_black.otf")
-        QFontDatabase.addApplicationFont("gotham_medium.otf")
         font.setFamily("Gotham Black")
         font.setBold(True)
         font.setWeight(75)
@@ -321,6 +318,7 @@ class Ui_table_window(object):
         self.title_bar.setObjectName("title_bar")
         self.close_button = QtWidgets.QPushButton(parent=self.title_bar)
         self.close_button.setGeometry(QtCore.QRect(1890, 0, 41, 31))
+        self.close_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.close_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(255, 0, 0);\n"
 "}\n"
@@ -337,6 +335,7 @@ class Ui_table_window(object):
         self.close_button.setObjectName("close_button")
         self.hide_button = QtWidgets.QPushButton(parent=self.title_bar)
         self.hide_button.setGeometry(QtCore.QRect(1840, 0, 41, 31))
+        self.hide_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.hide_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(121, 121, 121);\n"
 "}\n"
@@ -382,6 +381,7 @@ class Ui_table_window(object):
         self.activate_button.setFont(font)
         self.activate_button.setMouseTracking(True)
         self.activate_button.setTabletTracking(True)
+        self.activate_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.activate_button.setAutoFillBackground(False)
         self.activate_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(194, 194, 194);\n"
@@ -398,8 +398,10 @@ class Ui_table_window(object):
         icon3.addPixmap(QtGui.QPixmap(":/in programm/icons/Mic.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.activate_button.setIcon(icon3)
         self.activate_button.setIconSize(QtCore.QSize(35, 35))
-        self.activate_button.setAutoDefault(True)
-        self.activate_button.setDefault(True)
+        self.activate_button.setShortcut("")
+        self.activate_button.setCheckable(False)
+        self.activate_button.setAutoDefault(False)
+        self.activate_button.setDefault(False)
         self.activate_button.setObjectName("activate_button")
         self.horizontalLayout.addWidget(self.activate_button)
         spacerItem = QtWidgets.QSpacerItem(58, 17, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -414,6 +416,7 @@ class Ui_table_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.exit_button.setFont(font)
+        self.exit_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.exit_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(194, 194, 194);\n"
 "}\n"
@@ -481,7 +484,7 @@ class Ui_table_window(object):
 "\"Выбрать курс\" \n"
 "\"Выбрать группу\"\n"
 "\"Сохранить\"\n"
-"\"Отменить\""))
+"\"Отменить"))
         self.activate_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Space</span></p></body></html>"))
         self.activate_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Space</p></body></html>"))
         self.activate_button.setText(_translate("table_window", "Голосовой ввод"))

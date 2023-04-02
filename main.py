@@ -36,12 +36,8 @@ def new_win():
     def activate_voice():
         nonlocal faculty_name, course_choose, table_cond, group_cond
         buttonColor(2)
-        n_ui.activate_button.update()
-        QApplication.processEvents()
         bytes_array = recorder.Recorder.record_data()
         buttonColor(1)
-        n_ui.activate_button.update()
-        QApplication.processEvents()
         words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
         try:
             # вызов функций по распознаванию команды
@@ -116,6 +112,7 @@ def new_win():
             # print("Пустой список, или какая-то проблема при распознавании!")
             pass
         finally:
+            n_ui.activate_button.setEnabled(True)
             buttonColor(3)
             n_ui.activate_button.update()
             QApplication.processEvents()
@@ -127,6 +124,8 @@ def new_win():
             n_ui.activate_button.setStyleSheet("background-color: rgb(255, 255, 0);\n"
                                                "border-radius: 10px;\n"
                                                "")
+            n_ui.activate_button.update()
+            QApplication.processEvents()
         if f == 2:
             n_ui.activate_button.setText("Идёт запись...")
             n_ui.activate_button.setStyleSheet(
@@ -134,9 +133,12 @@ def new_win():
                 "border-radius: 10px;\n"
                 "")
             n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
+            n_ui.activate_button.update()
+            QApplication.processEvents()
         if f == 3:
             n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
             n_ui.activate_button.setText("Голосовой ввод")
+            n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
             n_ui.activate_button.setStyleSheet("QPushButton::hover{\n"
                                                "background-color: rgb(194, 194, 194);\n"
                                                "}\n"
@@ -148,6 +150,8 @@ def new_win():
                                                "}\n"
                                                "\n"
                                                "")
+            n_ui.activate_button.update()
+            QApplication.processEvents()
 
     def addYearItems():
         try:
@@ -386,6 +390,7 @@ def new_win():
         n_ui.hide_button.clicked.connect(tableWindow.showMinimized)
         n_ui.close_button.clicked.connect(tableWindow.close)
         n_ui.exit_button.setShortcut(QKeySequence("Ctrl+Q"))
+        n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
     else:

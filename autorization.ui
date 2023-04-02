@@ -60,6 +60,9 @@
      <bold>true</bold>
     </font>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton::hover{
 background-color: rgb(194, 194, 194);
@@ -93,6 +96,9 @@ background-color: rgb(255, 255, 255);
      <weight>75</weight>
      <bold>true</bold>
     </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton::hover{
@@ -328,7 +334,7 @@ border-top-right-radius: 10px;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="icons.qrc">
+     <iconset>
       <normaloff>:/window/icons/close_icon.png</normaloff>:/window/icons/close_icon.png</iconset>
     </property>
     <property name="iconSize">
@@ -355,7 +361,7 @@ border-top-right-radius: 10px;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="icons.qrc">
+     <iconset>
       <normaloff>:/window/icons/hide_icon.png</normaloff>:/window/icons/hide_icon.png</iconset>
     </property>
     <property name="iconSize">
@@ -374,6 +380,9 @@ border-top-right-radius: 10px;</string>
       <height>31</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QPushButton::hover{
 background-color: rgb(255, 0, 0);
@@ -388,7 +397,7 @@ border-radius: 3px;
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="icons.qrc">
+     <iconset>
       <normaloff>:/window/icons/close_icon.png</normaloff>:/window/icons/close_icon.png</iconset>
     </property>
     <property name="iconSize">
@@ -407,6 +416,9 @@ border-radius: 3px;
       <height>31</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QPushButton::hover{
 background-color: rgb(121, 121, 121);
@@ -422,7 +434,7 @@ border-radius: 3px;
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="icons.qrc">
+     <iconset>
       <normaloff>:/window/icons/hide_icon.png</normaloff>:/window/icons/hide_icon.png</iconset>
     </property>
     <property name="iconSize">
@@ -461,7 +473,7 @@ border-bottom-right-radius: 10px;
   <zorder>authorization_label</zorder>
  </widget>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

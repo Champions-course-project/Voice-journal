@@ -635,6 +635,9 @@ border-top-right-radius: 10px;</string>
        <height>31</height>
       </rect>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="styleSheet">
       <string notr="true">QPushButton::hover{
 background-color: rgb(255, 0, 0);
@@ -649,7 +652,7 @@ border-radius: 3px;
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="icons.qrc">
+      <iconset>
        <normaloff>:/window/icons/close_icon.png</normaloff>:/window/icons/close_icon.png</iconset>
      </property>
      <property name="iconSize">
@@ -668,6 +671,9 @@ border-radius: 3px;
        <height>31</height>
       </rect>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="styleSheet">
       <string notr="true">QPushButton::hover{
 background-color: rgb(121, 121, 121);
@@ -683,7 +689,7 @@ border-radius: 3px;
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="icons.qrc">
+      <iconset>
        <normaloff>:/window/icons/hide_icon.png</normaloff>:/window/icons/hide_icon.png</iconset>
      </property>
      <property name="iconSize">
@@ -768,6 +774,9 @@ border-radius: 3px;
        <property name="tabletTracking">
         <bool>true</bool>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Hotkey - Ctrl + Space&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -794,7 +803,7 @@ background-color: rgb(255, 255, 255);
         <string>Голосовой ввод</string>
        </property>
        <property name="icon">
-        <iconset resource="icons.qrc">
+        <iconset>
          <normaloff>:/in programm/icons/Mic.ico</normaloff>:/in programm/icons/Mic.ico</iconset>
        </property>
        <property name="iconSize">
@@ -802,6 +811,12 @@ background-color: rgb(255, 255, 255);
          <width>35</width>
          <height>35</height>
         </size>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+Space</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
        </property>
        <property name="autoDefault">
         <bool>true</bool>
@@ -849,6 +864,9 @@ background-color: rgb(255, 255, 255);
          <pointsize>16</pointsize>
         </font>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Hotkey - Ctrl + Q&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -894,7 +912,7 @@ background-color: rgb(255, 255, 255);
   </widget>
  </widget>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>
