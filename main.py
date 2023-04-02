@@ -231,6 +231,8 @@ def new_win():
             for i in range(len(s_var[current])):
                 n_ui.group_table.verticalHeaderItem(i).setText(
                     str(i + 1) + ". " + n_ui.group_table.verticalHeaderItem(i).text())
+            if n_ui.group_table.rowCount() == 1:
+                studentChoose(n_ui.group_table.verticalHeaderItem(i).text().split(". ")[1])
             table_cond = True
             nonlocal column_choose
             column_choose = -1
