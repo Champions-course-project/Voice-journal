@@ -241,7 +241,7 @@ def new_win():
             nonlocal row_choose
             row_choose = -1
             if n_ui.group_table.rowCount() == 1:
-                studentChoose(n_ui.group_table.verticalHeaderItem(i).text().split(". ")[1])
+                studentChoose(n_ui.group_table.verticalHeaderItem(0).text().split(". ")[1])
                 row_choose = 0
 
         except KeyError:
