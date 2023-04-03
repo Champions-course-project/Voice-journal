@@ -32,6 +32,7 @@ class Ui_AuthWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.auth_button.setFont(font)
+        self.auth_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.auth_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(194, 194, 194);\n"
 "}\n"
@@ -52,6 +53,7 @@ class Ui_AuthWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.exit_button.setFont(font)
+        self.exit_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.exit_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(194, 194, 194);\n"
 "}\n"
@@ -190,6 +192,7 @@ class Ui_AuthWindow(object):
         self.hide_button.setObjectName("hide_button")
         self.close_button_2 = QtWidgets.QPushButton(parent=self.title_bar)
         self.close_button_2.setGeometry(QtCore.QRect(340, 0, 31, 31))
+        self.close_button_2.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.close_button_2.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(255, 0, 0);\n"
 "}\n"
@@ -204,6 +207,7 @@ class Ui_AuthWindow(object):
         self.close_button_2.setObjectName("close_button_2")
         self.hide_button_2 = QtWidgets.QPushButton(parent=self.title_bar)
         self.hide_button_2.setGeometry(QtCore.QRect(290, 0, 41, 31))
+        self.hide_button_2.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.hide_button_2.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(121, 121, 121);\n"
 "}\n"
