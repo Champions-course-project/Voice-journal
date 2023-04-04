@@ -34,15 +34,38 @@ def new_win():
         s_var = json.load(student_file)
 
     def activate_voice():
-        nonlocal faculty_name, course_choose, table_cond, group_cond
+        nonlocal faculty_name, course_choose, table_cond, group_cond,year_cond
         buttonColor(2)
         bytes_array = recorder.Recorder.record_data()
         buttonColor(1)
         words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
+        command = Functions.choose_command(words_list)
         try:
             # вызов функций по распознаванию команды
             nonlocal row_choose, column_choose
-            if table_cond:
+            if command == 1:
+                n_ui.group_table.setRowCount(0)
+                n_ui.group_list.clear()
+                n_ui.year_list.clear()
+                n_ui.faculty_list.clearSelection()
+                table_cond = False
+                group_cond = False
+                year_cond = False
+            elif command == 2 and year_cond:
+                n_ui.year_list.clearSelection()
+                n_ui.group_table.setRowCount(0)
+                n_ui.group_list.clear()
+                table_cond = False
+                group_cond = False
+            elif command == 3 and group_cond:
+                n_ui.group_table.setRowCount(0)
+                n_ui.group_list.clearSelection()
+                table_cond = False
+            elif command == 4:
+                pass
+            elif command == 5:
+                pass
+            elif table_cond:
                 date_choose = Functions.get_date(words_list)
                 if type(date_choose) != bool:
                     dateChoose(date_choose)
