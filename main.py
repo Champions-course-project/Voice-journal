@@ -21,6 +21,7 @@ def new_win():
     year_cond = False
     group_cond = False
     table_cond = False
+    buttonActive = False
     column_choose = -1
     row_choose = -1
     faculty_name = ""
@@ -34,111 +35,119 @@ def new_win():
         s_var = json.load(student_file)
 
     def activate_voice():
-        nonlocal faculty_name, course_choose, table_cond, group_cond,year_cond
-        buttonColor(2)
-        bytes_array = recorder.Recorder.record_data()
-        buttonColor(1)
-        words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
-        command = Functions.choose_command(words_list)
         try:
-            # вызов функций по распознаванию команды
-            nonlocal row_choose, column_choose
-            if command == 1:
-                n_ui.group_table.setRowCount(0)
-                n_ui.group_list.clear()
-                n_ui.year_list.clear()
-                n_ui.faculty_list.clearSelection()
-                table_cond = False
-                group_cond = False
-                year_cond = False
-            elif command == 2 and year_cond:
-                n_ui.year_list.clearSelection()
-                n_ui.group_table.setRowCount(0)
-                n_ui.group_list.clear()
-                table_cond = False
-                group_cond = False
-            elif command == 3 and group_cond:
-                n_ui.group_table.setRowCount(0)
-                n_ui.group_list.clearSelection()
-                table_cond = False
-            elif command == 4:
-                pass
-            elif command == 5:
-                pass
-            elif table_cond:
-                date_choose = Functions.get_date(words_list)
-                if type(date_choose) != bool:
-                    dateChoose(date_choose)
-                    if row_choose != -1 and column_choose != -1:
-                        n_ui.group_table.setItem(
-                            row_choose, column_choose, QTableWidgetItem(" "))
-                        select_cell(row_choose, column_choose)
-                else:
-                    try:
-                        assert words_list
-                        number = Functions.convert_number.convert_string(
-                            words_list[0])
-                        if number != -1:
-                            word = n_ui.group_table.verticalHeaderItem(
-                                number - 1).text()
-                            words_list[0] = word.split(". ")[1]
-                        current = n_ui.group_list.currentItem().text().split(". ")[
-                            1]
-                        student_list = s_var[current]
-                        student_selected = Functions.get_student_name(
-                            student_list, words_list)
-                        if type(student_selected) != bool:
-                            studentChoose(student_selected)
-                            n_ui.group_table.update()
-                            QApplication.processEvents()
-                            if row_choose != -1 and column_choose != -1:
-                                n_ui.group_table.setItem(
-                                    row_choose, column_choose, QTableWidgetItem(" "))
-                                select_cell(row_choose, column_choose)
-                        elif row_choose > -1 and column_choose > -1:
-                            mark_choose = Functions.get_status(words_list)
-                            if type(mark_choose) != bool:
-                                n_ui.group_table.setItem(
-                                    row_choose, column_choose, QTableWidgetItem(mark_choose))
-                    except (AssertionError, AttributeError):
-                        n_ui.error_label.show()
+            nonlocal faculty_name, course_choose, table_cond, group_cond, year_cond, buttonActive
+            assert not buttonActive
+            buttonActive = True
+            buttonColor(2)
+            bytes_array = recorder.Recorder.record_data()
+            buttonColor(1)
+            words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
+            command = Functions.choose_command(words_list)
+            print(words_list)
+            try:
+                # вызов функций по распознаванию команды
+                nonlocal row_choose, column_choose
+                if command == 1:
+                    n_ui.group_table.setRowCount(0)
+                    n_ui.group_list.clear()
+                    n_ui.year_list.clear()
+                    n_ui.faculty_list.clearSelection()
+                    table_cond = False
+                    group_cond = False
+                    year_cond = False
+                elif command == 2 and year_cond:
+                    n_ui.year_list.clearSelection()
+                    n_ui.group_table.setRowCount(0)
+                    n_ui.group_list.clear()
+                    table_cond = False
+                    group_cond = False
+                elif command == 3 and group_cond:
+                    n_ui.group_table.setRowCount(0)
+                    n_ui.group_list.clearSelection()
+                    table_cond = False
+                elif command == 4:
+                    pass
+                elif command == 5:
+                    pass
+                elif table_cond:
+                    date_choose = Functions.get_date(words_list)
+                    if type(date_choose) != bool:
+                        dateChoose(date_choose)
+                        if row_choose != -1 and column_choose != -1:
+                            n_ui.group_table.setItem(
+                                row_choose, column_choose, QTableWidgetItem(" "))
+                            select_cell(row_choose, column_choose)
+                    else:
+                        try:
+                            assert words_list
+                            number = Functions.convert_number.convert_string(
+                                words_list[0])
+                            if number != -1:
+                                word = n_ui.group_table.verticalHeaderItem(
+                                    number - 1).text()
+                                words_list[0] = word.split(". ")[1]
+                            current = n_ui.group_list.currentItem().text().split(". ")[
+                                1]
+                            student_list = s_var[current]
+                            student_selected = Functions.get_student_name(
+                                student_list, words_list)
+                            if type(student_selected) != bool:
+                                studentChoose(student_selected)
+                                n_ui.group_table.update()
+                                QApplication.processEvents()
+                                if row_choose != -1 and column_choose != -1:
+                                    n_ui.group_table.setItem(
+                                        row_choose, column_choose, QTableWidgetItem(" "))
+                                    select_cell(row_choose, column_choose)
+                            elif row_choose > -1 and column_choose > -1:
+                                mark_choose = Functions.get_status(words_list)
+                                if type(mark_choose) != bool:
+                                    n_ui.group_table.setItem(
+                                        row_choose, column_choose, QTableWidgetItem(mark_choose))
+                        except (AssertionError, AttributeError):
+                            n_ui.error_label.show()
 
-            elif year_cond and group_cond:
-                course_choose = (str(n_ui.year_list.currentRow() + 1))
-                faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
-                    1]
-                group_choose = Functions.get_group(
-                    faculty_name, str(course_choose), words_list)
-                if type(group_choose) != bool and group_choose + 1:
-                    n_ui.group_list.setCurrentRow(group_choose - 1)
-                    addStudents()
+                elif year_cond and group_cond:
+                    course_choose = (str(n_ui.year_list.currentRow() + 1))
+                    faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                        1]
+                    group_choose = Functions.get_group(
+                        faculty_name, str(course_choose), words_list)
+                    if type(group_choose) != bool and group_choose + 1:
+                        n_ui.group_list.setCurrentRow(group_choose - 1)
+                        addStudents()
+                    else:
+                        n_ui.error_label.show()
+                elif year_cond:
+                    faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                        1]
+                    course_choose = Functions.get_course(
+                        faculty_name, words_list)
+                    if type(course_choose) != bool and course_choose + 1:
+                        n_ui.year_list.setCurrentRow(course_choose - 1)
+                        addGroupItems()
+                    else:
+                        n_ui.error_label.show()
                 else:
-                    n_ui.error_label.show()
-            elif year_cond:
-                faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
-                    1]
-                course_choose = Functions.get_course(faculty_name, words_list)
-                if type(course_choose) != bool and course_choose + 1:
-                    n_ui.year_list.setCurrentRow(course_choose - 1)
-                    addGroupItems()
-                else:
-                    n_ui.error_label.show()
-            else:
-                faculty_choose, faculty_name = Functions.get_faculty(
-                    words_list)
-                if type(faculty_choose) != bool and faculty_choose:
-                    n_ui.faculty_list.setCurrentRow(faculty_choose - 1)
-                    addYearItems()
-                else:
-                    n_ui.error_label.show()
+                    faculty_choose, faculty_name = Functions.get_faculty(
+                        words_list)
+                    if type(faculty_choose) != bool and faculty_choose:
+                        n_ui.faculty_list.setCurrentRow(faculty_choose - 1)
+                        addYearItems()
+                    else:
+                        n_ui.error_label.show()
+            except AssertionError:
+                # print("Пустой список, или какая-то проблема при распознавании!")
+                pass
+            finally:
+                n_ui.activate_button.setEnabled(True)
+                buttonColor(3)
+                n_ui.activate_button.update()
+                QApplication.processEvents()
+                buttonActive = False
         except AssertionError:
-            # print("Пустой список, или какая-то проблема при распознавании!")
             pass
-        finally:
-            n_ui.activate_button.setEnabled(True)
-            buttonColor(3)
-            n_ui.activate_button.update()
-            QApplication.processEvents()
 
     def buttonColor(f):
         if f == 1:
@@ -258,13 +267,17 @@ def new_win():
             for i in range(len(s_var[current])):
                 n_ui.group_table.verticalHeaderItem(i).setText(
                     str(i + 1) + ". " + n_ui.group_table.verticalHeaderItem(i).text())
+            if n_ui.group_table.rowCount() == 1:
+                studentChoose(n_ui.group_table.verticalHeaderItem(
+                    i).text().split(". ")[1])
             table_cond = True
             nonlocal column_choose
             column_choose = -1
             nonlocal row_choose
             row_choose = -1
             if n_ui.group_table.rowCount() == 1:
-                studentChoose(n_ui.group_table.verticalHeaderItem(0).text().split(". ")[1])
+                studentChoose(n_ui.group_table.verticalHeaderItem(
+                    0).text().split(". ")[1])
                 row_choose = 0
 
         except KeyError:
