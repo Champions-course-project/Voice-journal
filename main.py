@@ -211,6 +211,25 @@ def new_win():
     def addGroupItems():
         try:
             n_ui.group_list.clear()
+            n_ui.year_list.setStyleSheet("QListWidget{\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(83, 83, 83);\n"
+                                         "selection-color: rgb(255, 255, 255);\n"
+                                         "selection-background-color: rgb(30, 185, 85);\n"
+                                         "border-radius: 10px;\n"
+                                         "}\n"
+                                         "QListWidget::item::hover{\n"
+                                         "background-color: rgb(75, 75,75);\n"
+                                         "border-radius: 10px;\n"
+                                         "}\n"
+                                         "QListWidget::item::selected::hover{\n"
+                                         "background-color: rgb(30, 185, 85);\n"
+                                         "border-radius: 10px;\n"
+                                         "}\n"
+                                         "QListWidget::item::selected{\n"
+                                         "background-color: rgb(30, 185, 85);\n"
+                                         "border-radius: 10px;\n"
+                                         "}")
             n_ui.help_label.setText(
                 "Примечание: для выбора группы с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
                 "ввод\" и назвать номер номер группы, указанный в списке.")
@@ -226,6 +245,34 @@ def new_win():
             table_cond = False
             nonlocal group_cond
             group_cond = True
+            if i == 0:
+                n_ui.help_label.setText(
+                    "Примечание: на данном курсе нет групп, выберете другую!")
+                n_ui.help_label.update()
+                QApplication.processEvents()
+                n_ui.year_list.setStyleSheet("QListWidget{\n"
+                                             "color: rgb(255, 255, 255);\n"
+                                             "background-color: rgb(83, 83, 83);\n"
+                                             "selection-color: rgb(255, 255, 255);\n"
+                                             "selection-background-color: rgb(30, 185, 85);\n"
+                                             "border-radius: 10px;\n"
+                                             "}\n"
+                                             "QListWidget::item::hover{\n"
+                                             "background-color: rgb(75, 75,75);\n"
+                                             "border-radius: 10px;\n"
+                                             "}\n"
+                                             "QListWidget::item::selected::hover{\n"
+                                             "background-color: rgb(255, 0, 0);\n"
+                                             "border-radius: 10px;\n"
+                                             "}\n"
+                                             "QListWidget::item::selected{\n"
+                                             "background-color: rgb(255, 0, 0);\n"
+                                             "color: rgb(255, 255, 255);\n"
+                                             "selection-color: rgb(255, 255, 255);\n"
+                                             "selection-background-color: rgb(255, 0, 0);\n"
+                                             "border-radius: 10px;\n"
+                                             "}")
+                group_cond = False
         except Exception as exc:
             print(type(exc).__name__)
             print(exc.args)
@@ -267,17 +314,13 @@ def new_win():
             for i in range(len(s_var[current])):
                 n_ui.group_table.verticalHeaderItem(i).setText(
                     str(i + 1) + ". " + n_ui.group_table.verticalHeaderItem(i).text())
-            if n_ui.group_table.rowCount() == 1:
-                studentChoose(n_ui.group_table.verticalHeaderItem(
-                    i).text().split(". ")[1])
             table_cond = True
             nonlocal column_choose
             column_choose = -1
             nonlocal row_choose
             row_choose = -1
             if n_ui.group_table.rowCount() == 1:
-                studentChoose(n_ui.group_table.verticalHeaderItem(
-                    0).text().split(". ")[1])
+                studentChoose(n_ui.group_table.verticalHeaderItem(0).text().split(". ")[1])
                 row_choose = 0
 
         except KeyError:
@@ -453,10 +496,12 @@ if __name__ == "__main__":
     dragPos = 0
     mouse_original_pos = 0
 
+
     def mousePress(event):
         global dragPos, mouse_original_pos
         dragPos = AuthWindow.pos()
         mouse_original_pos = AuthWindow.mapToGlobal(event.pos())
+
 
     def moveWindow(event):
         if AuthWindow.isMaximized():
@@ -464,8 +509,9 @@ if __name__ == "__main__":
         else:
             if event.buttons() == Qt.MouseButton.LeftButton:
                 AuthWindow_last_pos = dragPos + \
-                    AuthWindow.mapToGlobal(event.pos()) - mouse_original_pos
+                                      AuthWindow.mapToGlobal(event.pos()) - mouse_original_pos
                 AuthWindow.move(AuthWindow_last_pos)
+
 
     ui.title_bar.mouseMoveEvent = moveWindow
     ui.title_bar.mousePressEvent = mousePress

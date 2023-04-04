@@ -398,10 +398,9 @@ class Ui_table_window(object):
         icon3.addPixmap(QtGui.QPixmap(":/in programm/icons/Mic.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.activate_button.setIcon(icon3)
         self.activate_button.setIconSize(QtCore.QSize(35, 35))
-        self.activate_button.setShortcut("")
         self.activate_button.setCheckable(False)
-        self.activate_button.setAutoDefault(False)
-        self.activate_button.setDefault(False)
+        self.activate_button.setAutoDefault(True)
+        self.activate_button.setDefault(True)
         self.activate_button.setObjectName("activate_button")
         self.horizontalLayout.addWidget(self.activate_button)
         spacerItem = QtWidgets.QSpacerItem(58, 17, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -484,10 +483,11 @@ class Ui_table_window(object):
 "\"Выбрать курс\" \n"
 "\"Выбрать группу\"\n"
 "\"Сохранить\"\n"
-"\"Отменить"))
+"\"Отменить\""))
         self.activate_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Space</span></p></body></html>"))
         self.activate_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Space</p></body></html>"))
         self.activate_button.setText(_translate("table_window", "Голосовой ввод"))
+        self.activate_button.setShortcut(_translate("table_window", "Ctrl+Space"))
         self.exit_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Q</span></p></body></html>"))
         self.exit_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Q</p></body></html>"))
         self.exit_button.setText(_translate("table_window", "Выход"))
