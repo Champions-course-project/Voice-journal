@@ -2,8 +2,8 @@ from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtCore import Qt
 import Functions
-import Vosk.recorder as recorder
-import Vosk as Recognizer
+import SR.recorder as recorder
+import SR as Recognizer
 from autorization import *
 from table import *
 import login_class
@@ -129,6 +129,16 @@ def new_win():
                     if type(course_choose) != bool and course_choose + 1:
                         n_ui.year_list.setCurrentRow(course_choose - 1)
                         addGroupItems()
+                    elif int(Functions.convert_number.convert_course(words_list[0])) <= 6:
+                        for i in range(n_ui.year_list.count()):
+                            print(str(n_ui.year_list.item(i).text().split(" ")[0]))
+                            print(str(Functions.convert_number.convert_course(
+                                words_list[0])))
+                            if str(n_ui.year_list.item(i).text().split(" ")[0]) == str(Functions.convert_number.convert_course(
+                                words_list[0])):
+                                n_ui.year_list.setCurrentRow(i)
+                                addGroupItems()
+                                group_cond = False
                     else:
                         n_ui.error_label.show()
                 else:

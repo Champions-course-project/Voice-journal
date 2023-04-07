@@ -206,7 +206,8 @@ class Ui_table_window(object):
 "font: 25 12pt \"Gotham Light\";\n"
 "color: rgb(255, 255, 255);\n"
 "selection-background-color: rgb(30, 185, 85);\n"
-"alternate-background-color: rgb(179, 179, 179);\n"
+"alternate-background-color: rgb(130, 130, 130);\n"
+"\n"
 "gridline-color: rgb(17, 17, 17);")
         self.group_table.setInputMethodHints(QtCore.Qt.InputMethodHint.ImhNone)
         self.group_table.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)

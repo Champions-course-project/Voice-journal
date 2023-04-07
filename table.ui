@@ -352,7 +352,8 @@ border-radius: 10px;
 font: 25 12pt &quot;Gotham Light&quot;;
 color: rgb(255, 255, 255);
 selection-background-color: rgb(30, 185, 85);
-alternate-background-color: rgb(179, 179, 179);
+alternate-background-color: rgb(130, 130, 130);
+
 gridline-color: rgb(17, 17, 17);</string>
     </property>
     <property name="inputMethodHints">
