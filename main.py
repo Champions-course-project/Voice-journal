@@ -2,8 +2,8 @@ from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtCore import Qt
 import Functions
-import SR.recorder as recorder
-import SR as Recognizer
+import Vosk.recorder as recorder
+import Vosk as Recognizer
 from autorization import *
 from table import *
 import login_class
@@ -29,6 +29,7 @@ def new_win():
     auth = login_class.LogIn()
     success = True
     # auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
+    # Требуется изменить: использовать функции запросов вместо прямого открытия файла
     with open('data.json', "r", encoding="UTF-8") as data_file:
         var = json.load(data_file)
     with open('students_list.json', "r", encoding="UTF-8") as student_file:
@@ -43,11 +44,12 @@ def new_win():
             bytes_array = recorder.Recorder.record_data()
             buttonColor(1)
             words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
-            command = Functions.speech_functions.choose_command(words_list)
             print(words_list)
             try:
+                assert words_list
                 # вызов функций по распознаванию команды
                 nonlocal row_choose, column_choose
+                command = Functions.speech_functions.choose_command(words_list)
                 if command == 1:
                     n_ui.group_table.setRowCount(0)
                     n_ui.group_list.clear()
@@ -73,7 +75,7 @@ def new_win():
                 elif table_cond:
                     date_choose = Functions.speech_functions.get_date(
                         words_list)
-                    if type(date_choose) != bool:
+                    if date_choose:
                         dateChoose(date_choose)
                         if row_choose != -1 and column_choose != -1:
                             n_ui.group_table.setItem(
@@ -81,7 +83,6 @@ def new_win():
                             select_cell(row_choose, column_choose)
                     else:
                         try:
-                            assert words_list
                             number = Functions.speech_functions.convert_number.convert_string(
                                 words_list[0])
                             if number != -1:
@@ -93,7 +94,7 @@ def new_win():
                             student_list = s_var[current]
                             student_selected = Functions.speech_functions.get_student_name(
                                 student_list, words_list)
-                            if type(student_selected) != bool:
+                            if student_selected:
                                 studentChoose(student_selected)
                                 n_ui.group_table.update()
                                 QApplication.processEvents()
@@ -104,10 +105,10 @@ def new_win():
                             elif row_choose > -1 and column_choose > -1:
                                 mark_choose = Functions.speech_functions.get_status(
                                     words_list)
-                                if type(mark_choose) != bool:
+                                if mark_choose:
                                     n_ui.group_table.setItem(
                                         row_choose, column_choose, QTableWidgetItem(mark_choose))
-                        except (AssertionError, AttributeError):
+                        except (AttributeError):
                             n_ui.error_label.show()
 
                 elif year_cond and group_cond:
@@ -116,7 +117,7 @@ def new_win():
                         1]
                     group_choose = Functions.speech_functions.get_group(
                         faculty_name, str(course_choose), words_list)
-                    if type(group_choose) != bool and group_choose + 1:
+                    if group_choose:
                         n_ui.group_list.setCurrentRow(group_choose - 1)
                         addStudents()
                     else:
@@ -126,21 +127,8 @@ def new_win():
                         1]
                     course_choose = Functions.speech_functions.get_course(
                         faculty_name, words_list)
-                    if type(course_choose) != bool and course_choose + 1:
-                        n_ui.year_list.setCurrentRow(course_choose - 1)
-                        addGroupItems()
-                    elif int(Functions.convert_number.convert_course(words_list[0])) <= 6:
-                        for i in range(n_ui.year_list.count()):
-                            print(str(n_ui.year_list.item(i).text().split(" ")[0]))
-                            print(str(Functions.convert_number.convert_course(
-                                words_list[0])))
-                            if str(n_ui.year_list.item(i).text().split(" ")[0]) == str(Functions.convert_number.convert_course(
-                                words_list[0])):
-                                n_ui.year_list.setCurrentRow(i)
-                                addGroupItems()
-                                group_cond = False
-                    else:
-                        n_ui.error_label.show()
+                    n_ui.year_list.setCurrentRow(course_choose - 1)
+                    addGroupItems()
                 else:
                     faculty_choose, faculty_name = Functions.speech_functions.get_faculty(
                         words_list)
@@ -150,8 +138,7 @@ def new_win():
                     else:
                         n_ui.error_label.show()
             except AssertionError:
-                # print("Пустой список, или какая-то проблема при распознавании!")
-                pass
+                n_ui.error_label.show()
             finally:
                 n_ui.activate_button.setEnabled(True)
                 buttonColor(3)
@@ -288,6 +275,7 @@ def new_win():
         except Exception as exc:
             print(type(exc).__name__)
             print(exc.args)
+            n_ui.error_label.show()
             return False
 
     def addStudents():

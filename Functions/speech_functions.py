@@ -88,7 +88,6 @@ def get_course(faculty: str, words_list: list):
             course = words_list[0]
             if not words_list[0].isdigit():
                 course = convert_number.convert_course(course)
-            assert str(course) + " курс" in courses_list
             course = int(course)
             return course
         else:
