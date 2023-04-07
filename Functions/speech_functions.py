@@ -1,3 +1,8 @@
+"""
+Модуль, осуществляющий распознавание всех существующих команд.
+"""
+
+
 import json
 import os
 from .check_name import check
@@ -37,6 +42,7 @@ def get_faculty(words_list: list):
     - пара "число - название факультета" в случае успеха;
     - пара False - False в противном случае.
     """
+    # Требуется изменение: список факультетов должен быть получен из сети, либо как аргумент
     with open(os.path.join("Functions", "pnu_info", "Факультеты и институты.json"), 'r', encoding='UTF-8') as file:
         faculties_dict = json.load(file)
 
@@ -70,6 +76,7 @@ def get_course(faculty: str, words_list: list):
     - число, соответствующее номеру курса в случае успеха;
     - False в противном случае.
     """
+    # Требуется изменение: список курсов должен быть получен из сети, либо как аргумент
     with open(os.path.join("Functions", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     courses_list = []
@@ -81,7 +88,6 @@ def get_course(faculty: str, words_list: list):
             course = words_list[0]
             if not words_list[0].isdigit():
                 course = convert_number.convert_course(course)
-            assert str(course) + " курс" in courses_list
             course = int(course)
             return course
         else:
@@ -103,6 +109,7 @@ def get_group(faculty: str, course: int, words_list: list):
     - номер группы в списке групп в случае успеха;
     - False в противном случае.
     """
+    # Требуется изменение: список групп должен быть получен из сети, либо как аргумент
     with open(os.path.join("Functions", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
         groups_dict = json.load(file)
     groups_list = groups_dict[faculty].get(str(course) + ' курс')
@@ -152,6 +159,7 @@ def get_date(words_list: list):
             'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
         ]
         # Список дат из журнала
+        # Требуется изменение: список дат должен быть получен из сети, либо как аргумент
         dates_list = []
         with open(os.path.join("Functions", "Dates.txt"), 'r', encoding='UTF-8') as F:
             for date in F:
