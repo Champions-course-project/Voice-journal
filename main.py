@@ -49,13 +49,10 @@ def new_win():
                 nonlocal row_choose, column_choose
                 command = Functions.speech_functions.choose_command(words_list)
                 if command == 1:
-                    n_ui.faculty_list.clearSelection()
                     addFacultyItems()
                 elif command == 2 and year_cond:
-                    n_ui.year_list.clearSelection()
                     addYearItems()
                 elif command == 3 and group_cond:
-                    n_ui.group_list.clearSelection()
                     addGroupItems()
                 elif command == 4:
                     pass
@@ -178,6 +175,7 @@ def new_win():
 
     def addFacultyItems():
         n_ui.faculty_list.clear()
+        n_ui.faculty_list.clearSelection()
         n_ui.group_list.clear()
         n_ui.group_list.clear()
         n_ui.help_label.setText(
@@ -200,6 +198,7 @@ def new_win():
     def addYearItems():
         try:
             n_ui.year_list.clear()
+            n_ui.year_list.clearSelection()
             n_ui.group_list.clear()
             n_ui.help_label.setText(
                 "Примечание: для выбора курса с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
@@ -228,6 +227,7 @@ def new_win():
     def addGroupItems():
         try:
             n_ui.group_list.clear()
+            n_ui.group_list.clearSelection()
             n_ui.year_list.setStyleSheet("QListWidget{\n"
                                          "color: rgb(255, 255, 255);\n"
                                          "background-color: rgb(83, 83, 83);\n"
@@ -482,7 +482,6 @@ def new_win():
 
         addFacultyItems()
 
-        n_ui.faculty_list.clearSelection()
         n_ui.group_table.cellClicked.connect(cellCoord)
         n_ui.group_table.horizontalHeader().sectionClicked.connect(rowActivated)
         n_ui.group_table.verticalHeader().sectionClicked.connect(columnActivated)
