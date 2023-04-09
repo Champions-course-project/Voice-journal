@@ -24,8 +24,6 @@ def new_win():
     buttonActive = False
     column_choose = -1
     row_choose = -1
-    faculty_name = ""
-    course_choose = ""
     auth = login_class.LogIn()
     success = True
     # auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
@@ -37,7 +35,7 @@ def new_win():
 
     def activate_voice():
         try:
-            nonlocal faculty_name, course_choose, table_cond, group_cond, year_cond, buttonActive
+            nonlocal table_cond, group_cond, year_cond, buttonActive
             assert not buttonActive
             buttonActive = True
             buttonColor(2)
@@ -51,27 +49,19 @@ def new_win():
                 nonlocal row_choose, column_choose
                 command = Functions.speech_functions.choose_command(words_list)
                 if command == 1:
-                    n_ui.group_table.setRowCount(0)
-                    n_ui.group_list.clear()
-                    n_ui.year_list.clear()
                     n_ui.faculty_list.clearSelection()
-                    table_cond = False
-                    group_cond = False
-                    year_cond = False
+                    addFacultyItems()
                 elif command == 2 and year_cond:
                     n_ui.year_list.clearSelection()
-                    n_ui.group_table.setRowCount(0)
-                    n_ui.group_list.clear()
-                    table_cond = False
-                    group_cond = False
+                    addYearItems()
                 elif command == 3 and group_cond:
-                    n_ui.group_table.setRowCount(0)
                     n_ui.group_list.clearSelection()
-                    table_cond = False
+                    addGroupItems()
                 elif command == 4:
                     pass
                 elif command == 5:
                     pass
+                # ЕЩЕ НЕ ИЗМЕНЕНО
                 elif table_cond:
                     date_choose = Functions.speech_functions.get_date(
                         words_list)
@@ -112,16 +102,17 @@ def new_win():
                             n_ui.error_label.show()
 
                 elif year_cond and group_cond:
-                    course_choose = (str(n_ui.year_list.currentRow() + 1))
+                    course_choose = n_ui.year_list.currentItem().text()
                     faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
                         1]
                     group_choose = Functions.speech_functions.get_group(
-                        faculty_name, str(course_choose), words_list)
+                        faculty_name, course_choose, words_list)
                     if group_choose:
                         n_ui.group_list.setCurrentRow(group_choose - 1)
                         addStudents()
                     else:
                         n_ui.error_label.show()
+
                 elif year_cond:
                     faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
                         1]
@@ -129,8 +120,9 @@ def new_win():
                         faculty_name, words_list)
                     n_ui.year_list.setCurrentRow(course_choose - 1)
                     addGroupItems()
+
                 else:
-                    faculty_choose, faculty_name = Functions.speech_functions.get_faculty(
+                    faculty_choose = Functions.speech_functions.get_faculty(
                         words_list)
                     if type(faculty_choose) != bool and faculty_choose:
                         n_ui.faculty_list.setCurrentRow(faculty_choose - 1)
@@ -184,9 +176,31 @@ def new_win():
             n_ui.activate_button.update()
             QApplication.processEvents()
 
+    def addFacultyItems():
+        n_ui.faculty_list.clear()
+        n_ui.group_list.clear()
+        n_ui.group_list.clear()
+        n_ui.help_label.setText(
+            "Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
+            "ввод\" и назвать номер факультета, указанный в списке.")
+        n_ui.error_label.hide()
+        n_ui.help_label.update()
+        QApplication.processEvents()
+        n_ui.group_table.setRowCount(0)
+        nonlocal group_cond, year_cond, table_cond
+        group_cond = False
+        year_cond = False
+        table_cond = False
+        faculties_list = Functions.request_functions.get_faculties()
+        for num in range(len(faculties_list)):
+            n_ui.faculty_list.addItem(
+                (str)(num + 1) + ". " + faculties_list[num])
+        return
+
     def addYearItems():
         try:
             n_ui.year_list.clear()
+            n_ui.group_list.clear()
             n_ui.help_label.setText(
                 "Примечание: для выбора курса с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
                 "ввод\" и назвать <b>порядковый</b> номер курса.")
@@ -198,7 +212,11 @@ def new_win():
             nonlocal table_cond
             table_cond = False
             group_cond = False
-            for item in var[n_ui.faculty_list.currentItem().text()]:
+            current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
+                1]
+            courses_list = Functions.request_functions.get_courses(
+                current_faculty)
+            for item in courses_list:
                 n_ui.year_list.addItem(item)
             nonlocal year_cond
             year_cond = True
@@ -229,21 +247,26 @@ def new_win():
                                          "background-color: rgb(30, 185, 85);\n"
                                          "border-radius: 10px;\n"
                                          "}")
-            n_ui.help_label.setText(
-                "Примечание: для выбора группы с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
-                "ввод\" и назвать номер номер группы, указанный в списке.")
             n_ui.error_label.hide()
             QApplication.processEvents()
             n_ui.help_label.update()
             n_ui.group_table.setRowCount(0)
             i = 0
-            for item in var[n_ui.faculty_list.currentItem().text()][n_ui.year_list.currentItem().text()]:
+            current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
+                1]
+            current_course = n_ui.year_list.currentItem().text()
+            groups_list = Functions.request_functions.get_groups(
+                current_faculty, current_course)
+            for item in groups_list:
                 i += 1
                 n_ui.group_list.addItem(str(i) + ". " + item)
             nonlocal table_cond
             table_cond = False
             nonlocal group_cond
             group_cond = True
+            n_ui.help_label.setText(
+                "Примечание: для выбора группы с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
+                "ввод\" и назвать номер группы, указанный в списке.")
             if i == 0:
                 n_ui.help_label.setText(
                     "Примечание: на данном курсе нет групп, выберете другую!")
@@ -457,9 +480,7 @@ def new_win():
         AuthWindow.close()
         n_ui.faculty_list.clear()
 
-        for key in var:
-            n_ui.faculty_list.addItem(key)
-            n_ui.faculty_list.clearSelection()
+        addFacultyItems()
 
         n_ui.faculty_list.clearSelection()
         n_ui.group_table.cellClicked.connect(cellCoord)
