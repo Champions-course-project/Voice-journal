@@ -7,6 +7,7 @@ import json
 import os
 from .check_name import check
 import Functions.convert_number as convert_number
+import Functions.request_functions
 
 
 def choose_command(words_list: list):
@@ -33,55 +34,48 @@ def choose_command(words_list: list):
     return False
 
 
-def get_faculty(words_list: list):
+def get_faculty(words_list: list, faculties_list=[]):
     """
     Распознаватель факультета на основе имеющегося списка.\n
     Входные аргументы:
-    - words_list - список слов и словосочетаний, расшифрованных при помощи SR или Vosk.\n
+    - words_list - список слов и словосочетаний, расшифрованных при помощи SR или Vosk;
+    - faculties_list - список факультетов, полученный из программы либо при помощи запроса.\n
     Выходные данные:
     - пара "число - название факультета" в случае успеха;
     - пара False - False в противном случае.
     """
-    # Требуется изменение: список факультетов должен быть получен из сети, либо как аргумент
-    with open(os.path.join("Functions", "pnu_info", "Факультеты и институты.json"), 'r', encoding='UTF-8') as file:
-        faculties_dict = json.load(file)
+    if not faculties_list:
+        faculties_list = Functions.request_functions.get_faculties()
 
-    # Отображение факультетов и институтов
-    faculties_list = list(faculties_dict.keys())
-
-    # цикл выбора факультета
     try:
         if words_list:
             number = words_list[0]
             if not words_list[0].isdigit():
                 number = convert_number.convert_string(number)
             number = int(number)
-            assert number != -1
-            return number, faculties_list[number - 1]
+            assert number != -1 and number <= len(faculties_list)
+            return number
         else:
-            return False, False
+            return False
     except Exception as exc:
         print(type(exc).__name__)
         print(exc.args)
-        return False, False
+        return False
 
 
-def get_course(faculty: str, words_list: list):
+def get_course(faculty: str, words_list: list, courses_list=[]):
     """
     Распознаватель номера курса на основе имеющегося списка.\n
     Входные аргументы:
     - words_list - список слов и словосочетаний, расшифрованных при помощи SR или Vosk.\n
-    - faculty - наименование факультета в списке.\n
+    - faculty - наименование факультета в списке;
+    - courses - список курсов, полученный из программы либо при помощи запроса.\n
     Выходные данные:
     - число, соответствующее номеру курса в случае успеха;
     - False в противном случае.
     """
-    # Требуется изменение: список курсов должен быть получен из сети, либо как аргумент
-    with open(os.path.join("Functions", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
-        groups_dict = json.load(file)
-    courses_list = []
-    for course_number in groups_dict[faculty].keys():
-        courses_list.append(course_number)
+    if not courses_list:
+        courses_list = Functions.request_functions.get_courses(faculty)
 
     try:
         if words_list:
@@ -98,21 +92,21 @@ def get_course(faculty: str, words_list: list):
         return False
 
 
-def get_group(faculty: str, course: int, words_list: list):
+def get_group(faculty: str, course: str, words_list: list, groups_list=[]):
     """
     Распознаватель произнесенного номера группы на основе списка групп.\n
     Входные аргументы:
     - words_list - список слов и словосочетаний, расшифрованных при помощи SR или Vosk.\n
     - faculty - наименование факультета в списке;
-    - course - порядковый номер курса.\n
+    - course - порядковый номер курса;
+    - groups_list - список групп, полученный из программы либо при помощи запроса.\n
     Выходные данные:
     - номер группы в списке групп в случае успеха;
     - False в противном случае.
     """
     # Требуется изменение: список групп должен быть получен из сети, либо как аргумент
-    with open(os.path.join("Functions", "pnu_info", "groups_info.json"), 'r', encoding='UTF-8') as file:
-        groups_dict = json.load(file)
-    groups_list = groups_dict[faculty].get(str(course) + ' курс')
+    if not groups_list:
+        groups_list = Functions.request_functions.get_groups(faculty, course)
     if groups_list:
         try:
             if words_list:

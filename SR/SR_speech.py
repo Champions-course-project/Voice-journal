@@ -1,4 +1,4 @@
-import SR.full_record as full_record
+import SR.SR_class as SR_class
 
 
 def speech(bytes_array: bytes, framerate: int):
@@ -12,7 +12,7 @@ def speech(bytes_array: bytes, framerate: int):
     - False - при ошибке во время распознавания.
     """
     try:
-        result = full_record.STT.decode_bytestream(bytes_array, framerate)
+        result = SR_class.STT.decode_bytestream(bytes_array, framerate)
         if result:
             words_list = []
             for transcript in result['alternative']:
