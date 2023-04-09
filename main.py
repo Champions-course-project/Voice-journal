@@ -2,8 +2,8 @@ from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtCore import Qt
 import Functions
-import Vosk.recorder as recorder
-import Vosk as Recognizer
+import SR.recorder as recorder
+import SR as Recognizer
 from autorization import *
 from table import *
 import login_class
@@ -505,6 +505,9 @@ def new_win():
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     AuthWindow = QtWidgets.QDialog()
+    QtGui.QFontDatabase.addApplicationFont('gotham_black.otf')
+    QtGui.QFontDatabase.addApplicationFont('gotham_light.otf')
+    QtGui.QFontDatabase.addApplicationFont('gotham_medium.otf')
     app.setStyle('Fusion')
     ui.setupUi(AuthWindow)
     ui.error_label.hide()
