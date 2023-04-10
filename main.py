@@ -447,20 +447,6 @@ def new_win():
                 n_ui.activate_button.update()
                 QApplication.processEvents()
 
-    def rowActivated():
-        """
-        Функция для выделения целой строки в таблице.\n
-        Выбирает клетку, если возможно.
-        """
-        print("Row was activated")
-        nonlocal row_choose
-        row_choose = n_ui.group_table.currentRow()
-        n_ui.group_table.selectRow(row_choose)
-        if row_choose != -1 and row_choose != -1:
-            n_ui.group_table.setItem(
-                row_choose, column_choose, QTableWidgetItem(" "))
-            select_cell(row_choose, column_choose)
-
     def dateChoose(date: str):
         """
         Осуществляет выбор даты по введенной строке.\n
@@ -487,19 +473,6 @@ def new_win():
                 item.setSelected(True)
                 n_ui.activate_button.update()
                 QApplication.processEvents()
-
-    def columnActivated():
-        """
-        Функция для выделения целого столбца в таблице.\n
-        Выбирает клетку, если возможно.
-        """
-        print("Column was activated")
-        nonlocal column_choose
-        column_choose = n_ui.group_table.currentColumn()
-        if column_choose != -1 and column_choose != -1:
-            n_ui.group_table.setItem(
-                row_choose, column_choose, QTableWidgetItem(" "))
-            select_cell(row_choose, column_choose)
 
     def select_cell(row_index, column_index):
         """
@@ -560,10 +533,6 @@ def new_win():
         # обработка нажатия на клетку таблицы
         n_ui.group_table.cellClicked.connect(cellCoord)
         n_ui.group_table.cellClicked.connect(cellActivated)
-
-        # не нужны! будут удалены!
-        n_ui.group_table.horizontalHeader().sectionClicked.connect(columnActivated)
-        n_ui.group_table.verticalHeader().sectionClicked.connect(rowActivated)
 
         # обработка нажатия на кнопку выхода
         n_ui.exit_button.clicked.connect(tableWindow.close)
