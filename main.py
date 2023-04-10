@@ -29,6 +29,19 @@ def new_win():
     # auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
 
     def activate_voice():
+        """
+        Основная функция по обработке распознавания речи.\n
+        Последовательно производит несколько проверок:
+        - специальные команды;
+        - открыта таблица и произнесена дата;
+        - открыта таблица и произнесен порядковый номер студента;
+        - открыта таблица и произнесена фамилия студента;
+        - открыта таблица, выбрана ячейка и произнесено состояние студента;
+        - доступен выбор группы и произнесен номер группы в списке;
+        - доступен выбор курса и произнесен порядковый номер курса;
+        - доступен выбор факультета и произнесен номер факультета в списке.\n
+        За счет этих проверок достигается работоспособность голосового управления.
+        """
         try:
             nonlocal table_cond, group_cond, year_cond, buttonActive
             assert not buttonActive
@@ -53,7 +66,6 @@ def new_win():
                     pass
                 elif command == 5:
                     pass
-                # ЕЩЕ НЕ ИЗМЕНЕНО
                 elif table_cond:
                     faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
                         1]
@@ -135,28 +147,29 @@ def new_win():
         except AssertionError:
             pass
 
-    def buttonColor(f):
+    def buttonColor(f: int):
+        """
+        Функция по смене состояний кнопки:
+        - 1: желтая кнопка с текстом "Распознавание...";
+        - 2: красная кнопка с текстом "Идёт запись...";
+        - 3: белая кнопка с текстом "Голосовой ввод".
+        """
         if f == 1:
             n_ui.activate_button.setText("Распознавание...")
             n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
             n_ui.activate_button.setStyleSheet("background-color: rgb(255, 255, 0);\n"
                                                "border-radius: 10px;\n"
                                                "")
-            n_ui.activate_button.update()
-            QApplication.processEvents()
-        if f == 2:
+        elif f == 2:
             n_ui.activate_button.setText("Идёт запись...")
+            n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
             n_ui.activate_button.setStyleSheet(
                 "background-color: rgb(255, 0, 0);\n"
                 "border-radius: 10px;\n"
                 "")
-            n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
-            n_ui.activate_button.update()
-            QApplication.processEvents()
-        if f == 3:
-            n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
+        elif f == 3:
             n_ui.activate_button.setText("Голосовой ввод")
-            n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
+            n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
             n_ui.activate_button.setStyleSheet("QPushButton::hover{\n"
                                                "background-color: rgb(194, 194, 194);\n"
                                                "}\n"
@@ -168,21 +181,26 @@ def new_win():
                                                "}\n"
                                                "\n"
                                                "")
-            n_ui.activate_button.update()
-            QApplication.processEvents()
+            n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
+        n_ui.activate_button.update()
+        QApplication.processEvents()
 
     def addFacultyItems():
+        """
+        Функция для добавления списка факультетов.\n
+        Осуществляет запрос на сервер для получения списка.
+        """
+        n_ui.group_list.clear()
+        n_ui.year_list.clear()
         n_ui.faculty_list.clear()
         n_ui.faculty_list.clearSelection()
-        n_ui.group_list.clear()
-        n_ui.group_list.clear()
         n_ui.help_label.setText(
             "Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
             "ввод\" и назвать номер факультета, указанный в списке.")
-        n_ui.error_label.hide()
         n_ui.help_label.update()
-        QApplication.processEvents()
+        n_ui.error_label.hide()
         n_ui.group_table.setRowCount(0)
+        QApplication.processEvents()
         nonlocal group_cond, year_cond, table_cond
         group_cond = False
         year_cond = False
@@ -194,19 +212,22 @@ def new_win():
         return
 
     def addYearItems():
+        """
+        Функция для добавления списка курсов.\n
+        Осуществляет запрос на сервер для получения списка.
+        """
         try:
+            n_ui.group_list.clear()
             n_ui.year_list.clear()
             n_ui.year_list.clearSelection()
-            n_ui.group_list.clear()
             n_ui.help_label.setText(
                 "Примечание: для выбора курса с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
                 "ввод\" и назвать <b>порядковый</b> номер курса.")
-            n_ui.error_label.hide()
             n_ui.help_label.update()
-            QApplication.processEvents()
+            n_ui.error_label.hide()
             n_ui.group_table.setRowCount(0)
-            nonlocal group_cond
-            nonlocal table_cond
+            QApplication.processEvents()
+            nonlocal group_cond, table_cond
             table_cond = False
             group_cond = False
             current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
@@ -218,11 +239,16 @@ def new_win():
             nonlocal year_cond
             year_cond = True
         except Exception as exc:
+            print("Exception in addYearItems!")
             print(type(exc).__name__)
             print(exc.args)
             return False
 
     def addGroupItems():
+        """
+        Функция для добавления списка групп.\n
+        Осуществляет запрос на сервер для получения списка.
+        """
         try:
             n_ui.group_list.clear()
             n_ui.group_list.clearSelection()
@@ -245,10 +271,15 @@ def new_win():
                                          "background-color: rgb(30, 185, 85);\n"
                                          "border-radius: 10px;\n"
                                          "}")
-            n_ui.error_label.hide()
-            QApplication.processEvents()
+            n_ui.help_label.setText(
+                "Примечание: для выбора группы с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
+                "ввод\" и назвать номер группы, указанный в списке.")
             n_ui.help_label.update()
             n_ui.group_table.setRowCount(0)
+            n_ui.error_label.hide()
+            QApplication.processEvents()
+            nonlocal table_cond
+            table_cond = False
             i = 0
             current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
                 1]
@@ -258,18 +289,9 @@ def new_win():
             for item in groups_list:
                 i += 1
                 n_ui.group_list.addItem(str(i) + ". " + item)
-            nonlocal table_cond
-            table_cond = False
             nonlocal group_cond
             group_cond = True
-            n_ui.help_label.setText(
-                "Примечание: для выбора группы с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
-                "ввод\" и назвать номер группы, указанный в списке.")
             if i == 0:
-                n_ui.help_label.setText(
-                    "Примечание: на данном курсе нет групп, выберете другую!")
-                n_ui.help_label.update()
-                QApplication.processEvents()
                 n_ui.year_list.setStyleSheet("QListWidget{\n"
                                              "color: rgb(255, 255, 255);\n"
                                              "background-color: rgb(83, 83, 83);\n"
@@ -292,33 +314,31 @@ def new_win():
                                              "selection-background-color: rgb(255, 0, 0);\n"
                                              "border-radius: 10px;\n"
                                              "}")
+                n_ui.help_label.setText(
+                    "Примечание: на данном курсе нет групп, выберете другую!")
+                n_ui.help_label.update()
+                QApplication.processEvents()
                 group_cond = False
         except Exception as exc:
+            print("Exception in addGroupItems!")
             print(type(exc).__name__)
             print(exc.args)
-            n_ui.error_label.show()
             return False
 
     def addDates():
+        """
+        Функция для добавления дат в таблицу.\n
+        Осуществляет запрос на сервер для получения списка дат.
+        """
         pass
 
+    # разобраться откуда выскакивает KeyError - мб можно без исключений
     def addStudents():
+        """
+        Функция для добавления студентов в таблицу.\n
+        Осуществляет запрос на сервер для получения списка студентов.
+        """
         try:
-            nonlocal table_cond
-            n_ui.help_label.setText(
-                "Примечание: для выбора учащегося с помощью голосовых команд вам необходимо нажать на кнопку "
-                "\"Голосовой ввод\" и назвать дату, фамилию, а затем оценку для студента.")
-            n_ui.error_label.hide()
-            n_ui.help_label.update()
-            QApplication.processEvents()
-            n_ui.group_table.setRowCount(0)
-            faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
-                1]
-            course_name = n_ui.year_list.currentItem().text()
-            group_name = n_ui.group_list.currentItem().text().split(". ")[1]
-            students_list = Functions.request_functions.get_students(
-                faculty_name, course_name, group_name)
-            n_ui.group_table.setRowCount(len(students_list))
             n_ui.group_list.setStyleSheet("QListWidget{\n"
                                           "color: rgb(255, 255, 255);\n"
                                           "background-color: rgb(83, 83, 83);\n"
@@ -338,14 +358,28 @@ def new_win():
                                           "background-color: rgb(30, 185, 85);\n"
                                           "border-radius: 10px;\n"
                                           "}")
+            n_ui.help_label.setText(
+                "Примечание: для выбора учащегося с помощью голосовых команд вам необходимо нажать на кнопку "
+                "\"Голосовой ввод\" и назвать дату, фамилию, а затем оценку для студента.")
+            n_ui.help_label.update()
+            n_ui.error_label.hide()
+            n_ui.group_table.setRowCount(0)
+            QApplication.processEvents()
+            faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                1]
+            course_name = n_ui.year_list.currentItem().text()
+            group_name = n_ui.group_list.currentItem().text().split(". ")[1]
+            students_list = Functions.request_functions.get_students(
+                faculty_name, course_name, group_name)
+            n_ui.group_table.setRowCount(len(students_list))
             n_ui.group_table.setVerticalHeaderLabels(students_list)
             for i in range(len(students_list)):
                 n_ui.group_table.verticalHeaderItem(i).setText(
                     str(i + 1) + ". " + n_ui.group_table.verticalHeaderItem(i).text())
+            nonlocal table_cond
             table_cond = True
-            nonlocal column_choose
+            nonlocal column_choose, row_choose
             column_choose = -1
-            nonlocal row_choose
             row_choose = -1
             if n_ui.group_table.rowCount() == 1:
                 studentChoose(n_ui.group_table.verticalHeaderItem(
@@ -381,11 +415,17 @@ def new_win():
                                           "}")
             table_cond = False
         except Exception as exc:
+            print("Exception in addStudents!")
             print(type(exc).__name__)
             print(exc.args)
             return False
 
-    def studentChoose(name):
+    def studentChoose(name: str):
+        """
+        Осуществляет выбор студента по заданному ФИО.\n
+        При неудаче ничего не изменяет.\n
+        Ничего не возвращает.
+        """
         number = n_ui.group_table.verticalHeader().count()
         index = -1
         for i in range(number):
@@ -408,18 +448,27 @@ def new_win():
                 QApplication.processEvents()
 
     def rowActivated():
-        nonlocal column_choose
-        column_choose = n_ui.group_table.currentColumn()
-        n_ui.group_table.selectColumn(column_choose)
-        if row_choose != -1 and column_choose != -1:
+        """
+        Функция для выделения целой строки в таблице.\n
+        Выбирает клетку, если возможно.
+        """
+        print("Row was activated")
+        nonlocal row_choose
+        row_choose = n_ui.group_table.currentRow()
+        n_ui.group_table.selectRow(row_choose)
+        if row_choose != -1 and row_choose != -1:
             n_ui.group_table.setItem(
                 row_choose, column_choose, QTableWidgetItem(" "))
             select_cell(row_choose, column_choose)
 
-    def dateChoose(date):
+    def dateChoose(date: str):
+        """
+        Осуществляет выбор даты по введенной строке.\n
+        При неудаче ничего не изменяет.\n
+        Ничего не возвращает.
+        """
         number = n_ui.group_table.horizontalHeader().count()
         index = -1
-        n_ui.group_table.clearSelection()
         for i in range(number):
             if date + "2023" == n_ui.group_table.horizontalHeaderItem(i).text():
                 index = i
@@ -429,6 +478,7 @@ def new_win():
         n_ui.group_table.selectColumn(index)
         nonlocal column_choose
         column_choose = index
+        n_ui.group_table.clearSelection()
         if row_choose == -1:
             for i in range(n_ui.group_table.verticalHeader().count()):
                 n_ui.group_table.setItem(
@@ -439,14 +489,22 @@ def new_win():
                 QApplication.processEvents()
 
     def columnActivated():
-        nonlocal row_choose
-        row_choose = n_ui.group_table.currentRow()
-        if row_choose != -1 and column_choose != -1:
+        """
+        Функция для выделения целого столбца в таблице.\n
+        Выбирает клетку, если возможно.
+        """
+        print("Column was activated")
+        nonlocal column_choose
+        column_choose = n_ui.group_table.currentColumn()
+        if column_choose != -1 and column_choose != -1:
             n_ui.group_table.setItem(
                 row_choose, column_choose, QTableWidgetItem(" "))
             select_cell(row_choose, column_choose)
 
     def select_cell(row_index, column_index):
+        """
+        Функция для выделения ячейки в таблице по заданным координатам.
+        """
         item = n_ui.group_table.item(row_index, column_index)
         n_ui.group_table.clearSelection()
         item.setSelected(True)
@@ -454,11 +512,17 @@ def new_win():
             row_choose, column_choose, QTableWidgetItem(""))
 
     def cellCoord():
+        """
+        Запоминает координаты клетки в глобальные переменные.
+        """
         nonlocal column_choose, row_choose
         column_choose = n_ui.group_table.currentColumn()
         row_choose = n_ui.group_table.currentRow()
 
     def cellActivated():
+        """
+        Активирует ячейку, таким образом возможно дальше с ней работать.
+        """
         nonlocal column_choose, row_choose
         column_choose = n_ui.group_table.currentColumn()
         row_choose = n_ui.group_table.currentRow()
@@ -483,23 +547,37 @@ def new_win():
         n_ui.error_label.hide()
         tableWindow.showMaximized()
         AuthWindow.close()
-        n_ui.faculty_list.clear()
 
+        # отображение факультета
+        n_ui.faculty_list.clear()
         addFacultyItems()
 
-        n_ui.group_table.cellClicked.connect(cellCoord)
-        n_ui.group_table.horizontalHeader().sectionClicked.connect(rowActivated)
-        n_ui.group_table.verticalHeader().sectionClicked.connect(columnActivated)
-        n_ui.group_table.cellClicked.connect(cellActivated)
-        n_ui.exit_button.clicked.connect(tableWindow.close)
+        # подключение обработчиков событий по развертыванию остальных таблиц
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
-        n_ui.activate_button.clicked.connect(activate_voice)
-        n_ui.hide_button.clicked.connect(tableWindow.showMinimized)
-        n_ui.close_button.clicked.connect(tableWindow.close)
-        n_ui.exit_button.setShortcut(QKeySequence("Ctrl+Q"))
-        n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
+
+        # обработка нажатия на клетку таблицы
+        n_ui.group_table.cellClicked.connect(cellCoord)
+        n_ui.group_table.cellClicked.connect(cellActivated)
+
+        # не нужны! будут удалены!
+        n_ui.group_table.horizontalHeader().sectionClicked.connect(columnActivated)
+        n_ui.group_table.verticalHeader().sectionClicked.connect(rowActivated)
+
+        # обработка нажатия на кнопку выхода
+        n_ui.exit_button.clicked.connect(tableWindow.close)
+
+        # обработка нажатия на кнопку распознавания голоса
+        n_ui.activate_button.clicked.connect(activate_voice)
+
+        # обработка нажатий на кнопки закрытия окна и сворачивания
+        n_ui.hide_button.clicked.connect(tableWindow.showMinimized)
+        n_ui.close_button.clicked.connect(tableWindow.close)
+
+        n_ui.exit_button.setShortcut(QKeySequence("Ctrl+Q"))
+        n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
+
     else:
         ui.error_label.show()
         ui.login_lineEdit.setText("")
