@@ -27,11 +27,6 @@ def new_win():
     auth = login_class.LogIn()
     success = True
     # auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
-    # Требуется изменить: использовать функции запросов вместо прямого открытия файла
-    with open('data.json', "r", encoding="UTF-8") as data_file:
-        var = json.load(data_file)
-    with open('students_list.json', "r", encoding="UTF-8") as student_file:
-        s_var = json.load(student_file)
 
     def activate_voice():
         try:
@@ -60,8 +55,13 @@ def new_win():
                     pass
                 # ЕЩЕ НЕ ИЗМЕНЕНО
                 elif table_cond:
+                    faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                        1]
+                    course_name = n_ui.year_list.currentItem().text()
+                    group_name = n_ui.group_list.currentItem().text().split(". ")[
+                        1]
                     date_choose = Functions.speech_functions.get_date(
-                        words_list)
+                        words_list, faculty_name, course_name, group_name)
                     if date_choose:
                         dateChoose(date_choose)
                         if row_choose != -1 and column_choose != -1:
@@ -76,11 +76,8 @@ def new_win():
                                 word = n_ui.group_table.verticalHeaderItem(
                                     number - 1).text()
                                 words_list[0] = word.split(". ")[1]
-                            current = n_ui.group_list.currentItem().text().split(". ")[
-                                1]
-                            student_list = s_var[current]
                             student_selected = Functions.speech_functions.get_student_name(
-                                student_list, words_list)
+                                words_list, faculty_name, course_name, group_name)
                             if student_selected:
                                 studentChoose(student_selected)
                                 n_ui.group_table.update()
@@ -106,6 +103,7 @@ def new_win():
                         faculty_name, course_choose, words_list)
                     if group_choose:
                         n_ui.group_list.setCurrentRow(group_choose - 1)
+                        addDates()
                         addStudents()
                     else:
                         n_ui.error_label.show()
@@ -301,6 +299,9 @@ def new_win():
             n_ui.error_label.show()
             return False
 
+    def addDates():
+        pass
+
     def addStudents():
         try:
             nonlocal table_cond
@@ -311,9 +312,13 @@ def new_win():
             n_ui.help_label.update()
             QApplication.processEvents()
             n_ui.group_table.setRowCount(0)
-            current = n_ui.group_list.currentItem().text()
-            current = current.split('. ')[1]
-            n_ui.group_table.setRowCount(len(s_var[current]))
+            faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                1]
+            course_name = n_ui.year_list.currentItem().text()
+            group_name = n_ui.group_list.currentItem().text().split(". ")[1]
+            students_list = Functions.request_functions.get_students(
+                faculty_name, course_name, group_name)
+            n_ui.group_table.setRowCount(len(students_list))
             n_ui.group_list.setStyleSheet("QListWidget{\n"
                                           "color: rgb(255, 255, 255);\n"
                                           "background-color: rgb(83, 83, 83);\n"
@@ -333,8 +338,8 @@ def new_win():
                                           "background-color: rgb(30, 185, 85);\n"
                                           "border-radius: 10px;\n"
                                           "}")
-            n_ui.group_table.setVerticalHeaderLabels(s_var[current])
-            for i in range(len(s_var[current])):
+            n_ui.group_table.setVerticalHeaderLabels(students_list)
+            for i in range(len(students_list)):
                 n_ui.group_table.verticalHeaderItem(i).setText(
                     str(i + 1) + ". " + n_ui.group_table.verticalHeaderItem(i).text())
             table_cond = True
