@@ -18,7 +18,7 @@ def get_faculties():
     return request_get()
 
 
-def get_courses(faculty):
+def get_courses(faculty: str):
     """
     Возвращает список курсов на основе выбранного факультета.\n
     Осуществляет фиктивный запрос на сервер.
@@ -26,7 +26,7 @@ def get_courses(faculty):
     return request_get(faculty=faculty)
 
 
-def get_groups(faculty, course):
+def get_groups(faculty: str, course: str):
     """
     Возвращает список групп на основе выбранных факультета и курса.\n
     Осуществляет фиктивный запрос на сервер.
@@ -34,19 +34,31 @@ def get_groups(faculty, course):
     return request_get(faculty=faculty, course=course)
 
 
-def get_students(faculty, course, group):
-    pass
+def get_students(faculty: str, course: str, group: str):
+    """
+    Возвращает список студентов на основе выбранных факультета, курса и группы.\n
+    Осуществляет фиктивный запрос на сервер.
+    """
+    return request_get(faculty=faculty, course=course, group=group, type="students")
 
 
-def get_statuses(faculty, course, group):
-    pass
+def get_dates(faculty: str, course: str, group: str):
+    """
+    Возвращает список дат на основе выбранных факультета, курса и группы.\n
+    Осуществляет фиктивный запрос на сервер.
+    """
+    return request_get(faculty=faculty, course=course, group=group, type="dates")
 
 
-def get_dates(faculty, course, group):
-    pass
+def get_statuses(faculty: str, course: str, group: str):
+    """
+    Возвращает все выставленные статусы на основе выбранных факультета, курса и группы.\n
+    Осуществляет фиктивный запрос на сервер.
+    """
+    return request_get(faculty=faculty, course=course, group=group, type="statuses")
 
 
-def request_get(URL="", **kwargs):
+def request_get(URL: str = "", **kwargs):
     """
     Осуществляет запрос по указанному URL с заданным списком параметров.
     """
@@ -78,13 +90,26 @@ def get_from_file(URL: str):
         if "course" in requests_dict:
             if "group" in requests_dict:
                 if "type" in requests_dict:
-                    pass
+                    if requests_dict["type"] == "students":
+                        with open("students_list.json", "r", encoding="UTF-8") as OF:
+                            students_data = (dict)(json.load(OF))
+                        students_list = (list)(students_data[requests_dict["group"]])
+                        return students_list
+                    elif requests_dict["type"] == "dates":
+                        dates_list = []
+                        with open("Dates.txt", "r", encoding="UTF-8") as OF:
+                            for line in OF:
+                                dates_list.append(line.replace("\n", ""))
+                        return dates_list
+                    elif requests_dict["type"] == "statuses":
+                        pass
+                    else:
+                        return
                 else:
                     return
             else:
                 # снова аналогично - группы нет, остальное есть, нужно вернуть группы.
-                # Так, вопрос - там костыль по нумерации факультетов?
-                return data[requests_dict["faculty"]][requests_dict["course"]]
+                return (list)(data[requests_dict["faculty"]][requests_dict["course"]])
         else:
             # здесь аналогично - курса нет, факультет есть, значит нужно вернуть ключи, соответствующие курсам
             return (list)(data[requests_dict["faculty"]].keys())
@@ -94,7 +119,7 @@ def get_from_file(URL: str):
         return (list)(data.keys())
 
 
-def info_save(faculcy, course, group):
+def info_save(faculcy: str, course: str, group: str, **info):
     pass
 
 
