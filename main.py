@@ -484,14 +484,6 @@ def new_win():
         n_ui.group_table.setItem(
             row_choose, column_choose, QTableWidgetItem(""))
 
-    def cellCoord():
-        """
-        Запоминает координаты клетки в глобальные переменные.
-        """
-        nonlocal column_choose, row_choose
-        column_choose = n_ui.group_table.currentColumn()
-        row_choose = n_ui.group_table.currentRow()
-
     def cellActivated():
         """
         Активирует ячейку, таким образом возможно дальше с ней работать.
@@ -531,7 +523,6 @@ def new_win():
         n_ui.group_list.currentItemChanged.connect(addStudents)
 
         # обработка нажатия на клетку таблицы
-        n_ui.group_table.cellClicked.connect(cellCoord)
         n_ui.group_table.cellClicked.connect(cellActivated)
 
         # обработка нажатия на кнопку выхода
