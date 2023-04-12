@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtCore import Qt
+import Vosk.recorder as recorder
 import Functions
-import SR.recorder as recorder
-import SR as Recognizer
+import Vosk as Recognizer
 from autorization import *
 from table import *
 import login_class
