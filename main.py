@@ -26,6 +26,7 @@ def new_win():
     row_choose = -1
     auth = login_class.LogIn()
     success = True
+    partial_state = {}
     # auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
 
     def activate_voice():
@@ -54,7 +55,7 @@ def new_win():
             try:
                 assert words_list
                 # вызов функций по распознаванию команды
-                nonlocal row_choose, column_choose
+                nonlocal row_choose, column_choose, partial_state
                 command = Functions.speech_functions.choose_command(words_list)
                 if command:  # если получена команда:
                     if command == 1:  # выбрать факультет
@@ -66,7 +67,8 @@ def new_win():
                     elif command == 4:  # сохранить
                         pass
                     elif command == 5:  # отменить
-                        pass
+                        partial_state = {}
+                        n_ui.group_list.currentItemChanged.emit(None, None)
                     else:
                         n_ui.error_label.show()  # произнесли команду но ее выполнить нельзя
 
@@ -90,10 +92,10 @@ def new_win():
                             word = n_ui.group_table.verticalHeaderItem(
                                 number - 1).text()
                             words_list[0] = word.split(". ")[1]
-                        student_selected = Functions.speech_functions.get_student_name(
+                        student_choose = Functions.speech_functions.get_student_name(
                             words_list, faculty_name, course_name, group_name)
-                        if student_selected:
-                            studentChoose(student_selected)
+                        if student_choose:
+                            studentChoose(student_choose)
                             if row_choose != -1 and column_choose != -1:
                                 selectCell()
                         elif row_choose > -1 and column_choose > -1:
@@ -104,6 +106,8 @@ def new_win():
                                     row_choose, column_choose, QTableWidgetItem(mark_choose))
                             else:
                                 n_ui.error_label.show()
+                        else:
+                            n_ui.error_label.show()
 
                 elif group_cond:  # открыта таблица групп - происходит выбор группы
                     course_choose = n_ui.year_list.currentItem().text()
@@ -113,8 +117,6 @@ def new_win():
                         faculty_name, course_choose, words_list)
                     if group_choose:
                         n_ui.group_list.setCurrentRow(group_choose - 1)
-                        # addDates()
-                        # addStudents()
                     else:
                         n_ui.error_label.show()
 
@@ -125,7 +127,6 @@ def new_win():
                         faculty_name, words_list)
                     if course_choose:
                         n_ui.year_list.setCurrentRow(course_choose - 1)
-                        # addGroupItems()
                     else:
                         n_ui.error_label.show()
 
@@ -134,7 +135,6 @@ def new_win():
                         words_list)
                     if type(faculty_choose) != bool and faculty_choose:
                         n_ui.faculty_list.setCurrentRow(faculty_choose - 1)
-                        # addYearItems()
                     else:
                         n_ui.error_label.show()
 
@@ -195,6 +195,7 @@ def new_win():
         """
         print("addFacultyItems")
         n_ui.group_table.setRowCount(0)
+        n_ui.group_table.setColumnCount(0)
         n_ui.group_list.clear()
         n_ui.year_list.clear()
         n_ui.faculty_list.clear()
@@ -227,6 +228,7 @@ def new_win():
         except AttributeError:
             return
         n_ui.group_table.setRowCount(0)
+        n_ui.group_table.setColumnCount(0)
         n_ui.group_list.clear()
         n_ui.year_list.clear()
         n_ui.year_list.clearSelection()
@@ -258,6 +260,7 @@ def new_win():
         except AttributeError:
             return
         n_ui.group_table.setRowCount(0)
+        n_ui.group_table.setColumnCount(0)
         n_ui.group_list.clear()
         n_ui.group_list.clearSelection()
         n_ui.year_list.setStyleSheet("QListWidget{\n"
@@ -327,7 +330,6 @@ def new_win():
             group_cond = False
         return
 
-    # to do
     def addDates():
         """
         Функция для добавления дат в таблицу.\n
@@ -338,6 +340,22 @@ def new_win():
             current_group = n_ui.group_list.currentItem().text().split(". ")[1]
         except AttributeError:
             return
+        n_ui.group_table.setColumnCount(0)
+        if not n_ui.group_table.rowCount():
+            return
+        current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
+            1]
+        current_course = n_ui.year_list.currentItem().text()
+        dates_list = Functions.request_functions.get_dates(
+            current_faculty, current_course, current_group)
+        if len(dates_list) == 0:
+            # TODO: группа есть но занятий по предмету нет!
+            nonlocal table_cond
+            table_cond = False
+            return
+        n_ui.group_table.setColumnCount(len(dates_list))
+        n_ui.group_table.setHorizontalHeaderLabels(dates_list)
+        QApplication.processEvents()
         return
 
     def addStudents():
@@ -424,7 +442,6 @@ def new_win():
             studentChoose(n_ui.group_table.verticalHeaderItem(
                 0).text().split(". ")[1])
             row_choose = 0
-        QApplication.processEvents()
         return
 
     def studentChoose(name: str):
@@ -451,7 +468,7 @@ def new_win():
         if column_choose == -1:
             for i in range(n_ui.group_table.horizontalHeader().count()):
                 n_ui.group_table.setItem(
-                    row_choose, i, QTableWidgetItem(""))
+                    row_choose, i, QTableWidgetItem(" "))
                 item = n_ui.group_table.item(row_choose, i)
                 item.setSelected(True)
                 n_ui.activate_button.update()
@@ -482,7 +499,7 @@ def new_win():
         if row_choose == -1:
             for i in range(n_ui.group_table.verticalHeader().count()):
                 n_ui.group_table.setItem(
-                    i, column_choose, QTableWidgetItem(""))
+                    i, column_choose, QTableWidgetItem(" "))
                 item = n_ui.group_table.item(i, column_choose)
                 item.setSelected(True)
                 n_ui.activate_button.update()
@@ -504,6 +521,41 @@ def new_win():
             row_choose, column_choose, QTableWidgetItem(" "))
         item = n_ui.group_table.item(row_choose, column_choose)
         item.setSelected(True)
+        return
+
+    def rememberState():
+        """
+        Функция для сохранения всех введенных состояний студентов.
+        """
+        print("rememberState")
+        mark_choose = n_ui.group_table.currentItem().text()
+        if mark_choose == " ":
+            return
+        nonlocal row_choose, column_choose, partial_state
+        faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[1]
+        course_name = n_ui.year_list.currentItem().text()
+        group_name = n_ui.group_list.currentItem().text().split(". ")[1]
+        date_choose = n_ui.group_table.horizontalHeaderItem(
+            column_choose).text()
+        student_choose = n_ui.group_table.verticalHeaderItem(
+            row_choose).text()
+        try:
+            partial_state[faculty_name]
+        except:
+            partial_state[faculty_name] = {}
+        try:
+            partial_state[faculty_name][course_name]
+        except:
+            partial_state[faculty_name][course_name] = {}
+        try:
+            partial_state[faculty_name][course_name][group_name]
+        except:
+            partial_state[faculty_name][course_name][group_name] = {}
+        try:
+            partial_state[faculty_name][course_name][group_name][date_choose]
+        except:
+            partial_state[faculty_name][course_name][group_name][date_choose] = {}
+        partial_state[faculty_name][course_name][group_name][date_choose][student_choose] = mark_choose
         return
 
     if success:
@@ -531,6 +583,7 @@ def new_win():
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
+        n_ui.group_list.currentItemChanged.connect(addDates)
 
         # обработка нажатия на клетку таблицы
         n_ui.group_table.cellClicked.connect(selectCell)
