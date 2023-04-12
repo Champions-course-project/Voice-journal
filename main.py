@@ -65,6 +65,7 @@ def new_win():
                     elif command == 3 and group_cond:  # выбрать группу, открыта таблица групп
                         addGroupItems()
                     elif command == 4:  # сохранить
+                        # TODO: реализовать сохранение статусов
                         pass
                     elif command == 5:  # отменить
                         partial_state = {}
@@ -343,8 +344,7 @@ def new_win():
         n_ui.group_table.setColumnCount(0)
         if not n_ui.group_table.rowCount():
             return
-        current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
-            1]
+        current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[1]
         current_course = n_ui.year_list.currentItem().text()
         dates_list = Functions.request_functions.get_dates(
             current_faculty, current_course, current_group)
@@ -442,6 +442,37 @@ def new_win():
             studentChoose(n_ui.group_table.verticalHeaderItem(
                 0).text().split(". ")[1])
             row_choose = 0
+        return
+
+    # реализован и добавлен, но пока что не проверен
+    def addStatuses():
+        """
+        Функция для добавления статусов в таблицу из сети.\n
+        Осуществляет запрос на сервер для получения статусов.
+        """
+        print("addStatuses")
+        try:
+            current_group = n_ui.group_list.currentItem().text().split(". ")[1]
+        except AttributeError:
+            return
+        current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[1]
+        current_course = n_ui.year_list.currentItem().text()
+        # формат: словарь[дата][студент] = статус
+        statuses_dict = Functions.request_functions.get_statuses(
+            current_faculty, current_course, current_group)
+        dates_list = []
+        for i in range(n_ui.group_table.horizontalHeader().count()):
+            dates_list.append(n_ui.group_table.horizontalHeaderItem(i).text())
+        students_list = []
+        for i in range(n_ui.group_table.verticalHeader().count()):
+            students_list.append(
+                n_ui.group_table.verticalHeaderItem(i).text().split(". ")[1])
+        for date in statuses_dict:
+            for student in statuses_dict[date]:
+                status = statuses_dict[date][student]
+                row = students_list.index(student)
+                col = dates_list.index(date)
+                n_ui.group_table.setItem(row, col, QTableWidgetItem(status))
         return
 
     def studentChoose(name: str):
@@ -584,6 +615,7 @@ def new_win():
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
         n_ui.group_list.currentItemChanged.connect(addDates)
+        n_ui.group_list.currentItemChanged.connect(addStatuses)
 
         # обработка нажатия на клетку таблицы
         n_ui.group_table.cellClicked.connect(selectCell)

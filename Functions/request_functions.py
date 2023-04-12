@@ -106,7 +106,15 @@ def get_from_file(URL: str):
                                 dates_list.append(line.replace("\n", ""))
                         return dates_list
                     elif requests_dict["type"] == "statuses":
-                        pass
+                        try:
+                            with open("statuses.json", "r", encoding="UTF-8") as OF:
+                                statuses = (dict)(json.load(OF))
+                        except:
+                            return {}
+                        try:
+                            return (dict)(statuses[requests_dict["faculty"]][requests_dict["course"]][requests_dict["group"]])
+                        except:
+                            return {}
                     else:
                         return
                 else:
@@ -123,7 +131,7 @@ def get_from_file(URL: str):
         return (list)(data.keys())
 
 
-def info_save(faculcy: str, course: str, group: str, **info):
+def save_statuses(**statuses):
     pass
 
 
