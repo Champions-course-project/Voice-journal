@@ -93,7 +93,11 @@ def get_from_file(URL: str):
                     if requests_dict["type"] == "students":
                         with open("students_list.json", "r", encoding="UTF-8") as OF:
                             students_data = (dict)(json.load(OF))
-                        students_list = (list)(students_data[requests_dict["group"]])
+                        try:
+                            students_list = (list)(
+                                students_data[requests_dict["group"]])
+                        except KeyError:
+                            return []
                         return students_list
                     elif requests_dict["type"] == "dates":
                         dates_list = []
