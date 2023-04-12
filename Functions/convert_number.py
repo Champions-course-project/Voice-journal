@@ -3,8 +3,10 @@ def convert_string(string):
     ones = ["один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "одиннадцать",
             "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать",
             "девятнадцать", ]
-    tens = ["двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто"]
-    hundreds = ["сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот"]
+    tens = ["двадцать", "тридцать", "сорок", "пятьдесят",
+            "шестьдесят", "семьдесят", "восемьдесят", "девяносто"]
+    hundreds = ["сто", "двести", "триста", "четыреста", "пятьсот",
+                "шестьсот", "семьсот", "восемьсот", "девятьсот"]
     converted = []
     string = string.lower().split(' ')
     for element in string:
@@ -16,10 +18,10 @@ def convert_string(string):
         elif element in hundreds:
             converted.append((hundreds.index(element) + 1) * 100)
         else:
-            return -1
+            False
     if converted:
         return sum(converted)
-    return -1
+    return False
 
 
 def convert_course(string):
@@ -27,7 +29,7 @@ def convert_course(string):
     string = string.lower().replace('ё', 'е')
     if string in ones_ord:
         return ones_ord.index(string) + 1
-    return -1
+    return False
 
 
 if __name__ == "__main__":
