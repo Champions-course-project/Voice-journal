@@ -444,7 +444,6 @@ def new_win():
             row_choose = 0
         return
 
-    # реализован и добавлен, но пока что не проверен
     def addStatuses():
         """
         Функция для добавления статусов в таблицу из сети.\n
@@ -460,6 +459,16 @@ def new_win():
         # формат: словарь[дата][студент] = статус
         statuses_dict = Functions.request_functions.get_statuses(
             current_faculty, current_course, current_group)
+        statuses_from_sourse(statuses_dict)
+        nonlocal partial_state
+        try:
+            statuses_dict = partial_state[current_faculty][current_group][current_course]
+            statuses_from_sourse(statuses_dict)
+        except:
+            return
+        return
+
+    def statuses_from_sourse(sourse: dict):
         dates_list = []
         for i in range(n_ui.group_table.horizontalHeader().count()):
             dates_list.append(n_ui.group_table.horizontalHeaderItem(i).text())
@@ -467,9 +476,9 @@ def new_win():
         for i in range(n_ui.group_table.verticalHeader().count()):
             students_list.append(
                 n_ui.group_table.verticalHeaderItem(i).text().split(". ")[1])
-        for date in statuses_dict:
-            for student in statuses_dict[date]:
-                status = statuses_dict[date][student]
+        for date in sourse:
+            for student in sourse[date]:
+                status = sourse[date][student]
                 row = students_list.index(student)
                 col = dates_list.index(date)
                 n_ui.group_table.setItem(row, col, QTableWidgetItem(status))
