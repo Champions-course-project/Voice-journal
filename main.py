@@ -104,6 +104,8 @@ def new_win():
                                     row_choose, column_choose, QTableWidgetItem(mark_choose))
                             else:
                                 n_ui.error_label.show()
+                        else:
+                            n_ui.error_label.show()
 
                 elif group_cond:  # открыта таблица групп - происходит выбор группы
                     course_choose = n_ui.year_list.currentItem().text()
@@ -113,8 +115,6 @@ def new_win():
                         faculty_name, course_choose, words_list)
                     if group_choose:
                         n_ui.group_list.setCurrentRow(group_choose - 1)
-                        # addDates()
-                        # addStudents()
                     else:
                         n_ui.error_label.show()
 
@@ -125,7 +125,6 @@ def new_win():
                         faculty_name, words_list)
                     if course_choose:
                         n_ui.year_list.setCurrentRow(course_choose - 1)
-                        # addGroupItems()
                     else:
                         n_ui.error_label.show()
 
@@ -134,7 +133,6 @@ def new_win():
                         words_list)
                     if type(faculty_choose) != bool and faculty_choose:
                         n_ui.faculty_list.setCurrentRow(faculty_choose - 1)
-                        # addYearItems()
                     else:
                         n_ui.error_label.show()
 
@@ -195,6 +193,7 @@ def new_win():
         """
         print("addFacultyItems")
         n_ui.group_table.setRowCount(0)
+        n_ui.group_table.setColumnCount(0)
         n_ui.group_list.clear()
         n_ui.year_list.clear()
         n_ui.faculty_list.clear()
@@ -227,6 +226,7 @@ def new_win():
         except AttributeError:
             return
         n_ui.group_table.setRowCount(0)
+        n_ui.group_table.setColumnCount(0)
         n_ui.group_list.clear()
         n_ui.year_list.clear()
         n_ui.year_list.clearSelection()
@@ -258,6 +258,7 @@ def new_win():
         except AttributeError:
             return
         n_ui.group_table.setRowCount(0)
+        n_ui.group_table.setColumnCount(0)
         n_ui.group_list.clear()
         n_ui.group_list.clearSelection()
         n_ui.year_list.setStyleSheet("QListWidget{\n"
@@ -327,7 +328,7 @@ def new_win():
             group_cond = False
         return
 
-    # to do
+    # TODO
     def addDates():
         """
         Функция для добавления дат в таблицу.\n
@@ -338,6 +339,22 @@ def new_win():
             current_group = n_ui.group_list.currentItem().text().split(". ")[1]
         except AttributeError:
             return
+        n_ui.group_table.setColumnCount(0)
+        if not n_ui.group_table.rowCount():
+            return
+        current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
+            1]
+        current_course = n_ui.year_list.currentItem().text()
+        dates_list = Functions.request_functions.get_dates(
+            current_faculty, current_course, current_group)
+        if len(dates_list) == 0:
+            # TODO: группа есть но занятий по предмету нет!
+            nonlocal table_cond
+            table_cond = False
+            return
+        n_ui.group_table.setColumnCount(len(dates_list))
+        n_ui.group_table.setHorizontalHeaderLabels(dates_list)
+        QApplication.processEvents()
         return
 
     def addStudents():
@@ -424,7 +441,6 @@ def new_win():
             studentChoose(n_ui.group_table.verticalHeaderItem(
                 0).text().split(". ")[1])
             row_choose = 0
-        QApplication.processEvents()
         return
 
     def studentChoose(name: str):
@@ -531,6 +547,7 @@ def new_win():
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
+        n_ui.group_list.currentItemChanged.connect(addDates)
 
         # обработка нажатия на клетку таблицы
         n_ui.group_table.cellClicked.connect(selectCell)
