@@ -51,7 +51,7 @@ def get_faculty(words_list: list, faculties_list: list[str] = []):
             if not words_list[0].isdigit():
                 number = convert_number.convert_string(number)
             number = int(number)
-            assert number != -1 and number <= len(faculties_list)
+            assert number != 0 and number <= len(faculties_list)
             return number
         else:
             return False
@@ -74,13 +74,13 @@ def get_course(faculty: str, words_list: list, courses_list: list[str] = []):
     """
     if not courses_list:
         courses_list = Functions.request_functions.get_courses(faculty)
-
     try:
         if words_list:
             course = words_list[0]
             if not words_list[0].isdigit():
                 course = convert_number.convert_course(course)
             course = int(course)
+            assert course != 0 and course <= len(courses_list)
             return course
         else:
             return False
@@ -102,25 +102,21 @@ def get_group(faculty: str, course: str, words_list: list, groups_list: list[str
     - номер группы в списке групп в случае успеха;
     - False в противном случае.
     """
-    # Требуется изменение: список групп должен быть получен из сети, либо как аргумент
     if not groups_list:
         groups_list = Functions.request_functions.get_groups(faculty, course)
-    if groups_list:
-        try:
-            if words_list:
-                group = words_list[0]
-                if not words_list[0].isdigit():
-                    group = convert_number.convert_string(group)
-                group = int(group)
-                assert group > 0 and group <= len(groups_list)
-                return group
-            else:
-                return False
-        except Exception as exc:
-            print(type(exc).__name__)
-            print(exc.args)
+    try:
+        if words_list:
+            group = words_list[0]
+            if not words_list[0].isdigit():
+                group = convert_number.convert_string(group)
+            group = int(group)
+            assert group != 0 and group <= len(groups_list)
+            return group
+        else:
             return False
-    else:
+    except Exception as exc:
+        print(type(exc).__name__)
+        print(exc.args)
         return False
 
 
