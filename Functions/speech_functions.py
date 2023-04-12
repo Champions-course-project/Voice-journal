@@ -3,8 +3,6 @@
 """
 
 
-import json
-import os
 from .check_name import check
 import Functions.convert_number as convert_number
 import Functions.request_functions
@@ -34,7 +32,7 @@ def choose_command(words_list: list):
     return False
 
 
-def get_faculty(words_list: list, faculties_list=[]):
+def get_faculty(words_list: list, faculties_list: list[str] = []):
     """
     Распознаватель факультета на основе имеющегося списка.\n
     Входные аргументы:
@@ -63,7 +61,7 @@ def get_faculty(words_list: list, faculties_list=[]):
         return False
 
 
-def get_course(faculty: str, words_list: list, courses_list=[]):
+def get_course(faculty: str, words_list: list, courses_list: list[str] = []):
     """
     Распознаватель номера курса на основе имеющегося списка.\n
     Входные аргументы:
@@ -92,13 +90,13 @@ def get_course(faculty: str, words_list: list, courses_list=[]):
         return False
 
 
-def get_group(faculty: str, course: str, words_list: list, groups_list=[]):
+def get_group(faculty: str, course: str, words_list: list, groups_list: list[str] = []):
     """
     Распознаватель произнесенного номера группы на основе списка групп.\n
     Входные аргументы:
     - words_list - список слов и словосочетаний, расшифрованных при помощи SR или Vosk.\n
     - faculty - наименование факультета в списке;
-    - course - порядковый номер курса;
+    - course - наименование курса в списке;
     - groups_list - список групп, полученный из программы либо при помощи запроса.\n
     Выходные данные:
     - номер группы в списке групп в случае успеха;
@@ -126,141 +124,163 @@ def get_group(faculty: str, course: str, words_list: list, groups_list=[]):
         return False
 
 
-def get_date(words_list: list):
+def get_date(words_list: list, faculty: str = "", course: str = "", group: str = "", dates_list: list[str] = []):
     """
     Распознаватель произнесённой даты.\n
     Входные аргументы:
-    - words_list - список слов и словосочетаний, расшифрованных при помощи SR или Vosk.\n
+    - words_list - список слов и словосочетаний, расшифрованных при помощи SR или Vosk;
+    - faculty - наименование факультета в списке;
+    - course - наименование курса в списке;
+    - group - наименование группы в списке; 
+    - dates_list - список дат, полученный из программы либо при помощи запроса.\n
+    Для успешного распознавания требуется наличие dates_list.\n
+    При отсутствии списка дат происходит проверка на наличие faculty, course, group.\n
+    Если и они отсутствуют, возвращается False.\n
     Выходные данные:
     - дата в формате ДД.ММ.ГГГГ в случае успеха;
     - False в противном случае.
     """
-    if words_list:
+    try:
+        if words_list:
+            # Список дат должен быть получен из сети, либо как аргумент
+            if not dates_list:
+                assert faculty and course and group
+                dates_list = Functions.request_functions.get_dates(
+                    faculty, course, group)
+            days_list = [
+                'первое', 'второе', 'третье', 'четвертое',
+                'пятое', 'шестое', 'седьмое', 'восьмое',
+                'девятое', 'десятое', 'одиннадцатое', 'двенадцатое',
+                'тринадцатое', 'четырнадцатое', 'пятнадцатое', 'шестнадцатое',
+                'семнадцатое', 'восемнадцатое', 'девятнадцатое', 'двадцатое',
+                'двадцать первое', 'двадцать второе', 'двадцать третье',
+                'двадацать четвертое', 'двадцать пятое', 'двадцать шестое',
+                'двадцать седьмое', 'двадцать восьмое', 'двадцать девятое',
+                'тридцатое', 'тридцать первое'
+            ]
+            months_list = [
+                'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+                'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+            ]
 
-        days_list = [
-            'первое', 'второе', 'третье', 'четвертое',
-            'пятое', 'шестое', 'седьмое', 'восьмое',
-            'девятое', 'десятое', 'одиннадцатое', 'двенадцатое',
-            'тринадцатое', 'четырнадцатое', 'пятнадцатое', 'шестнадцатое',
-            'семнадцатое', 'восемнадцатое', 'девятнадцатое', 'двадцатое',
-            'двадцать первое', 'двадцать второе', 'двадцать третье',
-            'двадацать четвертое', 'двадцать пятое', 'двадцать шестое',
-            'двадцать седьмое', 'двадцать восьмое', 'двадцать девятое',
-            'тридцатое', 'тридцать первое'
-        ]
-        months_list = [
-            'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-            'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
-        ]
-        # Список дат из журнала
-        # Требуется изменение: список дат должен быть получен из сети, либо как аргумент
-        dates_list = []
-        with open(os.path.join("Functions", "Dates.txt"), 'r', encoding='UTF-8') as F:
-            for date in F:
-                dates_list.append(date.replace("\n", ""))
+            date = ""
+            for string in words_list:
+                month = string.split(' ')[-1]
+                if month.lower() in months_list:
 
-        date = ""
-        for string in words_list:
-            month = string.split(' ')[-1]
-            if month.lower() in months_list:
+                    # создание номера месяца
+                    month = str(months_list.index(month) + 1)
+                    if len(month) == 1:
+                        month = "0" + month
 
-                # создание номера месяца
-                month = str(months_list.index(month) + 1)
-                if len(month) == 1:
-                    month = "0" + month
-
-                string = string.split(' ')[:-1]
-                # возврат числа
-                if string[0].isdigit():
-                    # если вернул число - дополняет его до даты
-                    if len(string[0]) == 1:
-                        day = "0" + string[0]
-                    else:
-                        day = string[0]
-                    date = f"{day}.{month}."
-                    # !!! Внимание на "2023" - это затычка
-                    if date + "2023" in dates_list:
-                        return date
-                    print(f"Такой даты нет в журнале! | {date}2023")
-                    return False
-
-                # если слово "первое", "второе", ..., но не "двадцать первое"
-                elif len(string) == 1:
-                    day = string[0].lower().replace('ё', 'е')
-                    if day in days_list:
-                        # конвертировали в день
-                        day = str(days_list.index(day) + 1)
-                        if len(day) == 1:
-                            day = "0" + day
-                        date = f"{day}.{month}."
-                        if date + "2023" in dates_list:
-                            return date
+                    string = string.split(' ')[:-1]
+                    # возврат числа
+                    if string[0].isdigit():
+                        # если вернул число - дополняет его до даты
+                        if len(string[0]) == 1:
+                            day = "0" + string[0]
                         else:
-                            print(f"Такой даты нет в журнале! | {date}2023")
-                            return False
-                    print("Распознавание даты не прошло!")
-                    return False
-
-                # если слова "двадцать первое", "двадцать второе", ...
-                elif len(string) == 2:
-                    for element in string:
-                        date += element.lower().replace('ё', 'е') + " "
-                    if date[:-1] in days_list:
-                        date = str(days_list.index(date[:-1]) + 1)
-                        date = date + "." + month + "."
+                            day = string[0]
+                        date = f"{day}.{month}."
                         # !!! Внимание на "2023" - это затычка
                         if date + "2023" in dates_list:
                             return date
-                        else:
-                            print(f"Такой даты нет в журнале! | {date}2023")
-                            return False
-                    print("Распознавание даты не прошло!")
-                    return False
-    print("Не молчите в микрофон!")
-    return False
+                        print(f"Такой даты нет в журнале! | {date}2023")
+                        return False
+
+                    # если слово "первое", "второе", ..., но не "двадцать первое"
+                    elif len(string) == 1:
+                        day = string[0].lower().replace('ё', 'е')
+                        if day in days_list:
+                            # конвертировали в день
+                            day = str(days_list.index(day) + 1)
+                            if len(day) == 1:
+                                day = "0" + day
+                            date = f"{day}.{month}."
+                            if date + "2023" in dates_list:
+                                return date
+                            else:
+                                print(
+                                    f"Такой даты нет в журнале! | {date}2023")
+                                return False
+                        print("Распознавание даты не прошло!")
+                        return False
+
+                    # если слова "двадцать первое", "двадцать второе", ...
+                    elif len(string) == 2:
+                        for element in string:
+                            date += element.lower().replace('ё', 'е') + " "
+                        if date[:-1] in days_list:
+                            date = str(days_list.index(date[:-1]) + 1)
+                            date = date + "." + month + "."
+                            # !!! Внимание на "2023" - это затычка
+                            if date + "2023" in dates_list:
+                                return date
+                            else:
+                                print(
+                                    f"Такой даты нет в журнале! | {date}2023")
+                                return False
+                        print("Распознавание даты не прошло!")
+                        return False
+        print("Не молчите в микрофон!")
+        return False
+    except AssertionError:
+        return False
 
 
-def get_student_name(students_list: list[str], words_list: list):
+def get_student_name(words_list: list, faculty: str = "", course: str = "", group: str = "", students_list: list[str] = []):
     """
     Распознаватель произнесенных фамилий.\n
     Входные аргументы:
-    - words_list - список слов и словосочетаний, расшифрованных при помощи SR или Vosk.\n
-    - students_list - список студентов с именами в формате:
-    Фамилия Имя Отчество.\n
+    - words_list - список слов и словосочетаний, расшифрованных при помощи SR или Vosk;
+    - faculty - наименование факультета в списке;
+    - course - наименование курса в списке;
+    - group - наименование группы в списке; 
+    - students_list - список студентов, полученный из программы либо при помощи запроса. Формат: Фамилия Имя Отчество.\n
+    Для успешного распознавания требуется наличие students_list.\n
+    При отсутствии списка студентов происходит проверка на наличие faculty, course, group.\n
+    Если и они отсутствуют, возвращается False.\n
     Выходные данные:
     - ФИО студента в случае успешного распознавания и совпадения;
     - False в противном случае.
     """
-    if words_list:
+    try:
+        if words_list:
+            # Список студентов должен быть получен из сети, либо как аргумент
+            if not students_list:
+                assert faculty and course and group
+                students_list = Functions.request_functions.get_students(
+                    faculty, course, group)
+            # распознавание фамилий: полное или частичное
+            possible_names_list = set()
+            definite_names_list = set()
+            for student_name in students_list:
 
-        # распознавание фамилий: полное или частичное
-        possible_names_list = set()
-        definite_names_list = set()
-        for student_name in students_list:
+                for word in words_list:
 
-            for word in words_list:
+                    status = check(student_name.split(" ")[0], word)
 
-                status = check(student_name.split(" ")[0], word)
+                    if status == 2:
+                        definite_names_list.add(student_name)
+                    elif status == 1:
+                        possible_names_list.add(student_name)
 
-                if status == 2:
-                    definite_names_list.add(student_name)
-                elif status == 1:
-                    possible_names_list.add(student_name)
+            if definite_names_list:
+                if len(definite_names_list) == 1:
+                    return (str)((list)(definite_names_list)[0])
+                return False
 
-        if definite_names_list:
-            if len(definite_names_list) == 1:
-                return (str)((list)(definite_names_list)[0])
+            elif possible_names_list:
+                if len(possible_names_list) == 1:
+                    return (str)((list)(possible_names_list)[0])
+                return False
+
+            print("Распознавание не прошло! Попробуйте еще раз!")
             return False
-
-        elif possible_names_list:
-            if len(possible_names_list) == 1:
-                return (str)((list)(possible_names_list)[0])
-            return False
-
-        print("Распознавание не прошло! Попробуйте еще раз!")
+        print("Не молчите в микрофон!")
         return False
-    print("Не молчите в микрофон!")
-    return False
+    except AssertionError:
+        return False
 
 
 def get_status(words_list: list):
