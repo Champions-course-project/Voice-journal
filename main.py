@@ -190,7 +190,6 @@ def new_win():
         n_ui.activate_button.update()
         QApplication.processEvents()
 
-    # DONE
     def addFacultyItems():
         """
         Функция для добавления списка факультетов.\n
@@ -219,7 +218,6 @@ def new_win():
                 (str)(num + 1) + ". " + faculties_list[num])
         return
 
-    # DONE
     def addYearItems():
         """
         Функция для добавления списка курсов.\n
@@ -253,7 +251,6 @@ def new_win():
         year_cond = True
         return
 
-    # DONE
     def addGroupItems():
         """
         Функция для добавления списка групп.\n
@@ -335,7 +332,6 @@ def new_win():
             group_cond = False
         return
 
-    # DONE
     def addDates():
         """
         Функция для добавления дат в таблицу.\n
@@ -363,7 +359,6 @@ def new_win():
         QApplication.processEvents()
         return
 
-    # DONE
     def addStudents():
         """
         Функция для добавления студентов в таблицу.\n
@@ -450,7 +445,6 @@ def new_win():
             row_choose = 0
         return
 
-    # DONE
     def addStatuses():
         """
         Функция для добавления статусов в таблицу из сети и из локальных данных.\n
@@ -469,13 +463,12 @@ def new_win():
         statuses_from_sourse(statuses_dict)
         nonlocal partial_state
         try:
-            statuses_dict = partial_state[current_faculty][current_group][current_course]
+            statuses_dict = partial_state[current_faculty][current_course][current_group]
             statuses_from_sourse(statuses_dict)
         except:
             return
         return
 
-    # DONE
     def statuses_from_sourse(sourse: dict):
         """
         Добавляет статусы в таблицу, полученные из источника как словарь.
@@ -496,7 +489,6 @@ def new_win():
                 n_ui.group_table.setItem(row, col, QTableWidgetItem(status))
         return
 
-    # DONE - Это простой селектор
     def studentChoose(name: str):
         """
         Осуществляет выбор студента по заданному ФИО.\n
@@ -529,7 +521,6 @@ def new_win():
             QApplication.processEvents()
         return
 
-    # DONE - Это простой селектор
     def dateChoose(date: str):
         """
         Осуществляет выбор даты по введенной строке.\n
@@ -594,7 +585,7 @@ def new_win():
         date_choose = n_ui.group_table.horizontalHeaderItem(
             column_choose).text()
         student_choose = n_ui.group_table.verticalHeaderItem(
-            row_choose).text()
+            row_choose).text().split(". ")[1]
         try:
             partial_state[faculty_name]
         except:
@@ -612,7 +603,6 @@ def new_win():
         except:
             partial_state[faculty_name][course_name][group_name][date_choose] = {}
         partial_state[faculty_name][course_name][group_name][date_choose][student_choose] = mark_choose
-        print(partial_state)
         return
 
     if success:
