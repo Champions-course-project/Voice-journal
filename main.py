@@ -105,6 +105,7 @@ def new_win():
                             if mark_choose:
                                 n_ui.group_table.setItem(
                                     row_choose, column_choose, QTableWidgetItem(mark_choose))
+                                rememberState()
                             else:
                                 n_ui.error_label.show()
                         else:
@@ -446,7 +447,7 @@ def new_win():
 
     def addStatuses():
         """
-        Функция для добавления статусов в таблицу из сети.\n
+        Функция для добавления статусов в таблицу из сети и из локальных данных.\n
         Осуществляет запрос на сервер для получения статусов.
         """
         print("addStatuses")
@@ -469,6 +470,10 @@ def new_win():
         return
 
     def statuses_from_sourse(sourse: dict):
+        """
+        Добавляет статусы в таблицу, полученные из источника как словарь.
+        """
+        print("statuses_from_sourse")
         dates_list = []
         for i in range(n_ui.group_table.horizontalHeader().count()):
             dates_list.append(n_ui.group_table.horizontalHeaderItem(i).text())
@@ -507,12 +512,13 @@ def new_win():
         row_choose = index
         if column_choose == -1:
             for i in range(n_ui.group_table.horizontalHeader().count()):
-                n_ui.group_table.setItem(
-                    row_choose, i, QTableWidgetItem(" "))
+                item_prew = n_ui.group_table.item(row_choose, i)
+                if item_prew == None:
+                    n_ui.group_table.setItem(
+                        row_choose, i, QTableWidgetItem(""))
                 item = n_ui.group_table.item(row_choose, i)
                 item.setSelected(True)
-                n_ui.activate_button.update()
-                QApplication.processEvents()
+        QApplication.processEvents()
         return
 
     def dateChoose(date: str):
@@ -538,12 +544,13 @@ def new_win():
         column_choose = index
         if row_choose == -1:
             for i in range(n_ui.group_table.verticalHeader().count()):
-                n_ui.group_table.setItem(
-                    i, column_choose, QTableWidgetItem(" "))
+                item_prew = n_ui.group_table.item(i, column_choose)
+                if item_prew == None:
+                    n_ui.group_table.setItem(
+                        i, column_choose, QTableWidgetItem(""))
                 item = n_ui.group_table.item(i, column_choose)
                 item.setSelected(True)
-                n_ui.activate_button.update()
-                QApplication.processEvents()
+        QApplication.processEvents()
         return
 
     def selectCell():
@@ -560,7 +567,6 @@ def new_win():
         n_ui.group_table.setItem(
             row_choose, column_choose, QTableWidgetItem(" "))
         item = n_ui.group_table.item(row_choose, column_choose)
-        item.setSelected(True)
         return
 
     def rememberState():
@@ -596,6 +602,7 @@ def new_win():
         except:
             partial_state[faculty_name][course_name][group_name][date_choose] = {}
         partial_state[faculty_name][course_name][group_name][date_choose][student_choose] = mark_choose
+        print(partial_state)
         return
 
     if success:
