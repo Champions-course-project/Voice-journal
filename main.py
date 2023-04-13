@@ -65,8 +65,10 @@ def new_win():
                     elif command == 3 and group_cond:  # выбрать группу, открыта таблица групп
                         addGroupItems()
                     elif command == 4:  # сохранить
-                        # TODO: реализовать сохранение статусов
-                        pass
+                        Functions.request_functions.save_statuses(
+                            partial_state)
+                        partial_state = {}
+                        n_ui.group_list.currentItemChanged.emit(None, None)
                     elif command == 5:  # отменить
                         partial_state = {}
                         n_ui.group_list.currentItemChanged.emit(None, None)

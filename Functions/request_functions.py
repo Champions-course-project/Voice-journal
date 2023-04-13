@@ -60,7 +60,7 @@ def get_statuses(faculty: str, course: str, group: str):
 
 def request_get(URL: str = "", **kwargs):
     """
-    Осуществляет запрос по указанному URL с заданным списком параметров.
+    Осуществляет GET-запрос по указанному URL с заданным списком параметров.
     """
     args_list = []
     for key in kwargs:
@@ -76,8 +76,8 @@ def get_from_file(URL: str):
     """
     Реализует фиктивный запрос на сервер - открывает файл и выдает необходимую информацию.
     """
-    with open("data.json", "r", encoding="UTF-8") as OF:
-        data = (dict)(json.load(OF))
+    with open("data.json", "r", encoding="UTF-8") as IF:
+        data = (dict)(json.load(IF))
     request_part = URL.split("?")[1]
     requests_dict = {}
     if request_part:
@@ -91,8 +91,8 @@ def get_from_file(URL: str):
             if "group" in requests_dict:
                 if "type" in requests_dict:
                     if requests_dict["type"] == "students":
-                        with open("students_list.json", "r", encoding="UTF-8") as OF:
-                            students_data = (dict)(json.load(OF))
+                        with open("students_list.json", "r", encoding="UTF-8") as IF:
+                            students_data = (dict)(json.load(IF))
                         try:
                             students_list = (list)(
                                 students_data[requests_dict["group"]])
@@ -101,14 +101,14 @@ def get_from_file(URL: str):
                         return students_list
                     elif requests_dict["type"] == "dates":
                         dates_list = []
-                        with open("Dates.txt", "r", encoding="UTF-8") as OF:
-                            for line in OF:
+                        with open("Dates.txt", "r", encoding="UTF-8") as IF:
+                            for line in IF:
                                 dates_list.append(line.replace("\n", ""))
                         return dates_list
                     elif requests_dict["type"] == "statuses":
                         try:
-                            with open("statuses.json", "r", encoding="UTF-8") as OF:
-                                statuses = (dict)(json.load(OF))
+                            with open("statuses.json", "r", encoding="UTF-8") as IF:
+                                statuses = (dict)(json.load(IF))
                         except:
                             return {}
                         try:
@@ -131,9 +131,67 @@ def get_from_file(URL: str):
         return (list)(data.keys())
 
 
-def save_statuses(**statuses):
-    pass
+# DONE
+def save_statuses(statuses):
+    """
+    Сохраняет все выставленные статусы.\n
+    Осуществляет фиктивный запрос на сервер.\n
+    Возвращает состояние запроса.
+    """
+    return request_post(statuses=statuses)
 
 
-def request_post():
-    pass
+def request_post(URL: str = "", **kwargs):
+    """
+    Осуществляет POST-запрос по указанному URL с заданным списком параметров.\n
+    Возвращает состояние запроса.
+    """
+    # запрос типа отправлен, получен ответ - нужный список
+    request_status = save_to_file(kwargs)
+    return request_status
+
+
+def save_to_file(statuses_input: dict):
+    """
+    Реализует фиктивный запрос на сервер - открывает файл и сохраняет новую информацию.
+    """
+    try:
+        with open("statuses.json", "r", encoding="UTF-8") as IF:
+            file_statuses = (dict)(json.load(IF))
+    except:
+        file_statuses = {}
+    # структура словаря: словарь[faculty_name][course_name][
+    # group_name][date_choose][student_choose]: status
+    faculty_list = statuses_input["statuses"]
+    for faculty in faculty_list:
+        courses_dict = faculty_list[faculty]
+        for course in courses_dict:
+            groups_dict = courses_dict[course]
+            for group in groups_dict:
+                dates_dict = groups_dict[group]
+                for date in dates_dict:
+                    students_dict = dates_dict[date]
+                    for student in students_dict:
+                        status = students_dict[student]
+                        if status != "":
+                            try:
+                                file_statuses[faculty]
+                            except:
+                                file_statuses[faculty] = {}
+                            try:
+                                file_statuses[faculty][course]
+                            except:
+                                file_statuses[faculty][course] = {}
+                            try:
+                                file_statuses[faculty][course][group]
+                            except:
+                                file_statuses[faculty][course][group] = {}
+                            try:
+                                file_statuses[faculty][course][group][date]
+                            except:
+                                file_statuses[faculty][course][group][date] = {}
+                            file_statuses[faculty][course][group][date][student] = status
+    with open("statuses.json", "w", encoding="UTF-8") as OF:
+        json.dump(file_statuses, OF, ensure_ascii=False,
+                  indent=4, sort_keys=True)
+    return 200
