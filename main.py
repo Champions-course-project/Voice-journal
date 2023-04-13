@@ -85,11 +85,11 @@ def new_win():
                     if date_choose:
                         dateChoose(date_choose)
                         if row_choose != -1 and column_choose != -1:
-                            selectCell()
+                            selectCell(row_choose, column_choose)
                     else:
                         number = Functions.speech_functions.convert_number.convert_string(
                             words_list[0])
-                        if number != 0:
+                        if number != 0 and number <= n_ui.group_table.verticalHeader().count():
                             word = n_ui.group_table.verticalHeaderItem(
                                 number - 1).text()
                             words_list[0] = word.split(". ")[1]
@@ -98,7 +98,7 @@ def new_win():
                         if student_choose:
                             studentChoose(student_choose)
                             if row_choose != -1 and column_choose != -1:
-                                selectCell()
+                                selectCell(row_choose, column_choose)
                         elif row_choose > -1 and column_choose > -1:
                             mark_choose = Functions.speech_functions.get_status(
                                 words_list)
@@ -190,6 +190,7 @@ def new_win():
         n_ui.activate_button.update()
         QApplication.processEvents()
 
+    # DONE
     def addFacultyItems():
         """
         Функция для добавления списка факультетов.\n
@@ -218,6 +219,7 @@ def new_win():
                 (str)(num + 1) + ". " + faculties_list[num])
         return
 
+    # DONE
     def addYearItems():
         """
         Функция для добавления списка курсов.\n
@@ -251,6 +253,7 @@ def new_win():
         year_cond = True
         return
 
+    # DONE
     def addGroupItems():
         """
         Функция для добавления списка групп.\n
@@ -332,6 +335,7 @@ def new_win():
             group_cond = False
         return
 
+    # DONE
     def addDates():
         """
         Функция для добавления дат в таблицу.\n
@@ -359,6 +363,7 @@ def new_win():
         QApplication.processEvents()
         return
 
+    # DONE
     def addStudents():
         """
         Функция для добавления студентов в таблицу.\n
@@ -445,6 +450,7 @@ def new_win():
             row_choose = 0
         return
 
+    # DONE
     def addStatuses():
         """
         Функция для добавления статусов в таблицу из сети и из локальных данных.\n
@@ -469,6 +475,7 @@ def new_win():
             return
         return
 
+    # DONE
     def statuses_from_sourse(sourse: dict):
         """
         Добавляет статусы в таблицу, полученные из источника как словарь.
@@ -489,6 +496,7 @@ def new_win():
                 n_ui.group_table.setItem(row, col, QTableWidgetItem(status))
         return
 
+    # DONE - Это простой селектор
     def studentChoose(name: str):
         """
         Осуществляет выбор студента по заданному ФИО.\n
@@ -518,9 +526,10 @@ def new_win():
                         row_choose, i, QTableWidgetItem(""))
                 item = n_ui.group_table.item(row_choose, i)
                 item.setSelected(True)
-        QApplication.processEvents()
+            QApplication.processEvents()
         return
 
+    # DONE - Это простой селектор
     def dateChoose(date: str):
         """
         Осуществляет выбор даты по введенной строке.\n
@@ -550,23 +559,24 @@ def new_win():
                         i, column_choose, QTableWidgetItem(""))
                 item = n_ui.group_table.item(i, column_choose)
                 item.setSelected(True)
-        QApplication.processEvents()
+            QApplication.processEvents()
         return
 
-    def selectCell():
+    def selectCell(row: int = -1, col: int = -1):
         """
         Функция для выделения ячейки в таблице по заданным координатам.
         """
         print("selectCell")
         nonlocal row_choose, column_choose
-        if column_choose == -1:
-            column_choose = n_ui.group_table.currentColumn()
-        if row_choose == -1:
-            row_choose = n_ui.group_table.currentRow()
+        row_choose = row
+        column_choose = col
+        item_prew = n_ui.group_table.item(row, col)
+        if item_prew == None:
+            n_ui.group_table.setItem(
+                row, col, QTableWidgetItem(""))
         n_ui.group_table.clearSelection()
-        n_ui.group_table.setItem(
-            row_choose, column_choose, QTableWidgetItem(" "))
-        item = n_ui.group_table.item(row_choose, column_choose)
+        item = n_ui.group_table.item(row, col)
+        item.setSelected(True)
         return
 
     def rememberState():
@@ -574,10 +584,10 @@ def new_win():
         Функция для сохранения всех введенных состояний студентов.
         """
         print("rememberState")
-        mark_choose = n_ui.group_table.currentItem().text()
-        if mark_choose == " ":
-            return
         nonlocal row_choose, column_choose, partial_state
+        mark_choose = n_ui.group_table.item(row_choose, column_choose).text()
+        if mark_choose == "":
+            return
         faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[1]
         course_name = n_ui.year_list.currentItem().text()
         group_name = n_ui.group_list.currentItem().text().split(". ")[1]
