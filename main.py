@@ -65,7 +65,10 @@ def new_win():
                     elif command == 3 and group_cond:  # выбрать группу, открыта таблица групп
                         addGroupItems()
                     elif command == 4:  # сохранить
-                        pass
+                        Functions.request_functions.save_statuses(
+                            partial_state)
+                        partial_state = {}
+                        n_ui.group_list.currentItemChanged.emit(None, None)
                     elif command == 5:  # отменить
                         partial_state = {}
                         n_ui.group_list.currentItemChanged.emit(None, None)
@@ -84,11 +87,11 @@ def new_win():
                     if date_choose:
                         dateChoose(date_choose)
                         if row_choose != -1 and column_choose != -1:
-                            selectCell()
+                            selectCell(row_choose, column_choose)
                     else:
                         number = Functions.speech_functions.convert_number.convert_string(
                             words_list[0])
-                        if number != 0:
+                        if number != 0 and number <= n_ui.group_table.verticalHeader().count():
                             word = n_ui.group_table.verticalHeaderItem(
                                 number - 1).text()
                             words_list[0] = word.split(". ")[1]
@@ -97,13 +100,14 @@ def new_win():
                         if student_choose:
                             studentChoose(student_choose)
                             if row_choose != -1 and column_choose != -1:
-                                selectCell()
+                                selectCell(row_choose, column_choose)
                         elif row_choose > -1 and column_choose > -1:
                             mark_choose = Functions.speech_functions.get_status(
                                 words_list)
                             if mark_choose:
                                 n_ui.group_table.setItem(
                                     row_choose, column_choose, QTableWidgetItem(mark_choose))
+                                rememberState()
                             else:
                                 n_ui.error_label.show()
                         else:
@@ -343,8 +347,7 @@ def new_win():
         n_ui.group_table.setColumnCount(0)
         if not n_ui.group_table.rowCount():
             return
-        current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
-            1]
+        current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[1]
         current_course = n_ui.year_list.currentItem().text()
         dates_list = Functions.request_functions.get_dates(
             current_faculty, current_course, current_group)
@@ -444,6 +447,50 @@ def new_win():
             row_choose = 0
         return
 
+    def addStatuses():
+        """
+        Функция для добавления статусов в таблицу из сети и из локальных данных.\n
+        Осуществляет запрос на сервер для получения статусов.
+        """
+        print("addStatuses")
+        try:
+            current_group = n_ui.group_list.currentItem().text().split(". ")[1]
+        except AttributeError:
+            return
+        current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[1]
+        current_course = n_ui.year_list.currentItem().text()
+        # формат: словарь[дата][студент] = статус
+        statuses_dict = Functions.request_functions.get_statuses(
+            current_faculty, current_course, current_group)
+        statuses_from_sourse(statuses_dict)
+        nonlocal partial_state
+        try:
+            statuses_dict = partial_state[current_faculty][current_course][current_group]
+            statuses_from_sourse(statuses_dict)
+        except:
+            return
+        return
+
+    def statuses_from_sourse(sourse: dict):
+        """
+        Добавляет статусы в таблицу, полученные из источника как словарь.
+        """
+        print("statuses_from_sourse")
+        dates_list = []
+        for i in range(n_ui.group_table.horizontalHeader().count()):
+            dates_list.append(n_ui.group_table.horizontalHeaderItem(i).text())
+        students_list = []
+        for i in range(n_ui.group_table.verticalHeader().count()):
+            students_list.append(
+                n_ui.group_table.verticalHeaderItem(i).text().split(". ")[1])
+        for date in sourse:
+            for student in sourse[date]:
+                status = sourse[date][student]
+                row = students_list.index(student)
+                col = dates_list.index(date)
+                n_ui.group_table.setItem(row, col, QTableWidgetItem(status))
+        return
+
     def studentChoose(name: str):
         """
         Осуществляет выбор студента по заданному ФИО.\n
@@ -467,12 +514,13 @@ def new_win():
         row_choose = index
         if column_choose == -1:
             for i in range(n_ui.group_table.horizontalHeader().count()):
-                n_ui.group_table.setItem(
-                    row_choose, i, QTableWidgetItem(" "))
+                item_prew = n_ui.group_table.item(row_choose, i)
+                if item_prew == None:
+                    n_ui.group_table.setItem(
+                        row_choose, i, QTableWidgetItem(""))
                 item = n_ui.group_table.item(row_choose, i)
                 item.setSelected(True)
-                n_ui.activate_button.update()
-                QApplication.processEvents()
+            QApplication.processEvents()
         return
 
     def dateChoose(date: str):
@@ -498,28 +546,29 @@ def new_win():
         column_choose = index
         if row_choose == -1:
             for i in range(n_ui.group_table.verticalHeader().count()):
-                n_ui.group_table.setItem(
-                    i, column_choose, QTableWidgetItem(" "))
+                item_prew = n_ui.group_table.item(i, column_choose)
+                if item_prew == None:
+                    n_ui.group_table.setItem(
+                        i, column_choose, QTableWidgetItem(""))
                 item = n_ui.group_table.item(i, column_choose)
                 item.setSelected(True)
-                n_ui.activate_button.update()
-                QApplication.processEvents()
+            QApplication.processEvents()
         return
 
-    def selectCell():
+    def selectCell(row: int = -1, col: int = -1):
         """
         Функция для выделения ячейки в таблице по заданным координатам.
         """
         print("selectCell")
         nonlocal row_choose, column_choose
-        if column_choose == -1:
-            column_choose = n_ui.group_table.currentColumn()
-        if row_choose == -1:
-            row_choose = n_ui.group_table.currentRow()
+        row_choose = row
+        column_choose = col
+        item_prew = n_ui.group_table.item(row, col)
+        if item_prew == None:
+            n_ui.group_table.setItem(
+                row, col, QTableWidgetItem(""))
         n_ui.group_table.clearSelection()
-        n_ui.group_table.setItem(
-            row_choose, column_choose, QTableWidgetItem(" "))
-        item = n_ui.group_table.item(row_choose, column_choose)
+        item = n_ui.group_table.item(row, col)
         item.setSelected(True)
         return
 
@@ -528,17 +577,17 @@ def new_win():
         Функция для сохранения всех введенных состояний студентов.
         """
         print("rememberState")
-        mark_choose = n_ui.group_table.currentItem().text()
-        if mark_choose == " ":
-            return
         nonlocal row_choose, column_choose, partial_state
+        mark_choose = n_ui.group_table.item(row_choose, column_choose).text()
+        if mark_choose == "":
+            return
         faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[1]
         course_name = n_ui.year_list.currentItem().text()
         group_name = n_ui.group_list.currentItem().text().split(". ")[1]
         date_choose = n_ui.group_table.horizontalHeaderItem(
             column_choose).text()
         student_choose = n_ui.group_table.verticalHeaderItem(
-            row_choose).text()
+            row_choose).text().split(". ")[1]
         try:
             partial_state[faculty_name]
         except:
@@ -584,6 +633,7 @@ def new_win():
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
         n_ui.group_list.currentItemChanged.connect(addDates)
+        n_ui.group_list.currentItemChanged.connect(addStatuses)
 
         # обработка нажатия на клетку таблицы
         n_ui.group_table.cellClicked.connect(selectCell)
