@@ -12,6 +12,8 @@ import resources
 import json
 import sys
 
+import asyncio
+
 myappid = "mycompany.myproduct.subproduct.version"
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 ui = Ui_AuthWindow()
@@ -30,6 +32,13 @@ def new_win():
     # auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
 
     def activate_voice():
+        try:
+            assert not buttonActive
+            asyncio.run(async_activate_voice())
+        except AssertionError:
+            return
+
+    async def async_activate_voice():
         """
         Основная функция по обработке распознавания речи.\n
         Последовательно производит несколько проверок:
@@ -43,116 +52,113 @@ def new_win():
         - доступен выбор факультета и произнесен номер факультета в списке.\n
         За счет этих проверок достигается работоспособность голосового управления.
         """
+        nonlocal table_cond, group_cond, year_cond, buttonActive
+        buttonActive = True
+        buttonColor(2)
+        bytes_array = recorder.Recorder.record_data()
+        buttonColor(1)
+        words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
+        print(words_list)
         try:
-            nonlocal table_cond, group_cond, year_cond, buttonActive
-            assert not buttonActive
-            buttonActive = True
-            buttonColor(2)
-            bytes_array = recorder.Recorder.record_data()
-            buttonColor(1)
-            words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
-            print(words_list)
-            try:
-                assert words_list
-                # вызов функций по распознаванию команды
-                nonlocal row_choose, column_choose, partial_state
-                command = Functions.speech_functions.choose_command(words_list)
-                if command:  # если получена команда:
-                    if command == 1:  # выбрать факультет
-                        addFacultyItems()
-                    elif command == 2 and year_cond:  # выбрать курс, открыта таблица курсов
-                        addYearItems()
-                    elif command == 3 and group_cond:  # выбрать группу, открыта таблица групп
-                        addGroupItems()
-                    elif command == 4:  # сохранить
-                        Functions.request_functions.save_statuses(
-                            partial_state)
-                        partial_state = {}
-                        n_ui.group_list.currentItemChanged.emit(None, None)
-                    elif command == 5:  # отменить
-                        partial_state = {}
-                        n_ui.group_list.currentItemChanged.emit(None, None)
-                    else:
-                        n_ui.error_label.show()  # произнесли команду но ее выполнить нельзя
+            assert words_list
+            # вызов функций по распознаванию команды
+            nonlocal row_choose, column_choose, partial_state
+            command = Functions.speech_functions.choose_command(words_list)
+            if command:  # если получена команда:
+                if command == 1:  # выбрать факультет
+                    addFacultyItems()
+                elif command == 2 and year_cond:  # выбрать курс, открыта таблица курсов
+                    addYearItems()
+                elif command == 3 and group_cond:  # выбрать группу, открыта таблица групп
+                    addGroupItems()
+                elif command == 4:  # сохранить
+                    Functions.request_functions.save_statuses(
+                        partial_state)
+                    partial_state = {}
+                    n_ui.group_list.currentItemChanged.emit(None, None)
+                elif command == 5:  # отменить
+                    partial_state = {}
+                    n_ui.group_list.currentItemChanged.emit(None, None)
+                else:
+                    n_ui.error_label.show()  # произнесли команду но ее выполнить нельзя
 
-                elif table_cond:  # открыта таблица студентов - происходит выбор студента
-                    # для отправки запроса с получением дат и фамилий
-                    faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
-                        1]
-                    course_name = n_ui.year_list.currentItem().text()
-                    group_name = n_ui.group_list.currentItem().text().split(". ")[
-                        1]
-                    date_choose = Functions.speech_functions.get_date(
+            elif table_cond:  # открыта таблица студентов - происходит выбор студента
+                # для отправки запроса с получением дат и фамилий
+                faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                    1]
+                course_name = n_ui.year_list.currentItem().text()
+                group_name = n_ui.group_list.currentItem().text().split(". ")[
+                    1]
+                date_choose = Functions.speech_functions.get_date(
+                    words_list, faculty_name, course_name, group_name)
+                if date_choose:
+                    dateChoose(date_choose)
+                    if row_choose != -1 and column_choose != -1:
+                        selectCell(row_choose, column_choose)
+                else:
+                    number = Functions.speech_functions.convert_number.convert_string(
+                        words_list[0])
+                    if number != 0 and number <= n_ui.group_table.verticalHeader().count():
+                        word = n_ui.group_table.verticalHeaderItem(
+                            number - 1).text()
+                        words_list[0] = word.split(". ")[1]
+                    student_choose = Functions.speech_functions.get_student_name(
                         words_list, faculty_name, course_name, group_name)
-                    if date_choose:
-                        dateChoose(date_choose)
+                    if student_choose:
+                        studentChoose(student_choose)
                         if row_choose != -1 and column_choose != -1:
                             selectCell(row_choose, column_choose)
-                    else:
-                        number = Functions.speech_functions.convert_number.convert_string(
-                            words_list[0])
-                        if number != 0 and number <= n_ui.group_table.verticalHeader().count():
-                            word = n_ui.group_table.verticalHeaderItem(
-                                number - 1).text()
-                            words_list[0] = word.split(". ")[1]
-                        student_choose = Functions.speech_functions.get_student_name(
-                            words_list, faculty_name, course_name, group_name)
-                        if student_choose:
-                            studentChoose(student_choose)
-                            if row_choose != -1 and column_choose != -1:
-                                selectCell(row_choose, column_choose)
-                        elif row_choose > -1 and column_choose > -1:
-                            mark_choose = Functions.speech_functions.get_status(
-                                words_list)
-                            if mark_choose:
-                                n_ui.group_table.setItem(
-                                    row_choose, column_choose, QTableWidgetItem(mark_choose))
-                                rememberState()
-                            else:
-                                n_ui.error_label.show()
+                    elif row_choose > -1 and column_choose > -1:
+                        mark_choose = Functions.speech_functions.get_status(
+                            words_list)
+                        if mark_choose:
+                            n_ui.group_table.setItem(
+                                row_choose, column_choose, QTableWidgetItem(mark_choose))
+                            rememberState()
                         else:
                             n_ui.error_label.show()
-
-                elif group_cond:  # открыта таблица групп - происходит выбор группы
-                    course_choose = n_ui.year_list.currentItem().text()
-                    faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
-                        1]
-                    group_choose = Functions.speech_functions.get_group(
-                        faculty_name, course_choose, words_list)
-                    if group_choose:
-                        n_ui.group_list.setCurrentRow(group_choose - 1)
                     else:
                         n_ui.error_label.show()
 
-                elif year_cond:   # открыта таблица курсов - происходит выбор курса
-                    faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
-                        1]
-                    course_choose = Functions.speech_functions.get_course(
-                        faculty_name, words_list)
-                    if course_choose:
-                        n_ui.year_list.setCurrentRow(course_choose - 1)
-                    else:
-                        n_ui.error_label.show()
+            elif group_cond:  # открыта таблица групп - происходит выбор группы
+                course_choose = n_ui.year_list.currentItem().text()
+                faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                    1]
+                group_choose = Functions.speech_functions.get_group(
+                    faculty_name, course_choose, words_list)
+                if group_choose:
+                    n_ui.group_list.setCurrentRow(group_choose - 1)
+                else:
+                    n_ui.error_label.show()
 
-                else:  # открыта только таблица с факультетами - происходит выбор факультета
-                    faculty_choose = Functions.speech_functions.get_faculty(
-                        words_list)
-                    if type(faculty_choose) != bool and faculty_choose:
-                        n_ui.faculty_list.setCurrentRow(faculty_choose - 1)
-                    else:
-                        n_ui.error_label.show()
+            elif year_cond:   # открыта таблица курсов - происходит выбор курса
+                faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
+                    1]
+                course_choose = Functions.speech_functions.get_course(
+                    faculty_name, words_list)
+                if course_choose:
+                    n_ui.year_list.setCurrentRow(course_choose - 1)
+                else:
+                    n_ui.error_label.show()
 
-            except AssertionError:
-                n_ui.error_label.show()
+            else:  # открыта только таблица с факультетами - происходит выбор факультета
+                faculty_choose = Functions.speech_functions.get_faculty(
+                    words_list)
+                if type(faculty_choose) != bool and faculty_choose:
+                    n_ui.faculty_list.setCurrentRow(faculty_choose - 1)
+                else:
+                    n_ui.error_label.show()
 
-            finally:
-                n_ui.activate_button.setEnabled(True)
-                buttonColor(3)
-                n_ui.activate_button.update()
-                QApplication.processEvents()
-                buttonActive = False
         except AssertionError:
-            pass
+            n_ui.error_label.show()
+
+        finally:
+            n_ui.activate_button.setEnabled(True)
+            buttonColor(3)
+            n_ui.activate_button.update()
+            QApplication.processEvents()
+            await asyncio.sleep(0.3)
+            buttonActive = False
 
     def buttonColor(f: int):
         """
