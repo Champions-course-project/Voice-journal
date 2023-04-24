@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtCore import Qt
-import Vosk.recorder as recorder
+import SR.recorder as recorder
 import Functions
-import Vosk as Recognizer
+import SR as Recognizer
 from autorization import *
 from table import *
 import login_class
@@ -63,6 +63,7 @@ def new_win():
         buttonColor(1)
         words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
         print(words_list)
+        n_ui.word.setText(str(words_list[0]))
         try:
             assert words_list
             # вызов функций по распознаванию команды
