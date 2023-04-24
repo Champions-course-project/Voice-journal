@@ -32,6 +32,10 @@ def new_win():
     # auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
 
     def activate_voice():
+        """
+        Вызывает асинхронную функцию по обработке голоса.\n
+        Асинхронность позволяет избежать мультиклика по кнопке распознавания.
+        """
         try:
             assert not buttonActive
             asyncio.run(async_activate_voice())
