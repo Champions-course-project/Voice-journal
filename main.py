@@ -63,7 +63,10 @@ def new_win():
         buttonColor(1)
         words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
         print(words_list)
-        n_ui.word.setText(str(words_list[0]))
+        if words_list == False:
+            n_ui.word.setText("Ничего не распознано")
+        else:
+            n_ui.word.setText(str(words_list[0]))
         try:
             assert words_list
             # вызов функций по распознаванию команды
