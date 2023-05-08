@@ -25,7 +25,7 @@ class Ui_table_window(object):
         font.setWeight(75)
         table_window.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../Voice-journal/ProgrammIcon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("../Voice-journal/output/main/ProgrammIcon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         table_window.setWindowIcon(icon)
         table_window.setAutoFillBackground(False)
         table_window.setStyleSheet("background-color: rgb(17, 17, 17);")
@@ -459,6 +459,58 @@ class Ui_table_window(object):
         self.word.setObjectName("word")
         self.verticalLayout_10.addWidget(self.word)
         self.horizontalLayout_3.addLayout(self.verticalLayout_10)
+        self.verticalLayout_11 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_11.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
+        self.verticalLayout_11.setSpacing(10)
+        self.verticalLayout_11.setObjectName("verticalLayout_11")
+        self.save_button = QtWidgets.QPushButton(parent=self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.save_button.sizePolicy().hasHeightForWidth())
+        self.save_button.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.save_button.setFont(font)
+        self.save_button.setStyleSheet("QPushButton::hover{\n"
+"background-color: rgb(194, 194, 194);\n"
+"}\n"
+"QPushButton{\n"
+"background-color: rgb(83, 83, 83);\n"
+"color: rgb(0, 0, 0);\n"
+"border-radius: 10px;\n"
+"background-color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"")
+        self.save_button.setInputMethodHints(QtCore.Qt.InputMethodHint.ImhPreferLowercase)
+        self.save_button.setObjectName("save_button")
+        self.verticalLayout_11.addWidget(self.save_button)
+        self.cancel_button = QtWidgets.QPushButton(parent=self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.cancel_button.sizePolicy().hasHeightForWidth())
+        self.cancel_button.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.cancel_button.setFont(font)
+        self.cancel_button.setStyleSheet("QPushButton::hover{\n"
+"background-color: rgb(194, 194, 194);\n"
+"}\n"
+"QPushButton{\n"
+"background-color: rgb(83, 83, 83);\n"
+"color: rgb(0, 0, 0);\n"
+"border-radius: 10px;\n"
+"background-color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"")
+        self.cancel_button.setObjectName("cancel_button")
+        self.verticalLayout_11.addWidget(self.cancel_button)
+        self.verticalLayout_11.setStretch(0, 1)
+        self.verticalLayout_11.setStretch(1, 1)
+        self.horizontalLayout_3.addLayout(self.verticalLayout_11)
         spacerItem1 = QtWidgets.QSpacerItem(700, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem1)
         self.verticalLayout_6 = QtWidgets.QVBoxLayout()
@@ -559,10 +611,11 @@ class Ui_table_window(object):
         self.verticalLayout_7.setStretch(1, 2)
         self.horizontalLayout_3.addLayout(self.verticalLayout_7)
         self.horizontalLayout_3.setStretch(0, 5)
-        self.horizontalLayout_3.setStretch(1, 10)
-        self.horizontalLayout_3.setStretch(2, 8)
-        self.horizontalLayout_3.setStretch(3, 10)
-        self.horizontalLayout_3.setStretch(4, 3)
+        self.horizontalLayout_3.setStretch(1, 3)
+        self.horizontalLayout_3.setStretch(2, 10)
+        self.horizontalLayout_3.setStretch(3, 8)
+        self.horizontalLayout_3.setStretch(4, 10)
+        self.horizontalLayout_3.setStretch(5, 3)
         self.verticalLayout_8.addLayout(self.horizontalLayout_3)
         self.verticalLayout_8.setStretch(0, 1)
         self.verticalLayout_8.setStretch(1, 40)
@@ -619,6 +672,8 @@ class Ui_table_window(object):
         item.setText(_translate("table_window", "29.05.2023"))
         self.help_label.setText(_translate("table_window", "Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой ввод\" и назвать номер факультета, указанный в списке."))
         self.last_word.setText(_translate("table_window", "Последнее распознанное слово:"))
+        self.save_button.setText(_translate("table_window", "Сохранить"))
+        self.cancel_button.setText(_translate("table_window", "Отменить"))
         self.activate_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Space</span></p></body></html>"))
         self.activate_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Space</p></body></html>"))
         self.activate_button.setText(_translate("table_window", "Голосовой ввод"))
