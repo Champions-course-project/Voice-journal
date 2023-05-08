@@ -88,7 +88,7 @@ def new_win():
                     partial_state = {}
                     n_ui.group_list.currentItemChanged.emit(None, None)
                 else:
-                    n_ui.error_label.show()  # произнесли команду но ее выполнить нельзя
+                    n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")  # произнесли команду но ее выполнить нельзя
 
             elif table_cond:  # открыта таблица студентов - происходит выбор студента
                 # для отправки запроса с получением дат и фамилий
@@ -124,9 +124,9 @@ def new_win():
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
                             rememberState()
                         else:
-                            n_ui.error_label.show()
+                            n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
                     else:
-                        n_ui.error_label.show()
+                        n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
 
             elif group_cond:  # открыта таблица групп - происходит выбор группы
                 course_choose = n_ui.year_list.currentItem().text()
@@ -137,7 +137,7 @@ def new_win():
                 if group_choose:
                     n_ui.group_list.setCurrentRow(group_choose - 1)
                 else:
-                    n_ui.error_label.show()
+                    n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
 
             elif year_cond:   # открыта таблица курсов - происходит выбор курса
                 faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
@@ -147,7 +147,7 @@ def new_win():
                 if course_choose:
                     n_ui.year_list.setCurrentRow(course_choose - 1)
                 else:
-                    n_ui.error_label.show()
+                    n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
 
             else:  # открыта только таблица с факультетами - происходит выбор факультета
                 faculty_choose = Functions.speech_functions.get_faculty(
@@ -155,10 +155,10 @@ def new_win():
                 if type(faculty_choose) != bool and faculty_choose:
                     n_ui.faculty_list.setCurrentRow(faculty_choose - 1)
                 else:
-                    n_ui.error_label.show()
+                    n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
 
         except AssertionError:
-            n_ui.error_label.show()
+            n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
 
         finally:
             n_ui.activate_button.setEnabled(True)
@@ -222,7 +222,7 @@ def new_win():
             "Примечание: для выбора факультета с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
             "ввод\" и назвать номер факультета, указанный в списке.")
         n_ui.help_label.update()
-        n_ui.error_label.hide()
+        n_ui.error_label.setText("")
         QApplication.processEvents()
         nonlocal table_cond, group_cond, year_cond
         table_cond = False
@@ -254,7 +254,7 @@ def new_win():
             "Примечание: для выбора курса с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
             "ввод\" и назвать <b>порядковый</b> номер курса.")
         n_ui.help_label.update()
-        n_ui.error_label.hide()
+        n_ui.error_label.setText("")
         QApplication.processEvents()
         nonlocal table_cond, group_cond
         table_cond = False
@@ -304,7 +304,7 @@ def new_win():
             "Примечание: для выбора группы с помощью голосовых команд вам необходимо нажать на кнопку \"Голосовой "
             "ввод\" и назвать номер группы, указанный в списке.")
         n_ui.help_label.update()
-        n_ui.error_label.hide()
+        n_ui.error_label.setText("")
         QApplication.processEvents()
         nonlocal table_cond
         table_cond = False
@@ -410,7 +410,7 @@ def new_win():
             "Примечание: для выбора учащегося с помощью голосовых команд вам необходимо нажать на кнопку "
             "\"Голосовой ввод\" и назвать дату, фамилию, а затем оценку для студента.")
         n_ui.help_label.update()
-        n_ui.error_label.hide()
+        n_ui.error_label.setText("")
         nonlocal table_cond
         current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
             1]
@@ -519,9 +519,9 @@ def new_win():
                 index = i
                 break
         if index == -1:
-            n_ui.error_label.show()
+            n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
             return
-        n_ui.error_label.hide()
+        n_ui.error_label.setText("")
         n_ui.group_table.clearSelection()
         n_ui.group_table.selectRow(index)
         nonlocal row_choose
@@ -551,9 +551,9 @@ def new_win():
                 index = i
                 break
         if index == -1:
-            n_ui.error_label.show()
+            n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
             return
-        n_ui.error_label.hide()
+        n_ui.error_label.setText("")
         n_ui.group_table.clearSelection()
         n_ui.group_table.selectColumn(index)
         nonlocal column_choose
@@ -635,7 +635,7 @@ def new_win():
             QtWidgets.QHeaderView.ResizeMode.Fixed)
         n_ui.group_table.setStyleSheet(
             n_ui.group_table.styleSheet() + "font: 12pt \"Gotham Lite\";\n")
-        n_ui.error_label.hide()
+        n_ui.error_label.setText("")
         tableWindow.showMaximized()
         AuthWindow.close()
 
@@ -667,7 +667,7 @@ def new_win():
         n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
 
     else:
-        ui.error_label.show()
+        ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
         ui.login_lineEdit.setText("")
         ui.password_lineEdit.setText("")
 
@@ -680,7 +680,7 @@ if __name__ == "__main__":
     QtGui.QFontDatabase.addApplicationFont('gotham_medium.otf')
     app.setStyle('Fusion')
     ui.setupUi(AuthWindow)
-    ui.error_label.hide()
+    ui.error_label.setText("")
     AuthWindow.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
     ui.hide_button_2.clicked.connect(AuthWindow.showMinimized)
     ui.close_button_2.clicked.connect(AuthWindow.close)
