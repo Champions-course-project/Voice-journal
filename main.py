@@ -621,6 +621,9 @@ def new_win():
         partial_state[faculty_name][course_name][group_name][date_choose][student_choose] = mark_choose
         return
 
+    def save_statuses():
+        pass
+
     if success:
         global tableWindow
         tableWindow = QtWidgets.QMainWindow()
@@ -649,6 +652,9 @@ def new_win():
         n_ui.group_list.currentItemChanged.connect(addStudents)
         n_ui.group_list.currentItemChanged.connect(addDates)
         n_ui.group_list.currentItemChanged.connect(addStatuses)
+
+        # обработка нажатия на кнопку сохранения
+        n_ui.save_button.clicked.connect(save_statuses(partial_state))
 
         # обработка нажатия на клетку таблицы
         n_ui.group_table.cellClicked.connect(selectCell)
