@@ -63,7 +63,7 @@ def new_win():
         buttonColor(1)
         words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
         print(words_list)
-        if words_list == False:
+        if not words_list:
             n_ui.word.setText("Ничего не распознано")
         else:
             n_ui.word.setText(str(words_list[0]))
@@ -643,6 +643,7 @@ def new_win():
         n_ui.faculty_list.clear()
         addFacultyItems()
 
+        # обработка изменения ячеек списков
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
