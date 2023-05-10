@@ -80,15 +80,13 @@ def new_win():
                 elif command == 3 and group_cond:  # выбрать группу, открыта таблица групп
                     addGroupItems()
                 elif command == 4:  # сохранить
-                    Functions.request_functions.save_statuses(
-                        partial_state)
-                    partial_state = {}
-                    n_ui.group_list.currentItemChanged.emit(None, None)
+                    save_statuses()
                 elif command == 5:  # отменить
-                    partial_state = {}
-                    n_ui.group_list.currentItemChanged.emit(None, None)
+                    cancel_statuses()
                 else:
-                    n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")  # произнесли команду но ее выполнить нельзя
+                    # произнесли команду но ее выполнить нельзя
+                    n_ui.error_label.setText(
+                        "Ошибка ввода, попробуйте еще раз")
 
             elif table_cond:  # открыта таблица студентов - происходит выбор студента
                 # для отправки запроса с получением дат и фамилий
@@ -124,9 +122,11 @@ def new_win():
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
                             rememberState()
                         else:
-                            n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
+                            n_ui.error_label.setText(
+                                "Ошибка ввода, попробуйте еще раз")
                     else:
-                        n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
+                        n_ui.error_label.setText(
+                            "Ошибка ввода, попробуйте еще раз")
 
             elif group_cond:  # открыта таблица групп - происходит выбор группы
                 course_choose = n_ui.year_list.currentItem().text()
@@ -137,7 +137,8 @@ def new_win():
                 if group_choose:
                     n_ui.group_list.setCurrentRow(group_choose - 1)
                 else:
-                    n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
+                    n_ui.error_label.setText(
+                        "Ошибка ввода, попробуйте еще раз")
 
             elif year_cond:   # открыта таблица курсов - происходит выбор курса
                 faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[
@@ -147,7 +148,8 @@ def new_win():
                 if course_choose:
                     n_ui.year_list.setCurrentRow(course_choose - 1)
                 else:
-                    n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
+                    n_ui.error_label.setText(
+                        "Ошибка ввода, попробуйте еще раз")
 
             else:  # открыта только таблица с факультетами - происходит выбор факультета
                 faculty_choose = Functions.speech_functions.get_faculty(
@@ -155,7 +157,8 @@ def new_win():
                 if type(faculty_choose) != bool and faculty_choose:
                     n_ui.faculty_list.setCurrentRow(faculty_choose - 1)
                 else:
-                    n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
+                    n_ui.error_label.setText(
+                        "Ошибка ввода, попробуйте еще раз")
 
         except AssertionError:
             n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
@@ -588,9 +591,8 @@ def new_win():
 
     def rememberState():
         """
-        Функция для сохранения всех введенных состояний студентов.
+        Функция для локального сохранения всех введенных состояний студентов.
         """
-        print("rememberState")
         nonlocal row_choose, column_choose, partial_state
         mark_choose = n_ui.group_table.item(row_choose, column_choose).text()
         if mark_choose == "":
@@ -621,8 +623,27 @@ def new_win():
         partial_state[faculty_name][course_name][group_name][date_choose][student_choose] = mark_choose
         return
 
+    # Функция для сохранения изменений
     def save_statuses():
-        pass
+        """
+        Функция для сетевого сохранения всех внесенных изменений.\n
+        Отправляет запрос на сервер / в БД.
+        """
+        nonlocal partial_state
+        Functions.request_functions.save_statuses(
+            partial_state)
+        partial_state = {}
+        n_ui.group_list.currentItemChanged.emit(None, None)
+        return
+
+    # Функция для отмены введенных изменений
+    def cancel_statuses():
+        """
+        Функция для отмены сохранения всех внесенных изменений.
+        """
+        nonlocal partial_state
+        partial_state = {}
+        n_ui.group_list.currentItemChanged.emit(None, None)
 
     if success:
         global tableWindow
@@ -646,6 +667,7 @@ def new_win():
         n_ui.faculty_list.clear()
         addFacultyItems()
 
+        # обработка изменения ячеек списков
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
@@ -653,7 +675,10 @@ def new_win():
         n_ui.group_list.currentItemChanged.connect(addStatuses)
 
         # обработка нажатия на кнопку сохранения
-        n_ui.save_button.clicked.connect(save_statuses(partial_state))
+        n_ui.save_button.clicked.connect(save_statuses)
+
+        # обработка нажатия на кнопку отмены
+        n_ui.cancel_button.clicked.connect(cancel_statuses)
 
         # обработка нажатия на клетку таблицы
         n_ui.group_table.cellClicked.connect(selectCell)
