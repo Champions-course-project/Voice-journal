@@ -121,6 +121,7 @@ def new_win():
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
                             rememberState()
+                            n_ui.error_label.setText("")
                         else:
                             n_ui.error_label.setText(
                                 "Ошибка ввода, попробуйте еще раз")
