@@ -624,7 +624,6 @@ def new_win():
         partial_state[faculty_name][course_name][group_name][date_choose][student_choose] = mark_choose
         return
 
-    # Функция для сохранения изменений
     def save_statuses():
         """
         Функция для сетевого сохранения всех внесенных изменений.\n
@@ -637,7 +636,6 @@ def new_win():
         n_ui.group_list.currentItemChanged.emit(None, None)
         return
 
-    # Функция для отмены введенных изменений
     def cancel_statuses():
         """
         Функция для отмены сохранения всех внесенных изменений.
@@ -645,6 +643,20 @@ def new_win():
         nonlocal partial_state
         partial_state = {}
         n_ui.group_list.currentItemChanged.emit(None, None)
+
+    def check_micro():
+        """
+        Функция для проверки наличия микрофона в системе.
+        Возвращает True, если микрофон найден.
+        В противном случае, возвращает False.
+        """
+        try:
+            if recorder.Recorder._Recorder__p.get_default_input_device_info():
+                return True
+            else:
+                return False
+        except Exception:
+            return False
 
     if success:
         global tableWindow
@@ -687,15 +699,24 @@ def new_win():
         # обработка нажатия на кнопку выхода
         n_ui.exit_button.clicked.connect(tableWindow.close)
 
-        # обработка нажатия на кнопку распознавания голоса
-        n_ui.activate_button.clicked.connect(activate_voice)
+        # проверка, существует ли микрофон в системе:
+        if (check_micro()):
+            # обработка нажатия на кнопку распознавания голоса
+            n_ui.activate_button.clicked.connect(activate_voice)
+            n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
+        else:
+            n_ui.activate_button.setStyleSheet("QPushButton{\n"
+                                               "background-color: rgb(83, 83, 83);\n"
+                                               "color: rgb(0, 0, 0);\n"
+                                               "border-radius: 10px;\n"
+                                               "}\n")
+            n_ui.activate_button.setEnabled(False)
 
         # обработка нажатий на кнопки закрытия окна и сворачивания
         n_ui.hide_button.clicked.connect(tableWindow.showMinimized)
         n_ui.close_button.clicked.connect(tableWindow.close)
 
         n_ui.exit_button.setShortcut(QKeySequence("Ctrl+Q"))
-        n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
 
     else:
         ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
