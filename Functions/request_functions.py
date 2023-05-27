@@ -191,6 +191,12 @@ def save_to_file(statuses_input: dict):
                             except:
                                 file_statuses[faculty][course][group][date] = {}
                             file_statuses[faculty][course][group][date][student] = status
+                        else:
+                            try:
+                                file_statuses[faculty][course][group][date].pop(
+                                    student)
+                            except:
+                                pass
     with open("statuses.json", "w", encoding="UTF-8") as OF:
         json.dump(file_statuses, OF, ensure_ascii=False,
                   indent=4, sort_keys=True)
