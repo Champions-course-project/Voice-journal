@@ -120,7 +120,6 @@ def new_win():
                         if mark_choose:
                             n_ui.group_table.setItem(
                                 row_choose, column_choose, QTableWidgetItem(mark_choose))
-                            rememberState()
                             n_ui.error_label.setText("")
                         else:
                             n_ui.error_label.setText(
@@ -594,9 +593,20 @@ def new_win():
         """
         Функция для локального сохранения всех введенных состояний студентов.
         """
+        print("rememberState")
         nonlocal row_choose, column_choose, partial_state
-        mark_choose = n_ui.group_table.item(row_choose, column_choose).text()
-        if mark_choose == "":
+        try:
+            mark_choose = n_ui.group_table.item(
+                row_choose, column_choose).text()
+        except AttributeError:
+            return
+        real_mark = Functions.speech_functions.get_status([mark_choose])
+        if real_mark or (type(real_mark) == str and real_mark == ''):
+            mark_choose = real_mark
+            n_ui.group_table.item(
+                row_choose, column_choose).setText(mark_choose)
+        else:
+            n_ui.group_table.item(row_choose, column_choose).setText('')
             return
         faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[1]
         course_name = n_ui.year_list.currentItem().text()
@@ -695,6 +705,9 @@ def new_win():
 
         # обработка нажатия на клетку таблицы
         n_ui.group_table.cellClicked.connect(selectCell)
+
+        # обработка изменения текста в клетке таблицы
+        n_ui.group_table.cellChanged.connect(rememberState)
 
         # обработка нажатия на кнопку выхода
         n_ui.exit_button.clicked.connect(tableWindow.close)
