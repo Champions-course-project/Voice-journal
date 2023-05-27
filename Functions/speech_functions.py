@@ -289,17 +289,22 @@ def get_status(words_list: list):
     - False в противном случае.
     """
     if words_list:
-        excellent_list = ['отлично', 'пять', 'пятерка']
-        good_list = ['хорошо', 'четыре', 'четверка']
-        satisfactory_list = ['удовлетворительно', 'три', 'тройка']
-        bad_list = ['неудовлетворительно', 'два', 'двойка']
-        absent_list = ['неявка', 'отсутствие', 'отсутствует']
-        present_list = ['явка', 'присутствие', 'присутствует']
-        reason_list = ['болеет', 'причина']
-        exam_good_list = ['зачёт', 'зачет', 'зачтено']
-        exam_bad_list = ['незачёт', 'незачет', 'не зачтено']
-        status = words_list[0]
-        if status in excellent_list:
+        excellent_list = ['отлично', 'пять', 'пятерка', '5', 5]
+        good_list = ['хорошо', 'четыре', 'четверка', '4', 4]
+        satisfactory_list = ['удовлетворительно', 'три', 'тройка', '3', 3]
+        bad_list = ['неудовлетворительно', 'два', 'двойка', '2', 2]
+        absent_list = ['неявка', 'отсутствие',
+                       'отсутствует', 'н', 'н/я', 'н\\я']
+        present_list = ['явка', 'присутствие', 'присутствует', '.', 'я']
+        reason_list = ['болеет', 'причина', 'п', 'б']
+        exam_good_list = ['зачёт', 'зачет', 'зачтено', 'зач']
+        exam_bad_list = ['незачёт', 'незачет', 'не зачтено', 'н/зач', 'незач']
+        return_list = ["Отлично", "Хорошо", "Удовл.", "Неудовл.",
+                       "Неявка", "Явка", "Болеет", "Зачёт", "Незачёт", ""]
+        status = words_list[0].lower()
+        if status in return_list:
+            return status
+        elif status in excellent_list:
             return "Отлично"
         elif status in good_list:
             return "Хорошо"

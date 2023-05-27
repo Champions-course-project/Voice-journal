@@ -600,6 +600,14 @@ def new_win():
                 row_choose, column_choose).text()
         except AttributeError:
             return
+        real_mark = Functions.speech_functions.get_status([mark_choose])
+        if real_mark or (type(real_mark) == str and real_mark == ''):
+            mark_choose = real_mark
+            n_ui.group_table.item(
+                row_choose, column_choose).setText(mark_choose)
+        else:
+            n_ui.group_table.item(row_choose, column_choose).setText('')
+            return
         faculty_name = n_ui.faculty_list.currentItem().text().split(". ")[1]
         course_name = n_ui.year_list.currentItem().text()
         group_name = n_ui.group_list.currentItem().text().split(". ")[1]
