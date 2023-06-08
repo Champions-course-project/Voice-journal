@@ -11,12 +11,29 @@ import ctypes
 import resources
 import json
 import sys
-
-import asyncio
+import time
 
 myappid = "mycompany.myproduct.subproduct.version"
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 ui = Ui_AuthWindow()
+
+
+class GetBytesArray(QtCore.QObject):
+    finished = QtCore.pyqtSignal()
+    change_button = QtCore.pyqtSignal(int)
+    unlockButton = QtCore.pyqtSignal()
+
+    def record(self):
+        self.change_button.emit(2)
+        self.bytes_result = recorder.Recorder.record_data()
+        self.change_button.emit(1)
+        self.words_list = Recognizer.speech(
+            self.bytes_result, recorder.Recorder.freq)
+        self.change_button.emit(3)
+        self.finished.emit()
+        time.sleep(0.5)
+        self.unlockButton.emit()
+        return
 
 
 def new_win():
@@ -24,6 +41,8 @@ def new_win():
     group_cond = False
     table_cond = False
     buttonActive = False
+    thread = None
+    worker = None
     column_choose = -1
     row_choose = -1
     auth = login_class.LogIn()
@@ -33,16 +52,37 @@ def new_win():
 
     def activate_voice():
         """
-        Вызывает асинхронную функцию по обработке голоса.\n
-        Асинхронность позволяет избежать мультиклика по кнопке распознавания.
+        Создает дополнительный поток по распознаванию речи.
+        Этот поток в дальнейшем вызывает основной обработчик.
         """
-        try:
-            assert not buttonActive
-            asyncio.run(async_activate_voice())
-        except AssertionError:
+        nonlocal buttonActive, worker, thread
+        if buttonActive:
             return
 
-    async def async_activate_voice():
+        buttonActive = True
+
+        # Эта часть кода создает новый поток для обработки
+        thread = QtCore.QThread()
+        worker = GetBytesArray()
+        worker.moveToThread(thread)
+        thread.started.connect(worker.record)
+        worker.finished.connect(thread.quit)
+        worker.finished.connect(worker.deleteLater)
+        thread.finished.connect(thread.deleteLater)
+        thread.start()
+
+        worker.change_button.connect(buttonColor)
+        worker.unlockButton.connect(unlockButton)
+        worker.finished.connect(__activate_voice)
+
+    def unlockButton():
+        """
+        Разблокирует кнопку записи голоса.
+        """
+        nonlocal buttonActive
+        buttonActive = False
+
+    def __activate_voice():
         """
         Основная функция по обработке распознавания речи.\n
         Последовательно производит несколько проверок:
@@ -56,12 +96,8 @@ def new_win():
         - доступен выбор факультета и произнесен номер факультета в списке.\n
         За счет этих проверок достигается работоспособность голосового управления.
         """
-        nonlocal table_cond, group_cond, year_cond, buttonActive
-        buttonActive = True
-        buttonColor(2)
-        bytes_array = recorder.Recorder.record_data()
-        buttonColor(1)
-        words_list = Recognizer.speech(bytes_array, recorder.Recorder.freq)
+        nonlocal table_cond, group_cond, year_cond, buttonActive, worker
+        words_list = worker.words_list
         print(words_list)
         if not words_list:
             n_ui.word.setText("Ничего не распознано")
@@ -168,8 +204,6 @@ def new_win():
             buttonColor(3)
             n_ui.activate_button.update()
             QApplication.processEvents()
-            await asyncio.sleep(0.3)
-            buttonActive = False
 
     def buttonColor(f: int):
         """
@@ -674,6 +708,7 @@ def new_win():
         n_ui = Ui_table_window()
         n_ui.setupUi(tableWindow)
         tableWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
+        tableWindow.setWindowIcon(QtGui.QIcon('ProgrammIcon.ico'))
         n_ui.group_table.horizontalHeaderItem(
             0).setFont(QFont("Gotham Lite", 12))
         n_ui.group_table.horizontalHeader().setSectionResizeMode(
