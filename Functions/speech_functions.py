@@ -301,10 +301,11 @@ def get_status(words_list: list):
         exam_bad_list = ['незачёт', 'незачет', 'не зачтено', 'н/зач', 'незач']
         return_list = ["Отлично", "Хорошо", "Удовл.", "Неудовл.",
                        "Неявка", "Явка", "Болеет", "Зачёт", "Незачёт", ""]
-        status = words_list[0].lower()
+        status = words_list[0]
         if status in return_list:
             return status
-        elif status in excellent_list:
+        status = status.lower()
+        if status in excellent_list:
             return "Отлично"
         elif status in good_list:
             return "Хорошо"
