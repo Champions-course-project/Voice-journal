@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtCore import Qt
-import SR.recorder as recorder
+import Vosk.recorder as recorder
 import Functions
-import SR as Recognizer
+import Vosk as Recognizer
 from autorization import *
 from table import *
 import login_class
@@ -18,7 +18,7 @@ ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 ui = Ui_AuthWindow()
 
 
-class GetBytesArray(QtCore.QObject):
+class GetRecording(QtCore.QObject):
     finished = QtCore.pyqtSignal()
     change_button = QtCore.pyqtSignal(int)
     unlockButton = QtCore.pyqtSignal()
@@ -63,7 +63,7 @@ def new_win():
 
         # Эта часть кода создает новый поток для обработки
         thread = QtCore.QThread()
-        worker = GetBytesArray()
+        worker = GetRecording()
         worker.moveToThread(thread)
         thread.started.connect(worker.record)
         worker.finished.connect(thread.quit)
@@ -200,7 +200,6 @@ def new_win():
             n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
 
         finally:
-            n_ui.activate_button.setEnabled(True)
             buttonColor(3)
             n_ui.activate_button.update()
             QApplication.processEvents()
@@ -239,7 +238,6 @@ def new_win():
                                                "}\n"
                                                "\n"
                                                "")
-            n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
         n_ui.activate_button.update()
         QApplication.processEvents()
 
