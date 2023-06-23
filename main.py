@@ -732,7 +732,6 @@ def new_win():
 
         # обработка нажатия на кнопку сохранения
         n_ui.save_button.clicked.connect(save_statuses)
-
         # обработка нажатия на кнопку отмены
         n_ui.cancel_button.clicked.connect(cancel_statuses)
 
