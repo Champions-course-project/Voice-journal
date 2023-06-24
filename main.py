@@ -3,7 +3,8 @@ from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtCore import Qt
 import Recorder
 import Functions
-import SR as Recognizer
+import SR as SR_Recognizer
+import Vosk as Vosk_Recognizer
 from autorization import *
 from table import *
 import login_class
@@ -16,6 +17,8 @@ import time
 myappid = "mycompany.myproduct.subproduct.version"
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 ui = Ui_AuthWindow()
+
+Recognizer = SR_Recognizer
 
 
 class GetRecording(QtCore.QObject):
@@ -705,18 +708,15 @@ def new_win():
         """
         Переключает текущего распознавателя с Vosk на SR и обратно.
         """
-
-    def use_Vosk():
-        """
-        Переключает текущего распознавателя на Vosk.
-        """
-        pass
-
-    def use_SR():
-        """
-        Переключает текущего распознавателя на SR.
-        """
-        pass
+        global Recognizer
+        nonlocal __current_recognizer
+        if __current_recognizer == "SR":
+            Recognizer = Vosk_Recognizer
+            __current_recognizer = "Vosk"
+        else:
+            Recognizer = SR_Recognizer
+            __current_recognizer = "SR"
+        return
 
     if success:
         global tableWindow
