@@ -2,7 +2,7 @@ import os
 from vosk import Model, KaldiRecognizer, SetLogLevel
 import wave
 import json
-import Vosk.recorder as recorder
+import Recorder
 
 
 class STT:
@@ -68,8 +68,8 @@ class STT:
             "text": simply concat of all words from result with spaces between
         }
         """
-        raw_data = recorder.Recorder.record_data()
-        return STT.decode_bytestream(raw_data, recorder.Recorder.freq)
+        raw_data = Recorder.Recorder.record_data()
+        return STT.decode_bytestream(raw_data, Recorder.Recorder.freq)
 
 
 try:
