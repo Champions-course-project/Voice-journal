@@ -682,6 +682,18 @@ def new_win():
         n_ui.group_list.currentItemChanged.emit(None, None)
         return
 
+    def recognition_mode_switch():
+        if n_ui.checkBox_recognitionMode.isChecked():
+            n_ui.label_2.setText("Vosk")
+        else:
+            n_ui.label_2.setText("SR")
+
+    def table_mode_switch():
+        if n_ui.checkBox_tableMode.isChecked():
+            n_ui.label_3.setText("Практические работы")
+        else:
+            n_ui.label_3.setText("Лабораторные работы")
+
     def cancel_statuses():
         """
         Функция для отмены сохранения всех внесенных изменений.
@@ -734,6 +746,8 @@ def new_win():
         n_ui.group_table.setStyleSheet(
             n_ui.group_table.styleSheet() + "font: 12pt \"Gotham Lite\";\n")
         n_ui.error_label.setText("")
+        n_ui.checkBox_recognitionMode.clicked.connect(recognition_mode_switch)
+        n_ui.checkBox_tableMode.clicked.connect(table_mode_switch)
         tableWindow.showMaximized()
         AuthWindow.close()
 
