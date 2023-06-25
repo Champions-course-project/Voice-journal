@@ -1,9 +1,10 @@
 from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtCore import Qt
-import Vosk.recorder as recorder
+import Recorder
 import Functions
-import Vosk as Recognizer
+import SR as SR_Recognizer
+import Vosk as Vosk_Recognizer
 from autorization import *
 from table import *
 import login_class
@@ -17,6 +18,8 @@ myappid = "mycompany.myproduct.subproduct.version"
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 ui = Ui_AuthWindow()
 
+Recognizer = SR_Recognizer
+
 
 class GetRecording(QtCore.QObject):
     finished = QtCore.pyqtSignal()
@@ -25,10 +28,10 @@ class GetRecording(QtCore.QObject):
 
     def record(self):
         self.change_button.emit(2)
-        self.bytes_result = recorder.Recorder.record_data()
+        self.bytes_result = Recorder.Recorder.record_data()
         self.change_button.emit(1)
         self.words_list = Recognizer.speech(
-            self.bytes_result, recorder.Recorder.freq)
+            self.bytes_result, Recorder.Recorder.freq)
         self.change_button.emit(3)
         self.finished.emit()
         time.sleep(0.5)
@@ -48,6 +51,7 @@ def new_win():
     auth = login_class.LogIn()
     success = True
     partial_state = {}
+    __current_recognizer = 'SR'
     # auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
 
     def activate_voice():
@@ -693,12 +697,26 @@ def new_win():
         В противном случае, возвращает False.
         """
         try:
-            if recorder.Recorder._Recorder__p.get_default_input_device_info():
+            if Recorder.Recorder._Recorder__p.get_default_input_device_info():
                 return True
             else:
                 return False
         except Exception:
             return False
+
+    def switch():
+        """
+        Переключает текущего распознавателя с Vosk на SR и обратно.
+        """
+        global Recognizer
+        nonlocal __current_recognizer
+        if __current_recognizer == "SR":
+            Recognizer = Vosk_Recognizer
+            __current_recognizer = "Vosk"
+        else:
+            Recognizer = SR_Recognizer
+            __current_recognizer = "SR"
+        return
 
     if success:
         global tableWindow
@@ -743,6 +761,10 @@ def new_win():
 
         # обработка нажатия на кнопку выхода
         n_ui.exit_button.clicked.connect(tableWindow.close)
+
+        # обработка переключения режима распознавания
+        n_ui.checkBox_recognitionMode.toggled.connect(switch)
+        n_ui.checkBox_recognitionMode.setChecked(False)
 
         # проверка, существует ли микрофон в системе:
         if (check_micro()):

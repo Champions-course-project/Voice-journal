@@ -1,5 +1,5 @@
 import speech_recognition as speech_r
-import SR.recorder as recorder
+import Recorder
 import os
 import wave
 
@@ -14,7 +14,7 @@ class STT:
         Record data and decode it.
         """
         try:
-            recorder.Recorder.record_file()
+            Recorder.Recorder.record_file()
             return STT.decode_file("file.wav")
         finally:
             os.remove("file.wav")
