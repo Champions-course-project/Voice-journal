@@ -51,7 +51,6 @@ def new_win():
     auth = login_class.LogIn()
     success = True
     partial_state = {}
-    __current_recognizer = 'SR'
     # auth.login(ui.login_lineEdit.text(),ui.password_lineEdit.text())
 
     def activate_voice():
@@ -682,18 +681,6 @@ def new_win():
         n_ui.group_list.currentItemChanged.emit(None, None)
         return
 
-    def recognition_mode_switch():
-        if n_ui.checkBox_recognitionMode.isChecked():
-            n_ui.label_2.setText("Vosk")
-        else:
-            n_ui.label_2.setText("SR")
-
-    def table_mode_switch():
-        if n_ui.checkBox_tableMode.isChecked():
-            n_ui.label_3.setText("Практические работы")
-        else:
-            n_ui.label_3.setText("Лабораторные работы")
-
     def cancel_statuses():
         """
         Функция для отмены сохранения всех внесенных изменений.
@@ -701,6 +688,7 @@ def new_win():
         nonlocal partial_state
         partial_state = {}
         n_ui.group_list.currentItemChanged.emit(None, None)
+        return
 
     def check_micro():
         """
@@ -716,18 +704,31 @@ def new_win():
         except Exception:
             return False
 
-    def switch():
+    def recognition_mode_switch():
         """
         Переключает текущего распознавателя с Vosk на SR и обратно.
         """
+        print("recognition_mode_switch")
         global Recognizer
-        nonlocal __current_recognizer
-        if __current_recognizer == "SR":
+        if n_ui.checkBox_recognitionMode.isChecked():
             Recognizer = Vosk_Recognizer
-            __current_recognizer = "Vosk"
+            n_ui.label_2.setText("Vosk")
         else:
             Recognizer = SR_Recognizer
-            __current_recognizer = "SR"
+            n_ui.label_2.setText("SR")
+        return
+
+    def table_mode_switch():
+        """
+        Переключает режим таблицы с практических и лабораторных
+        на посещаемость и обратно.
+        """
+        print("table_mode_switch")
+        # TODO: реализовать переключение между таблицами
+        if n_ui.checkBox_tableMode.isChecked():
+            n_ui.label_3.setText("Практические работы")
+        else:
+            n_ui.label_3.setText("Лабораторные работы")
         return
 
     if success:
@@ -746,8 +747,6 @@ def new_win():
         n_ui.group_table.setStyleSheet(
             n_ui.group_table.styleSheet() + "font: 12pt \"Gotham Lite\";\n")
         n_ui.error_label.setText("")
-        n_ui.checkBox_recognitionMode.clicked.connect(recognition_mode_switch)
-        n_ui.checkBox_tableMode.clicked.connect(table_mode_switch)
         tableWindow.showMaximized()
         AuthWindow.close()
 
@@ -777,8 +776,12 @@ def new_win():
         n_ui.exit_button.clicked.connect(tableWindow.close)
 
         # обработка переключения режима распознавания
-        n_ui.checkBox_recognitionMode.toggled.connect(switch)
+        n_ui.checkBox_recognitionMode.toggled.connect(recognition_mode_switch)
         n_ui.checkBox_recognitionMode.setChecked(False)
+
+        # обработка переключения режима отображения таблицы
+        n_ui.checkBox_tableMode.toggled.connect(table_mode_switch)
+        n_ui.checkBox_tableMode.setChecked(False)
 
         # проверка, существует ли микрофон в системе:
         if (check_micro()):
