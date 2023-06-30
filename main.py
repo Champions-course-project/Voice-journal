@@ -723,10 +723,10 @@ def new_win():
         global Recognizer
         if n_ui.checkBox_recognitionMode.isChecked():
             Recognizer = SR_Recognizer
-            n_ui.label_2.setText("Vosk")
+            n_ui.label_2.setText("SR")
         else:
             Recognizer = Vosk_Recognizer
-            n_ui.label_2.setText("SR")
+            n_ui.label_2.setText("Vosk")
         return
 
     def table_mode_switch():

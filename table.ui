@@ -1079,7 +1079,7 @@ background-color: rgb(255, 255, 255);
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="autoFillBackground">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton::hover{

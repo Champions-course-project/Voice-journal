@@ -589,7 +589,7 @@ class Ui_table_window(object):
         self.activate_button.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
         self.activate_button.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
         self.activate_button.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.activate_button.setAutoFillBackground(False)
+        self.activate_button.setAutoFillBackground(True)
         self.activate_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(194, 194, 194);\n"
 "}\n"
