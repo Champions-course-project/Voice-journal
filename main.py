@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QApplication, QTableWidgetItem
 from PyQt6.QtGui import QKeySequence, QFont
 from PyQt6.QtCore import Qt
+
 import Recorder
 import Functions
 import SR as SR_Recognizer
@@ -18,8 +19,7 @@ myappid = "mycompany.myproduct.subproduct.version"
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 ui = Ui_AuthWindow()
 
-Recognizer = SR_Recognizer
-
+Recognizer = Vosk_Recognizer
 
 class GetRecording(QtCore.QObject):
     finished = QtCore.pyqtSignal()
@@ -198,6 +198,7 @@ def new_win():
                 else:
                     n_ui.error_label.setText(
                         "Ошибка ввода, попробуйте еще раз")
+            auto_scroll()
 
         except AssertionError:
             n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
@@ -704,6 +705,16 @@ def new_win():
         except Exception:
             return False
 
+    def auto_scroll():
+        row = row_choose
+        column = column_choose
+        if row_choose == -1:
+            row += 1
+        if column_choose == -1:
+            column += 1
+        item = n_ui.group_table.item(row, column)
+        n_ui.group_table.scrollToItem(item)
+
     def recognition_mode_switch():
         """
         Переключает текущего распознавателя с Vosk на SR и обратно.
@@ -711,10 +722,10 @@ def new_win():
         print("recognition_mode_switch")
         global Recognizer
         if n_ui.checkBox_recognitionMode.isChecked():
-            Recognizer = Vosk_Recognizer
+            Recognizer = SR_Recognizer
             n_ui.label_2.setText("Vosk")
         else:
-            Recognizer = SR_Recognizer
+            Recognizer = Vosk_Recognizer
             n_ui.label_2.setText("SR")
         return
 
@@ -809,6 +820,32 @@ def new_win():
 
 
 if __name__ == "__main__":
+    def light_theme_switch():
+        ui.authorization_label.setStyleSheet("color: rgb(0, 0, 0);"
+                                             "background-color: rgb(30, 185, 85);")
+        AuthWindow.setStyleSheet("background-color: (83, 83, 83")
+        ui.background.setStyleSheet("QWidget{"
+                                    "background-color: rgb(255, 255, 255);"
+                                    "border-bottom-left-radius: 10px;"
+                                    "border-bottom-right-radius: 10px;}")
+        ui.login_label.setStyleSheet("QLabel{\n"
+                                    "color: rgb(0, 0, 0);\n")
+        ui.password_label.setStyleSheet("QLabel{\n"
+                                    "color: rgb(0, 0, 0);\n")
+        ui.error_label.setStyleSheet("QLabel{\n"
+                                    "color: rgb(0, 0, 0);\n")
+        ui.auth_button.setStyleSheet("QPushButton::hover{"
+                                    "background-color: rgb(194, 194, 194);}"
+                                    "QPushButton{"
+                                    "background-color: rgb(83, 83, 83);"
+                                    "color: rgb(0, 0, 0);"
+                                    "border-radius: 10px;}")
+        ui.exit_button.setStyleSheet("QPushButton::hover{"
+                                    "background-color: rgb(194, 194, 194);}"
+                                    "QPushButton{"
+                                    "background-color: rgb(83, 83, 83);"
+                                    "color: rgb(0, 0, 0);"
+                                    "border-radius: 10px;}")
     app = QtWidgets.QApplication(sys.argv)
     AuthWindow = QtWidgets.QDialog()
     QtGui.QFontDatabase.addApplicationFont('gotham_black.otf')
@@ -817,6 +854,7 @@ if __name__ == "__main__":
     app.setStyle('Fusion')
     ui.setupUi(AuthWindow)
     ui.error_label.setText("")
+    ui.hide_button_2.clicked.connect(light_theme_switch)
     AuthWindow.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
     ui.hide_button_2.clicked.connect(AuthWindow.showMinimized)
     ui.close_button_2.clicked.connect(AuthWindow.close)

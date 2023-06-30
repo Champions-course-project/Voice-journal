@@ -47,7 +47,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>310</y>
+     <y>305</y>
      <width>181</width>
      <height>31</height>
     </rect>
@@ -84,7 +84,7 @@ background-color: rgb(255, 255, 255);
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>310</y>
+     <y>305</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -122,7 +122,7 @@ background-color: rgb(255, 255, 255);
     <rect>
      <x>0</x>
      <y>30</y>
-     <width>381</width>
+     <width>375</width>
      <height>61</height>
     </rect>
    </property>
@@ -326,6 +326,9 @@ border-top-right-radius: 10px;</string>
       <height>20</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">border-radius: 2px;
 </string>
@@ -353,6 +356,9 @@ border-top-right-radius: 10px;</string>
       <height>20</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">border-radius: 2px;
 </string>
@@ -374,7 +380,7 @@ border-top-right-radius: 10px;</string>
    <widget class="QPushButton" name="close_button_2">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>344</x>
       <y>0</y>
       <width>31</width>
       <height>31</height>
@@ -389,7 +395,8 @@ background-color: rgb(255, 0, 0);
 }
 QPushButton{
 background-color: rgb(83, 83, 83);
-border-radius: 3px;
+border-radius: 0px;
+border-top-right-radius: 10px;
 }
 </string>
     </property>
@@ -410,7 +417,7 @@ border-radius: 3px;
    <widget class="QPushButton" name="hide_button_2">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>300</x>
       <y>0</y>
       <width>41</width>
       <height>31</height>
@@ -425,7 +432,7 @@ background-color: rgb(121, 121, 121);
 }
 QPushButton{
 background-color: rgb(83, 83, 83);
-border-radius: 3px;
+border-radius: 0px;
 }
 
 </string>
@@ -449,15 +456,14 @@ border-radius: 3px;
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>70</y>
+     <y>90</y>
      <width>375</width>
-     <height>291</height>
+     <height>265</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QWidget{
-
-border-radius: 10px;
+background-color: rgb(0, 0, 0);
 border-bottom-left-radius: 10px;
 border-bottom-right-radius: 10px;
 }</string>

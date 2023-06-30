@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1849</width>
-    <height>818</height>
+    <width>1789</width>
+    <height>770</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -95,12 +95,12 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="90,2,2">
+      <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="120,3,3">
        <property name="spacing">
         <number>0</number>
        </property>
        <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
+        <enum>QLayout::SetMaximumSize</enum>
        </property>
        <property name="leftMargin">
         <number>0</number>
@@ -135,6 +135,18 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="mouseTracking">
+          <bool>false</bool>
+         </property>
+         <property name="tabletTracking">
+          <bool>false</bool>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="acceptDrops">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
           <string notr="true">QPushButton::hover{
 background-color: rgb(121, 121, 121);
@@ -159,15 +171,24 @@ border-radius: 0px;
            <height>25</height>
           </size>
          </property>
+         <property name="autoRepeatDelay">
+          <number>298</number>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="close_button">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton::hover{
@@ -567,7 +588,7 @@ border-radius: 10px;
            <bool>false</bool>
           </property>
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::TabFocus</enum>
           </property>
           <property name="contextMenuPolicy">
            <enum>Qt::DefaultContextMenu</enum>
@@ -605,10 +626,13 @@ gridline-color: rgb(17, 17, 17);</string>
            <enum>QAbstractScrollArea::AdjustIgnored</enum>
           </property>
           <property name="autoScroll">
-           <bool>true</bool>
+           <bool>false</bool>
+          </property>
+          <property name="autoScrollMargin">
+           <number>50</number>
           </property>
           <property name="editTriggers">
-           <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+           <set>QAbstractItemView::DoubleClicked</set>
           </property>
           <property name="tabKeyNavigation">
            <bool>false</bool>
@@ -978,7 +1002,7 @@ background-color: rgb(255, 255, 255);
            <string notr="true">color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
-           <string>SR</string>
+           <string>Vosk</string>
           </property>
          </widget>
         </item>

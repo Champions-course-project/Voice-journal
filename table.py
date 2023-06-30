@@ -13,7 +13,7 @@ class Ui_table_window(object):
     def setupUi(self, table_window):
         table_window.setObjectName("table_window")
         table_window.setEnabled(True)
-        table_window.resize(1849, 818)
+        table_window.resize(1789, 770)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -57,7 +57,7 @@ class Ui_table_window(object):
         self.title_bar.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.title_bar.setObjectName("title_bar")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.title_bar)
-        self.horizontalLayout_4.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
+        self.horizontalLayout_4.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
@@ -69,6 +69,10 @@ class Ui_table_window(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.hide_button.sizePolicy().hasHeightForWidth())
         self.hide_button.setSizePolicy(sizePolicy)
+        self.hide_button.setMouseTracking(False)
+        self.hide_button.setTabletTracking(False)
+        self.hide_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
+        self.hide_button.setAcceptDrops(False)
         self.hide_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(121, 121, 121);\n"
 "}\n"
@@ -83,14 +87,17 @@ class Ui_table_window(object):
         icon1.addPixmap(QtGui.QPixmap(":/window/icons/hide_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.hide_button.setIcon(icon1)
         self.hide_button.setIconSize(QtCore.QSize(25, 25))
+        self.hide_button.setAutoRepeatDelay(298)
         self.hide_button.setObjectName("hide_button")
         self.horizontalLayout_4.addWidget(self.hide_button)
         self.close_button = QtWidgets.QPushButton(parent=self.title_bar)
+        self.close_button.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.close_button.sizePolicy().hasHeightForWidth())
         self.close_button.setSizePolicy(sizePolicy)
+        self.close_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.close_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(255, 0, 0);\n"
 "}\n"
@@ -108,9 +115,9 @@ class Ui_table_window(object):
         self.close_button.setFlat(False)
         self.close_button.setObjectName("close_button")
         self.horizontalLayout_4.addWidget(self.close_button)
-        self.horizontalLayout_4.setStretch(0, 90)
-        self.horizontalLayout_4.setStretch(1, 2)
-        self.horizontalLayout_4.setStretch(2, 2)
+        self.horizontalLayout_4.setStretch(0, 120)
+        self.horizontalLayout_4.setStretch(1, 3)
+        self.horizontalLayout_4.setStretch(2, 3)
         self.verticalLayout_8.addWidget(self.title_bar)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetFixedSize)
@@ -333,7 +340,7 @@ class Ui_table_window(object):
         self.group_table.setFont(font)
         self.group_table.setMouseTracking(False)
         self.group_table.setTabletTracking(False)
-        self.group_table.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
+        self.group_table.setFocusPolicy(QtCore.Qt.FocusPolicy.TabFocus)
         self.group_table.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.DefaultContextMenu)
         self.group_table.setAcceptDrops(False)
         self.group_table.setAutoFillBackground(False)
@@ -349,8 +356,9 @@ class Ui_table_window(object):
         self.group_table.setLineWidth(0)
         self.group_table.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.group_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
-        self.group_table.setAutoScroll(True)
-        self.group_table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.DoubleClicked|QtWidgets.QAbstractItemView.EditTrigger.EditKeyPressed)
+        self.group_table.setAutoScroll(False)
+        self.group_table.setAutoScrollMargin(50)
+        self.group_table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.DoubleClicked)
         self.group_table.setTabKeyNavigation(False)
         self.group_table.setProperty("showDropIndicator", True)
         self.group_table.setDragEnabled(False)
@@ -722,7 +730,7 @@ class Ui_table_window(object):
         self.last_word.setText(_translate("table_window", "Последнее распознанное слово:"))
         self.save_button.setText(_translate("table_window", "Сохранить"))
         self.cancel_button.setText(_translate("table_window", "Отменить"))
-        self.label_2.setText(_translate("table_window", "SR"))
+        self.label_2.setText(_translate("table_window", "Vosk"))
         self.label_3.setText(_translate("table_window", "Лабораторные работы"))
         self.activate_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Space</span></p></body></html>"))
         self.activate_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Space</p></body></html>"))
@@ -731,13 +739,3 @@ class Ui_table_window(object):
         self.exit_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Q</span></p></body></html>"))
         self.exit_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Q</p></body></html>"))
         self.exit_button.setText(_translate("table_window", "Выход"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    table_window = QtWidgets.QMainWindow()
-    ui = Ui_table_window()
-    ui.setupUi(table_window)
-    table_window.show()
-    sys.exit(app.exec())
