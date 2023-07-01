@@ -21,6 +21,7 @@ ui = Ui_AuthWindow()
 
 Recognizer = Vosk_Recognizer
 
+
 class GetRecording(QtCore.QObject):
     finished = QtCore.pyqtSignal()
     change_button = QtCore.pyqtSignal(int)
@@ -198,7 +199,6 @@ def new_win():
                 else:
                     n_ui.error_label.setText(
                         "Ошибка ввода, попробуйте еще раз")
-            auto_scroll()
 
         except AssertionError:
             n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
@@ -574,6 +574,7 @@ def new_win():
                 item = n_ui.group_table.item(row_choose, i)
                 item.setSelected(True)
             QApplication.processEvents()
+        auto_scroll()
         return
 
     def dateChoose(date: str):
@@ -606,6 +607,7 @@ def new_win():
                 item = n_ui.group_table.item(i, column_choose)
                 item.setSelected(True)
             QApplication.processEvents()
+        auto_scroll()
         return
 
     def selectCell(row: int = -1, col: int = -1):
@@ -706,6 +708,9 @@ def new_win():
             return False
 
     def auto_scroll():
+        """
+        Функция для автоматического скролла до выбранной ячейки в таблице студентов.
+        """
         row = row_choose
         column = column_choose
         if row_choose == -1:
@@ -714,6 +719,7 @@ def new_win():
             column += 1
         item = n_ui.group_table.item(row, column)
         n_ui.group_table.scrollToItem(item)
+        return
 
     def recognition_mode_switch():
         """
@@ -829,23 +835,23 @@ if __name__ == "__main__":
                                     "border-bottom-left-radius: 10px;"
                                     "border-bottom-right-radius: 10px;}")
         ui.login_label.setStyleSheet("QLabel{\n"
-                                    "color: rgb(0, 0, 0);\n")
+                                     "color: rgb(0, 0, 0);\n")
         ui.password_label.setStyleSheet("QLabel{\n"
-                                    "color: rgb(0, 0, 0);\n")
+                                        "color: rgb(0, 0, 0);\n")
         ui.error_label.setStyleSheet("QLabel{\n"
-                                    "color: rgb(0, 0, 0);\n")
+                                     "color: rgb(0, 0, 0);\n")
         ui.auth_button.setStyleSheet("QPushButton::hover{"
-                                    "background-color: rgb(194, 194, 194);}"
-                                    "QPushButton{"
-                                    "background-color: rgb(83, 83, 83);"
-                                    "color: rgb(0, 0, 0);"
-                                    "border-radius: 10px;}")
+                                     "background-color: rgb(194, 194, 194);}"
+                                     "QPushButton{"
+                                     "background-color: rgb(83, 83, 83);"
+                                     "color: rgb(0, 0, 0);"
+                                     "border-radius: 10px;}")
         ui.exit_button.setStyleSheet("QPushButton::hover{"
-                                    "background-color: rgb(194, 194, 194);}"
-                                    "QPushButton{"
-                                    "background-color: rgb(83, 83, 83);"
-                                    "color: rgb(0, 0, 0);"
-                                    "border-radius: 10px;}")
+                                     "background-color: rgb(194, 194, 194);}"
+                                     "QPushButton{"
+                                     "background-color: rgb(83, 83, 83);"
+                                     "color: rgb(0, 0, 0);"
+                                     "border-radius: 10px;}")
     app = QtWidgets.QApplication(sys.argv)
     AuthWindow = QtWidgets.QDialog()
     QtGui.QFontDatabase.addApplicationFont('gotham_black.otf')
