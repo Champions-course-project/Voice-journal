@@ -93,6 +93,7 @@ def new_win():
             n_ui.title_bar.setStyleSheet("background-color: rgb(200,200,200);")
             n_ui.hide_button.setStyleSheet('QPushButton::hover{'
                                             'background-color: rgb(180, 180, 180);}'
+                                           'border-radius: 0px;}'
                                             'QPushButton{'
                                             'background-color: rgb(200, 200, 200);'
                                             'border-radius: 0px;}')
@@ -161,6 +162,7 @@ def new_win():
                                             'gridline-color: rgb(17, 17, 17);')
             n_ui.hide_button.setStyleSheet('QPushButton::hover{'
                                            'background-color: rgb(121, 121, 121);}'
+                                           'border-radius: 0px;}'
                                            'QPushButton{'
                                            'background-color: rgb(83, 83, 83);'
                                            'border-radius: 0px;}')
@@ -1102,17 +1104,45 @@ if __name__ == "__main__":
         ui.error_label.setStyleSheet("QLabel{\n"
                                     "color: rgb(0, 0, 0);\n")
         ui.auth_button.setStyleSheet("QPushButton::hover{"
-                                    "background-color: rgb(194, 194, 194);}"
+                                    "background-color: rgb(220, 220, 220);}"
                                     "QPushButton{"
-                                    "background-color: rgb(83, 83, 83);"
+                                    "background-color: rgb(200,200,200);"
                                     "color: rgb(0, 0, 0);"
                                     "border-radius: 10px;}")
+        ui.title_bar.setStyleSheet("background-color: rgb(200,200,200);"
+                                    'border-top-left-radius: 10px;'
+                                    'border-top-right-radius: 10px;')
+        ui.close_button.setStyleSheet("QPushButton::hover{"
+                                       "background-color: rgb(255,43,43);"
+                                       'border-radius: 0px;'
+                                       'border-top-right-radius: 10px;'
+                                       "QPushButton{"
+                                       "color: rgb(0, 0, 0);"
+                                       "background-color: rgb(200, 200, 200);}"
+                                       'border-radius: 10px;}')
         ui.exit_button.setStyleSheet("QPushButton::hover{"
-                                    "background-color: rgb(194, 194, 194);}"
+                                    "background-color: rgb(220, 220, 220);}"
                                     "QPushButton{"
-                                    "background-color: rgb(83, 83, 83);"
+                                    "background-color: rgb(200,200,200);"
                                     "color: rgb(0, 0, 0);"
                                     "border-radius: 10px;}")
+        ui.hide_button.setStyleSheet("QPushButton::hover{"
+                                       "background-color: rgb(220,220,220);"
+                                       'border-radius: 0px;}'
+                                       "QPushButton{"
+                                       "color: rgb(0, 0, 0);"
+                                       "background-color: rgb(200, 200, 200);}"
+                                       'border-radius: 0px;}')
+        ui.login_lineEdit.setStyleSheet('QLineEdit::hover{'
+                                        'background-color: rgb(220, 220, 220);}'
+                                        'QLineEdit{'
+                                        'color: rgb(255, 255, 255);'
+                                        'background-color: rgb(200, 200, 200);}')
+        ui.password_lineEdit.setStyleSheet('QLineEdit::hover{'
+                                        'background-color: rgb(220, 220, 220);}'
+                                        'QLineEdit{'
+                                        'color: rgb(255, 255, 255);'
+                                        'background-color: rgb(200, 200, 200);}')
 
     app = QtWidgets.QApplication(sys.argv)
     AuthWindow = QtWidgets.QDialog()
@@ -1122,10 +1152,10 @@ if __name__ == "__main__":
     app.setStyle('Fusion')
     ui.setupUi(AuthWindow)
     ui.error_label.setText("")
-    ui.hide_button_2.clicked.connect(light_theme_switch)
+    ui.hide_button.clicked.connect(light_theme_switch)
     AuthWindow.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-    ui.hide_button_2.clicked.connect(AuthWindow.showMinimized)
-    ui.close_button_2.clicked.connect(AuthWindow.close)
+    ui.hide_button.clicked.connect(AuthWindow.showMinimized)
+    ui.close_button.clicked.connect(AuthWindow.close)
     AuthWindow.setWindowFlag(Qt.WindowType.FramelessWindowHint)
     AuthWindow.show()
     ui.exit_button.clicked.connect(AuthWindow.close)

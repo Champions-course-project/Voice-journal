@@ -171,31 +171,9 @@ class Ui_AuthWindow(object):
 "border-top-right-radius: 10px;")
         self.title_bar.setObjectName("title_bar")
         self.close_button = QtWidgets.QPushButton(parent=self.title_bar)
-        self.close_button.setGeometry(QtCore.QRect(1890, 10, 31, 20))
+        self.close_button.setGeometry(QtCore.QRect(344, 0, 31, 31))
         self.close_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
-        self.close_button.setStyleSheet("border-radius: 2px;\n"
-"")
-        self.close_button.setText("")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/window/icons/close_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.close_button.setIcon(icon1)
-        self.close_button.setIconSize(QtCore.QSize(13, 13))
-        self.close_button.setObjectName("close_button")
-        self.hide_button = QtWidgets.QPushButton(parent=self.title_bar)
-        self.hide_button.setGeometry(QtCore.QRect(1860, 10, 31, 20))
-        self.hide_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
-        self.hide_button.setStyleSheet("border-radius: 2px;\n"
-"")
-        self.hide_button.setText("")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/window/icons/hide_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.hide_button.setIcon(icon2)
-        self.hide_button.setIconSize(QtCore.QSize(25, 25))
-        self.hide_button.setObjectName("hide_button")
-        self.close_button_2 = QtWidgets.QPushButton(parent=self.title_bar)
-        self.close_button_2.setGeometry(QtCore.QRect(344, 0, 31, 31))
-        self.close_button_2.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
-        self.close_button_2.setStyleSheet("QPushButton::hover{\n"
+        self.close_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(255, 0, 0);\n"
 "}\n"
 "QPushButton{\n"
@@ -204,14 +182,16 @@ class Ui_AuthWindow(object):
 "border-top-right-radius: 10px;\n"
 "}\n"
 "")
-        self.close_button_2.setText("")
-        self.close_button_2.setIcon(icon1)
-        self.close_button_2.setIconSize(QtCore.QSize(13, 13))
-        self.close_button_2.setObjectName("close_button_2")
-        self.hide_button_2 = QtWidgets.QPushButton(parent=self.title_bar)
-        self.hide_button_2.setGeometry(QtCore.QRect(300, 0, 41, 31))
-        self.hide_button_2.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
-        self.hide_button_2.setStyleSheet("QPushButton::hover{\n"
+        self.close_button.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/window/icons/close_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.close_button.setIcon(icon1)
+        self.close_button.setIconSize(QtCore.QSize(13, 13))
+        self.close_button.setObjectName("close_button")
+        self.hide_button = QtWidgets.QPushButton(parent=self.title_bar)
+        self.hide_button.setGeometry(QtCore.QRect(300, 0, 41, 31))
+        self.hide_button.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
+        self.hide_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(121, 121, 121);\n"
 "}\n"
 "QPushButton{\n"
@@ -220,10 +200,12 @@ class Ui_AuthWindow(object):
 "}\n"
 "\n"
 "")
-        self.hide_button_2.setText("")
-        self.hide_button_2.setIcon(icon2)
-        self.hide_button_2.setIconSize(QtCore.QSize(25, 25))
-        self.hide_button_2.setObjectName("hide_button_2")
+        self.hide_button.setText("")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/window/icons/hide_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.hide_button.setIcon(icon2)
+        self.hide_button.setIconSize(QtCore.QSize(25, 25))
+        self.hide_button.setObjectName("hide_button")
         self.background = QtWidgets.QWidget(parent=AuthWindow)
         self.background.setGeometry(QtCore.QRect(0, 90, 375, 265))
         self.background.setStyleSheet("QWidget{\n"
