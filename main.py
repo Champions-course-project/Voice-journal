@@ -396,7 +396,6 @@ def new_win():
                 else:
                     n_ui.error_label.setText(
                         "Ошибка ввода, попробуйте еще раз")
-            auto_scroll()
 
         except AssertionError:
             n_ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
@@ -618,6 +617,7 @@ def new_win():
             n_ui.help_label.update()
             QApplication.processEvents()
             group_cond = False
+        auto_scroll()
         return
 
     def addDates():
@@ -841,6 +841,7 @@ def new_win():
                 item = n_ui.group_table.item(row_choose, i)
                 item.setSelected(True)
             QApplication.processEvents()
+        auto_scroll()
         return
 
     def dateChoose(date: str):
@@ -973,6 +974,9 @@ def new_win():
             return False
 
     def auto_scroll():
+        """
+        Функция для автоматического скролла до выбранной ячейки в таблице студентов.
+        """
         row = row_choose
         column = column_choose
         if row_choose == -1:
@@ -981,6 +985,7 @@ def new_win():
             column += 1
         item = n_ui.group_table.item(row, column)
         n_ui.group_table.scrollToItem(item)
+        return
 
     def recognition_mode_switch():
         """
