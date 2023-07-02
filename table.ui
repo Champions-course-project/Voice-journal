@@ -95,7 +95,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="120,3,3">
+      <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,120,3,3">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -114,6 +114,24 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
+       <item>
+        <widget class="QCheckBox" name="color_mode_switch">
+         <property name="styleSheet">
+          <string notr="true">    QCheckBox::indicator:unchecked {
+        image: url(dark_mode.png);
+    }
+    QCheckBox::indicator:checked {
+        image: url(dark_mode.png);
+    }
+QCheckBox::hover{
+background-color: rgb(121, 121, 121);
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
        <item>
         <spacer name="horizontalSpacer_3">
          <property name="orientation">
@@ -303,7 +321,7 @@ border-radius: 0px;
 color: rgb(255, 255, 255);
 background-color: rgb(83, 83, 83);
 selection-color: rgb(255, 255, 255);
-selection-background-color: rgb(30, 185, 85);
+selection-background-color: rgb(162, 204, 76);
 border-radius: 10px;
 }
 QListWidget::item::hover{
@@ -311,11 +329,11 @@ background-color: rgb(75, 75,75);
 border-radius: 10px;
 }
 QListWidget::item::selected::hover{
-background-color: rgb(30, 185, 85);
+background-color: rgb(162, 204, 76);
 border-radius: 10px;
 }
 QListWidget::item::selected{
-background-color: rgb(30, 185, 85);
+background-color: rgb(162, 204, 76);
 border-radius: 10px;
 }</string>
               </property>
@@ -389,7 +407,7 @@ border-radius: 10px;
 color: rgb(255, 255, 255);
 background-color: rgb(83, 83, 83);
 selection-color: rgb(255, 255, 255);
-selection-background-color: rgb(30, 185, 85);
+selection-background-color: rgb(162, 204, 76);
 border-radius: 10px;
 }
 QListWidget::item::hover{
@@ -397,11 +415,11 @@ background-color: rgb(75, 75,75);
 border-radius: 10px;
 }
 QListWidget::item::selected::hover{
-background-color: rgb(30, 185, 85);
+background-color: rgb(162, 204, 76);
 border-radius: 10px;
 }
 QListWidget::item::selected{
-background-color: rgb(30, 185, 85);
+background-color: rgb(162, 204, 76);
 border-radius: 10px;
 }</string>
               </property>
@@ -469,7 +487,7 @@ border-radius: 10px;
 color: rgb(255, 255, 255);
 background-color: rgb(83, 83, 83);
 selection-color: rgb(255, 255, 255);
-selection-background-color: rgb(30, 185, 85);
+selection-background-color: rgb(162, 204, 76);
 border-radius: 10px;
 }
 QListWidget::item::hover{
@@ -477,11 +495,11 @@ background-color: rgb(75, 75,75);
 border-radius: 10px;
 }
 QListWidget::item::selected::hover{
-background-color: rgb(30, 185, 85);
+background-color: rgb(162, 204, 765);
 border-radius: 10px;
 }
 QListWidget::item::selected{
-background-color: rgb(30, 185, 85);
+background-color: rgb(162, 204, 76);
 border-radius: 10px;
 }</string>
               </property>
@@ -604,7 +622,7 @@ border-radius: 10px;
 font: 25 12pt &quot;Gotham Light&quot;;
 color: rgb(255, 255, 255);
 alternate-background-color: rgb(179, 179, 179);
-selection-background-color: rgb(30, 185, 85);
+selection-background-color: rgb(162, 204, 76);
 gridline-color: rgb(17, 17, 17);</string>
           </property>
           <property name="inputMethodHints">
@@ -991,7 +1009,7 @@ background-color: rgb(255, 255, 255);
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="recognition_mode_label">
           <property name="font">
            <font>
             <family>Gotham Medium</family>
@@ -1007,7 +1025,7 @@ background-color: rgb(255, 255, 255);
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="table_mode_label">
           <property name="font">
            <font>
             <family>Gotham Medium</family>
@@ -1079,7 +1097,7 @@ background-color: rgb(255, 255, 255);
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="autoFillBackground">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton::hover{

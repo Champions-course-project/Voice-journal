@@ -74,7 +74,7 @@ class Ui_AuthWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.authorization_label.setFont(font)
-        self.authorization_label.setStyleSheet("background-color: rgb(30, 185, 85);\n"
+        self.authorization_label.setStyleSheet("background-color: rgb(162, 204, 76);\n"
 "color: rgb(255, 255, 255);")
         self.authorization_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.authorization_label.setObjectName("authorization_label")
@@ -227,7 +227,6 @@ class Ui_AuthWindow(object):
         self.background = QtWidgets.QWidget(parent=AuthWindow)
         self.background.setGeometry(QtCore.QRect(0, 90, 375, 265))
         self.background.setStyleSheet("QWidget{\n"
-"background-color: rgb(0, 0, 0);\n"
 "border-bottom-left-radius: 10px;\n"
 "border-bottom-right-radius: 10px;\n"
 "}")

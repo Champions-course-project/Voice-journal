@@ -61,6 +61,19 @@ class Ui_table_window(object):
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.color_mode_switch = QtWidgets.QCheckBox(parent=self.title_bar)
+        self.color_mode_switch.setStyleSheet("    QCheckBox::indicator:unchecked {\n"
+"        image: url(dark_mode.png);\n"
+"    }\n"
+"    QCheckBox::indicator:checked {\n"
+"        image: url(dark_mode.png);\n"
+"    }\n"
+"QCheckBox::hover{\n"
+"background-color: rgb(121, 121, 121);\n"
+"}")
+        self.color_mode_switch.setText("")
+        self.color_mode_switch.setObjectName("color_mode_switch")
+        self.horizontalLayout_4.addWidget(self.color_mode_switch)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem)
         self.hide_button = QtWidgets.QPushButton(parent=self.title_bar)
@@ -115,9 +128,9 @@ class Ui_table_window(object):
         self.close_button.setFlat(False)
         self.close_button.setObjectName("close_button")
         self.horizontalLayout_4.addWidget(self.close_button)
-        self.horizontalLayout_4.setStretch(0, 120)
-        self.horizontalLayout_4.setStretch(1, 3)
+        self.horizontalLayout_4.setStretch(1, 120)
         self.horizontalLayout_4.setStretch(2, 3)
+        self.horizontalLayout_4.setStretch(3, 3)
         self.verticalLayout_8.addWidget(self.title_bar)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetFixedSize)
@@ -160,7 +173,7 @@ class Ui_table_window(object):
 "color: rgb(255, 255, 255);\n"
 "background-color: rgb(83, 83, 83);\n"
 "selection-color: rgb(255, 255, 255);\n"
-"selection-background-color: rgb(30, 185, 85);\n"
+"selection-background-color: rgb(162, 204, 76);\n"
 "border-radius: 10px;\n"
 "}\n"
 "QListWidget::item::hover{\n"
@@ -168,11 +181,11 @@ class Ui_table_window(object):
 "border-radius: 10px;\n"
 "}\n"
 "QListWidget::item::selected::hover{\n"
-"background-color: rgb(30, 185, 85);\n"
+"background-color: rgb(162, 204, 76);\n"
 "border-radius: 10px;\n"
 "}\n"
 "QListWidget::item::selected{\n"
-"background-color: rgb(30, 185, 85);\n"
+"background-color: rgb(162, 204, 76);\n"
 "border-radius: 10px;\n"
 "}")
         self.faculty_list.setObjectName("faculty_list")
@@ -212,7 +225,7 @@ class Ui_table_window(object):
 "color: rgb(255, 255, 255);\n"
 "background-color: rgb(83, 83, 83);\n"
 "selection-color: rgb(255, 255, 255);\n"
-"selection-background-color: rgb(30, 185, 85);\n"
+"selection-background-color: rgb(162, 204, 76);\n"
 "border-radius: 10px;\n"
 "}\n"
 "QListWidget::item::hover{\n"
@@ -220,11 +233,11 @@ class Ui_table_window(object):
 "border-radius: 10px;\n"
 "}\n"
 "QListWidget::item::selected::hover{\n"
-"background-color: rgb(30, 185, 85);\n"
+"background-color: rgb(162, 204, 76);\n"
 "border-radius: 10px;\n"
 "}\n"
 "QListWidget::item::selected{\n"
-"background-color: rgb(30, 185, 85);\n"
+"background-color: rgb(162, 204, 76);\n"
 "border-radius: 10px;\n"
 "}")
         self.year_list.setObjectName("year_list")
@@ -262,7 +275,7 @@ class Ui_table_window(object):
 "color: rgb(255, 255, 255);\n"
 "background-color: rgb(83, 83, 83);\n"
 "selection-color: rgb(255, 255, 255);\n"
-"selection-background-color: rgb(30, 185, 85);\n"
+"selection-background-color: rgb(162, 204, 76);\n"
 "border-radius: 10px;\n"
 "}\n"
 "QListWidget::item::hover{\n"
@@ -270,11 +283,11 @@ class Ui_table_window(object):
 "border-radius: 10px;\n"
 "}\n"
 "QListWidget::item::selected::hover{\n"
-"background-color: rgb(30, 185, 85);\n"
+"background-color: rgb(162, 204, 765);\n"
 "border-radius: 10px;\n"
 "}\n"
 "QListWidget::item::selected{\n"
-"background-color: rgb(30, 185, 85);\n"
+"background-color: rgb(162, 204, 76);\n"
 "border-radius: 10px;\n"
 "}")
         self.group_list.setTextElideMode(QtCore.Qt.TextElideMode.ElideLeft)
@@ -348,7 +361,7 @@ class Ui_table_window(object):
 "font: 25 12pt \"Gotham Light\";\n"
 "color: rgb(255, 255, 255);\n"
 "alternate-background-color: rgb(179, 179, 179);\n"
-"selection-background-color: rgb(30, 185, 85);\n"
+"selection-background-color: rgb(162, 204, 76);\n"
 "gridline-color: rgb(17, 17, 17);")
         self.group_table.setInputMethodHints(QtCore.Qt.InputMethodHint.ImhNone)
         self.group_table.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -552,22 +565,22 @@ class Ui_table_window(object):
         self.checkBox_tableMode.setText("")
         self.checkBox_tableMode.setObjectName("checkBox_tableMode")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.checkBox_tableMode)
-        self.label_2 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.recognition_mode_label = QtWidgets.QLabel(parent=self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Gotham Medium")
         font.setPointSize(12)
-        self.label_2.setFont(font)
-        self.label_2.setStyleSheet("color: rgb(255, 255, 255);")
-        self.label_2.setObjectName("label_2")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.label_2)
-        self.label_3 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.recognition_mode_label.setFont(font)
+        self.recognition_mode_label.setStyleSheet("color: rgb(255, 255, 255);")
+        self.recognition_mode_label.setObjectName("recognition_mode_label")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.recognition_mode_label)
+        self.table_mode_label = QtWidgets.QLabel(parent=self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Gotham Medium")
         font.setPointSize(12)
-        self.label_3.setFont(font)
-        self.label_3.setStyleSheet("color: rgb(255, 255, 255);")
-        self.label_3.setObjectName("label_3")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.label_3)
+        self.table_mode_label.setFont(font)
+        self.table_mode_label.setStyleSheet("color: rgb(255, 255, 255);")
+        self.table_mode_label.setObjectName("table_mode_label")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.table_mode_label)
         self.horizontalLayout_3.addLayout(self.formLayout)
         self.verticalLayout_6 = QtWidgets.QVBoxLayout()
         self.verticalLayout_6.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetNoConstraint)
@@ -589,7 +602,7 @@ class Ui_table_window(object):
         self.activate_button.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
         self.activate_button.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
         self.activate_button.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.activate_button.setAutoFillBackground(True)
+        self.activate_button.setAutoFillBackground(False)
         self.activate_button.setStyleSheet("QPushButton::hover{\n"
 "background-color: rgb(194, 194, 194);\n"
 "}\n"
@@ -730,8 +743,8 @@ class Ui_table_window(object):
         self.last_word.setText(_translate("table_window", "Последнее распознанное слово:"))
         self.save_button.setText(_translate("table_window", "Сохранить"))
         self.cancel_button.setText(_translate("table_window", "Отменить"))
-        self.label_2.setText(_translate("table_window", "Vosk"))
-        self.label_3.setText(_translate("table_window", "Лабораторные работы"))
+        self.recognition_mode_label.setText(_translate("table_window", "Vosk"))
+        self.table_mode_label.setText(_translate("table_window", "Лабораторные работы"))
         self.activate_button.setToolTip(_translate("table_window", "<html><head/><body><p><span style=\" color:#ffffff;\">Hotkey - Ctrl + Space</span></p></body></html>"))
         self.activate_button.setWhatsThis(_translate("table_window", "<html><head/><body><p>Hotkey - Ctrl + Space</p></body></html>"))
         self.activate_button.setText(_translate("table_window", "Голосовой ввод"))
