@@ -22,6 +22,7 @@ ui = Ui_AuthWindow()
 
 Recognizer = Vosk_Recognizer
 
+
 class GetRecording(QtCore.QObject):
     finished = QtCore.pyqtSignal()
     change_button = QtCore.pyqtSignal(int)
@@ -92,11 +93,11 @@ def new_win():
             n_ui.recognition_mode_label.setStyleSheet("color: rgb(0, 0, 0);")
             n_ui.title_bar.setStyleSheet("background-color: rgb(200,200,200);")
             n_ui.hide_button.setStyleSheet('QPushButton::hover{'
-                                            'background-color: rgb(180, 180, 180);}'
+                                           'background-color: rgb(180, 180, 180);}'
                                            'border-radius: 0px;}'
-                                            'QPushButton{'
-                                            'background-color: rgb(200, 200, 200);'
-                                            'border-radius: 0px;}')
+                                           'QPushButton{'
+                                           'background-color: rgb(200, 200, 200);'
+                                           'border-radius: 0px;}')
             n_ui.close_button.setStyleSheet('QPushButton::hover{'
                                             'background-color: rgb(255, 43, 43);}'
                                             'QPushButton{'
@@ -113,53 +114,53 @@ def new_win():
                                             'border-radius: 10px;}'
                                             'QListWidget::item::selected::hover{'
                                             'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}' 
+                                            'border-radius: 10px;}'
                                             'QListWidget::item::selected{'
                                             'background-color: rgb(162, 204, 76);'
                                             'border-radius: 10px;}')
             n_ui.year_list.setStyleSheet("QListWidget{"
-                                            'color: rgb(0, 0, 0);'
-                                            'background-color: rgb(200, 200, 200);'
-                                            'selection-color: rgb(255, 255, 255);'
-                                            'selection-background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::hover{'
-                                            'background-color: rgb(170, 170,170);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected::hover{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}')
+                                         'color: rgb(0, 0, 0);'
+                                         'background-color: rgb(200, 200, 200);'
+                                         'selection-color: rgb(255, 255, 255);'
+                                         'selection-background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::hover{'
+                                         'background-color: rgb(170, 170,170);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::selected::hover{'
+                                         'background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::selected{'
+                                         'background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}')
             n_ui.group_list.setStyleSheet("QListWidget{"
-                                            'color: rgb(0, 0, 0);'
-                                            'background-color: rgb(200, 200, 200);'
-                                            'selection-color: rgb(255, 255, 255);'
-                                            'selection-background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::hover{'
-                                            'background-color: rgb(170, 170,170);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected::hover{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}')
+                                          'color: rgb(0, 0, 0);'
+                                          'background-color: rgb(200, 200, 200);'
+                                          'selection-color: rgb(255, 255, 255);'
+                                          'selection-background-color: rgb(162, 204, 76);'
+                                          'border-radius: 10px;}'
+                                          'QListWidget::item::hover{'
+                                          'background-color: rgb(170, 170,170);'
+                                          'border-radius: 10px;}'
+                                          'QListWidget::item::selected::hover{'
+                                          'background-color: rgb(162, 204, 76);'
+                                          'border-radius: 10px;}'
+                                          'QListWidget::item::selected{'
+                                          'background-color: rgb(162, 204, 76);'
+                                          'border-radius: 10px;}')
             n_ui.group_table.setStyleSheet('background-color: rgb(200, 200, 200);'
-                                            'color: rgb(0, 0, 0);'
-                                            'alternate-background-color: rgb(179, 179, 179);'
-                                            'selection-background-color: rgb(162, 204, 76);'
-                                            'gridline-color: rgb(17, 17, 17);')
+                                           'color: rgb(0, 0, 0);'
+                                           'alternate-background-color: rgb(179, 179, 179);'
+                                           'selection-background-color: rgb(162, 204, 76);'
+                                           'gridline-color: rgb(17, 17, 17);')
             n_ui.word.setStyleSheet('color: rgb(0, 0, 0);')
         else:
             n_ui.word.setStyleSheet('color: rgb(255, 255, 255);')
             n_ui.group_table.setStyleSheet('background-color: rgb(83, 83, 83);'
-                                            'color: rgb(255, 255, 255);'
-                                            'alternate-background-color: rgb(179, 179, 179);'
-                                            'selection-background-color: rgb(162, 204, 76);'
-                                            'gridline-color: rgb(17, 17, 17);')
+                                           'color: rgb(255, 255, 255);'
+                                           'alternate-background-color: rgb(179, 179, 179);'
+                                           'selection-background-color: rgb(162, 204, 76);'
+                                           'gridline-color: rgb(17, 17, 17);')
             n_ui.hide_button.setStyleSheet('QPushButton::hover{'
                                            'background-color: rgb(121, 121, 121);}'
                                            'border-radius: 0px;}'
@@ -203,7 +204,8 @@ def new_win():
             n_ui.last_word.setStyleSheet("color: rgb(255, 255, 255);")
             n_ui.error_label.setStyleSheet("color: rgb(255, 255, 255);")
             n_ui.table_mode_label.setStyleSheet("color: rgb(255, 255, 255);")
-            n_ui.recognition_mode_label.setStyleSheet("color: rgb(255, 255, 255);")
+            n_ui.recognition_mode_label.setStyleSheet(
+                "color: rgb(255, 255, 255);")
             n_ui.title_bar.setStyleSheet("background-color: rgb(83,83,83);")
 
             n_ui.faculty_list.setStyleSheet('QListWidget{'
@@ -222,35 +224,36 @@ def new_win():
                                             'background-color: rgb(162, 204, 76);'
                                             'border-radius: 10px;}')
             n_ui.year_list.setStyleSheet('QListWidget{'
-                                            'color: rgb(255, 255, 255);'
-                                            'background-color: rgb(83, 83, 83);'
-                                            'selection-color: rgb(255, 255, 255);'
-                                            'selection-background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::hover{'
-                                            'background-color: rgb(75, 75,75);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected::hover{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}')
+                                         'color: rgb(255, 255, 255);'
+                                         'background-color: rgb(83, 83, 83);'
+                                         'selection-color: rgb(255, 255, 255);'
+                                         'selection-background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::hover{'
+                                         'background-color: rgb(75, 75,75);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::selected::hover{'
+                                         'background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::selected{'
+                                         'background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}')
             n_ui.group_list.setStyleSheet('QListWidget{'
-                                            'color: rgb(255, 255, 255);'
-                                            'background-color: rgb(83, 83, 83);'
-                                            'selection-color: rgb(255, 255, 255);'
-                                            'selection-background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::hover{'
-                                            'background-color: rgb(75, 75,75);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected::hover{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}')
+                                          'color: rgb(255, 255, 255);'
+                                          'background-color: rgb(83, 83, 83);'
+                                          'selection-color: rgb(255, 255, 255);'
+                                          'selection-background-color: rgb(162, 204, 76);'
+                                          'border-radius: 10px;}'
+                                          'QListWidget::item::hover{'
+                                          'background-color: rgb(75, 75,75);'
+                                          'border-radius: 10px;}'
+                                          'QListWidget::item::selected::hover{'
+                                          'background-color: rgb(162, 204, 76);'
+                                          'border-radius: 10px;}'
+                                          'QListWidget::item::selected{'
+                                          'background-color: rgb(162, 204, 76);'
+                                          'border-radius: 10px;}')
+
     def activate_voice():
         """
         Создает дополнительный поток по распознаванию речи.
@@ -270,11 +273,12 @@ def new_win():
         worker.finished.connect(thread.quit)
         worker.finished.connect(worker.deleteLater)
         thread.finished.connect(thread.deleteLater)
-        thread.start()
 
         worker.change_button.connect(buttonColor)
         worker.unlockButton.connect(unlockButton)
         worker.finished.connect(__activate_voice)
+
+        thread.start()
 
     def unlockButton():
         """
@@ -344,7 +348,7 @@ def new_win():
                     if number != 0 and number <= n_ui.group_table.verticalHeader().count():
                         word = n_ui.group_table.verticalHeaderItem(
                             number - 1).text()
-                        words_list[0] = word.split(". ")[1]
+                        words_list[0] = word.split(". ")[1].split(" ")[0]
                     student_choose = Functions.speech_functions.get_student_name(
                         words_list, faculty_name, course_name, group_name)
                     if student_choose:
@@ -430,11 +434,11 @@ def new_win():
                 n_ui.activate_button.setText("Голосовой ввод")
                 n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
                 n_ui.activate_button.setStyleSheet("QPushButton::hover{"
-                                               "background-color: rgb(162, 204, 76);}"
-                                               "QPushButton{"
-                                               "color: rgb(0, 0, 0);"
-                                               "border-radius: 10px;"
-                                               "background-color: rgb(192, 234, 106);}")
+                                                   "background-color: rgb(162, 204, 76);}"
+                                                   "QPushButton{"
+                                                   "color: rgb(0, 0, 0);"
+                                                   "border-radius: 10px;"
+                                                   "background-color: rgb(192, 234, 106);}")
             else:
                 n_ui.activate_button.setText("Голосовой ввод")
                 n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
@@ -546,6 +550,40 @@ def new_win():
             n_ui.group_list.addItem(str(i) + ". " + item)
         nonlocal group_cond
         group_cond = True
+
+        if n_ui.color_mode_switch.isChecked():
+            n_ui.year_list.setStyleSheet("QListWidget{"
+                                         'color: rgb(0, 0, 0);'
+                                         'background-color: rgb(200, 200, 200);'
+                                         'selection-color: rgb(255, 255, 255);'
+                                         'selection-background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::hover{'
+                                         'background-color: rgb(170, 170,170);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::selected::hover{'
+                                         'background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::selected{'
+                                         'background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}')
+        else:
+            n_ui.year_list.setStyleSheet('QListWidget{'
+                                         'color: rgb(255, 255, 255);'
+                                         'background-color: rgb(83, 83, 83);'
+                                         'selection-color: rgb(255, 255, 255);'
+                                         'selection-background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::hover{'
+                                         'background-color: rgb(75, 75,75);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::selected::hover{'
+                                         'background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}'
+                                         'QListWidget::item::selected{'
+                                         'background-color: rgb(162, 204, 76);'
+                                         'border-radius: 10px;}')
+
         if i == 0:
             if n_ui.color_mode_switch.isChecked():
                 n_ui.year_list.setStyleSheet("QListWidget{"
@@ -565,59 +603,26 @@ def new_win():
                                              'border-radius: 10px;}')
             else:
                 n_ui.year_list.setStyleSheet('QListWidget{'
-                                            'color: rgb(255, 255, 255);'
-                                            'background-color: rgb(83, 83, 83);'
-                                            'selection-color: rgb(255, 255, 255);'
-                                            'selection-background-color: rgb(255,43,43);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::hover{'
-                                            'background-color: rgb(75, 75,75);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected::hover{'
-                                            'background-color: rgb(255,43,43);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected{'
-                                            'background-color: rgb(255,43,43);'
-                                            'border-radius: 10px;}')
-        else:
-            if n_ui.color_mode_switch.isChecked():
-                n_ui.year_list.setStyleSheet("QListWidget{"
-                                             'color: rgb(0, 0, 0);'
-                                             'background-color: rgb(200, 200, 200);'
+                                             'color: rgb(255, 255, 255);'
+                                             'background-color: rgb(83, 83, 83);'
                                              'selection-color: rgb(255, 255, 255);'
-                                             'selection-background-color: rgb(162, 204, 76);'
+                                             'selection-background-color: rgb(255,43,43);'
                                              'border-radius: 10px;}'
                                              'QListWidget::item::hover{'
-                                             'background-color: rgb(170, 170,170);'
+                                             'background-color: rgb(75, 75,75);'
                                              'border-radius: 10px;}'
                                              'QListWidget::item::selected::hover{'
-                                             'background-color: rgb(162, 204, 76);'
+                                             'background-color: rgb(255,43,43);'
                                              'border-radius: 10px;}'
                                              'QListWidget::item::selected{'
-                                             'background-color: rgb(162, 204, 76);'
+                                             'background-color: rgb(255,43,43);'
                                              'border-radius: 10px;}')
-            else:
-                n_ui.year_list.setStyleSheet('QListWidget{'
-                                            'color: rgb(255, 255, 255);'
-                                            'background-color: rgb(83, 83, 83);'
-                                            'selection-color: rgb(255, 255, 255);'
-                                            'selection-background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::hover{'
-                                            'background-color: rgb(75, 75,75);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected::hover{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}')
+
             n_ui.help_label.setText(
                 "Примечание: на данном курсе нет групп, выберете другую!")
             n_ui.help_label.update()
             QApplication.processEvents()
             group_cond = False
-        auto_scroll()
         return
 
     def addDates():
@@ -644,7 +649,6 @@ def new_win():
             return
         n_ui.group_table.setColumnCount(len(dates_list))
         n_ui.group_table.setHorizontalHeaderLabels(dates_list)
-        QApplication.processEvents()
         return
 
     def addStudents():
@@ -661,20 +665,20 @@ def new_win():
         n_ui.group_table.setRowCount(0)
         if n_ui.color_mode_switch.isChecked():
             n_ui.group_list.setStyleSheet("QListWidget{"
-                                         'color: rgb(0, 0, 0);'
-                                         'background-color: rgb(200, 200, 200);'
-                                         'selection-color: rgb(255, 255, 255);'
-                                         'selection-background-color: rgb(162, 204, 76);'
-                                         'border-radius: 10px;}'
-                                         'QListWidget::item::hover{'
-                                         'background-color: rgb(170, 170,170);'
-                                         'border-radius: 10px;}'
-                                         'QListWidget::item::selected::hover{'
-                                         'background-color: rgb(162, 204, 76);'
-                                         'border-radius: 10px;}'
-                                         'QListWidget::item::selected{'
-                                         'background-color: rgb(162, 204, 76);'
-                                         'border-radius: 10px;}')
+                                          'color: rgb(0, 0, 0);'
+                                          'background-color: rgb(200, 200, 200);'
+                                          'selection-color: rgb(255, 255, 255);'
+                                          'selection-background-color: rgb(162, 204, 76);'
+                                          'border-radius: 10px;}'
+                                          'QListWidget::item::hover{'
+                                          'background-color: rgb(170, 170,170);'
+                                          'border-radius: 10px;}'
+                                          'QListWidget::item::selected::hover{'
+                                          'background-color: rgb(162, 204, 76);'
+                                          'border-radius: 10px;}'
+                                          'QListWidget::item::selected{'
+                                          'background-color: rgb(162, 204, 76);'
+                                          'border-radius: 10px;}')
         else:
             n_ui.group_list.setStyleSheet("QListWidget{\n"
                                           "color: rgb(255, 255, 255);\n"
@@ -709,20 +713,20 @@ def new_win():
         if len(students_list) == 0:
             if n_ui.color_mode_switch.isChecked():
                 n_ui.group_list.setStyleSheet("QListWidget{"
-                                             'color: rgb(0, 0, 0);'
-                                             'background-color: rgb(200, 200, 200);'
-                                             'selection-color: rgb(255, 255, 255);'
-                                             'selection-background-color: rgb(255,43,43);'
-                                             'border-radius: 10px;}'
-                                             'QListWidget::item::hover{'
-                                             'background-color: rgb(170, 170,170);'
-                                             'border-radius: 10px;}'
-                                             'QListWidget::item::selected::hover{'
-                                             'background-color: rgb(255,43,43);'
-                                             'border-radius: 10px;}'
-                                             'QListWidget::item::selected{'
-                                             'background-color: rgb(255,43,43);'
-                                             'border-radius: 10px;}')
+                                              'color: rgb(0, 0, 0);'
+                                              'background-color: rgb(200, 200, 200);'
+                                              'selection-color: rgb(255, 255, 255);'
+                                              'selection-background-color: rgb(255,43,43);'
+                                              'border-radius: 10px;}'
+                                              'QListWidget::item::hover{'
+                                              'background-color: rgb(170, 170,170);'
+                                              'border-radius: 10px;}'
+                                              'QListWidget::item::selected::hover{'
+                                              'background-color: rgb(255,43,43);'
+                                              'border-radius: 10px;}'
+                                              'QListWidget::item::selected{'
+                                              'background-color: rgb(255,43,43);'
+                                              'border-radius: 10px;}')
             else:
                 n_ui.group_list.setStyleSheet("QListWidget{\n"
                                               "color: rgb(255, 255, 255);\n"
@@ -765,6 +769,7 @@ def new_win():
             studentChoose(n_ui.group_table.verticalHeaderItem(
                 0).text().split(". ")[1])
             row_choose = 0
+        auto_scroll()
         return
 
     def addStatuses():
@@ -874,6 +879,7 @@ def new_win():
                 item = n_ui.group_table.item(i, column_choose)
                 item.setSelected(True)
             QApplication.processEvents()
+        auto_scroll()
         return
 
     def selectCell(row: int = -1, col: int = -1):
@@ -977,6 +983,7 @@ def new_win():
         """
         Функция для автоматического скролла до выбранной ячейки в таблице студентов.
         """
+        print("auto_scroll")
         row = row_choose
         column = column_choose
         if row_choose == -1:
@@ -1103,51 +1110,51 @@ if __name__ == "__main__":
                                     "border-bottom-left-radius: 10px;"
                                     "border-bottom-right-radius: 10px;}")
         ui.login_label.setStyleSheet("QLabel{\n"
-                                    "color: rgb(0, 0, 0);\n")
+                                     "color: rgb(0, 0, 0);\n")
         ui.password_label.setStyleSheet("QLabel{\n"
-                                    "color: rgb(0, 0, 0);\n")
+                                        "color: rgb(0, 0, 0);\n")
         ui.error_label.setStyleSheet("QLabel{\n"
-                                    "color: rgb(0, 0, 0);\n")
+                                     "color: rgb(0, 0, 0);\n")
         ui.auth_button.setStyleSheet("QPushButton::hover{"
-                                    "background-color: rgb(220, 220, 220);}"
-                                    "QPushButton{"
-                                    "background-color: rgb(200,200,200);"
-                                    "color: rgb(0, 0, 0);"
-                                    "border-radius: 10px;}")
+                                     "background-color: rgb(220, 220, 220);}"
+                                     "QPushButton{"
+                                     "background-color: rgb(200,200,200);"
+                                     "color: rgb(0, 0, 0);"
+                                     "border-radius: 10px;}")
         ui.title_bar.setStyleSheet("background-color: rgb(200,200,200);"
-                                    'border-top-left-radius: 10px;'
-                                    'border-top-right-radius: 10px;')
+                                   'border-top-left-radius: 10px;'
+                                   'border-top-right-radius: 10px;')
         ui.close_button.setStyleSheet("QPushButton::hover{"
-                                       "background-color: rgb(255,43,43);"
-                                       'border-radius: 0px;'
-                                       'border-top-right-radius: 10px;'
-                                       "QPushButton{"
-                                       "color: rgb(0, 0, 0);"
-                                       "background-color: rgb(200, 200, 200);}"
-                                       'border-radius: 10px;}')
+                                      "background-color: rgb(255,43,43);"
+                                      'border-radius: 0px;'
+                                      'border-top-right-radius: 10px;'
+                                      "QPushButton{"
+                                      "color: rgb(0, 0, 0);"
+                                      "background-color: rgb(200, 200, 200);}"
+                                      'border-radius: 10px;}')
         ui.exit_button.setStyleSheet("QPushButton::hover{"
-                                    "background-color: rgb(220, 220, 220);}"
-                                    "QPushButton{"
-                                    "background-color: rgb(200,200,200);"
-                                    "color: rgb(0, 0, 0);"
-                                    "border-radius: 10px;}")
+                                     "background-color: rgb(220, 220, 220);}"
+                                     "QPushButton{"
+                                     "background-color: rgb(200,200,200);"
+                                     "color: rgb(0, 0, 0);"
+                                     "border-radius: 10px;}")
         ui.hide_button.setStyleSheet("QPushButton::hover{"
-                                       "background-color: rgb(220,220,220);"
-                                       'border-radius: 0px;}'
-                                       "QPushButton{"
-                                       "color: rgb(0, 0, 0);"
-                                       "background-color: rgb(200, 200, 200);}"
-                                       'border-radius: 0px;}')
+                                     "background-color: rgb(220,220,220);"
+                                     'border-radius: 0px;}'
+                                     "QPushButton{"
+                                     "color: rgb(0, 0, 0);"
+                                     "background-color: rgb(200, 200, 200);}"
+                                     'border-radius: 0px;}')
         ui.login_lineEdit.setStyleSheet('QLineEdit::hover{'
                                         'background-color: rgb(220, 220, 220);}'
                                         'QLineEdit{'
                                         'color: rgb(255, 255, 255);'
                                         'background-color: rgb(200, 200, 200);}')
         ui.password_lineEdit.setStyleSheet('QLineEdit::hover{'
-                                        'background-color: rgb(220, 220, 220);}'
-                                        'QLineEdit{'
-                                        'color: rgb(255, 255, 255);'
-                                        'background-color: rgb(200, 200, 200);}')
+                                           'background-color: rgb(220, 220, 220);}'
+                                           'QLineEdit{'
+                                           'color: rgb(255, 255, 255);'
+                                           'background-color: rgb(200, 200, 200);}')
 
     app = QtWidgets.QApplication(sys.argv)
     AuthWindow = QtWidgets.QDialog()
