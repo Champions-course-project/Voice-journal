@@ -769,7 +769,7 @@ def new_win():
             studentChoose(n_ui.group_table.verticalHeaderItem(
                 0).text().split(". ")[1])
             row_choose = 0
-        auto_scroll()
+        n_ui.group_table.scrollToTop()
         return
 
     def addStatuses():
@@ -897,6 +897,7 @@ def new_win():
         n_ui.group_table.clearSelection()
         item = n_ui.group_table.item(row, col)
         item.setSelected(True)
+        auto_scroll()
         return
 
     def rememberState():
