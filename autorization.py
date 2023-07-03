@@ -207,7 +207,7 @@ class Ui_AuthWindow(object):
         self.hide_button.setIconSize(QtCore.QSize(25, 25))
         self.hide_button.setObjectName("hide_button")
         self.background = QtWidgets.QWidget(parent=AuthWindow)
-        self.background.setGeometry(QtCore.QRect(0, 90, 375, 265))
+        self.background.setGeometry(QtCore.QRect(0, 91, 375, 261))
         self.background.setStyleSheet("QWidget{\n"
 "border-bottom-left-radius: 10px;\n"
 "border-bottom-right-radius: 10px;\n"

@@ -1179,8 +1179,11 @@ if __name__ == "__main__":
     def light_theme_switch():
         ui.authorization_label.setStyleSheet("color: rgb(0, 0, 0);"
                                              "background-color: rgb(162, 204, 76);")
-        AuthWindow.setStyleSheet("background-color: (83, 83, 83")
+        AuthWindow.setStyleSheet("QDialog{"
+                                 "background-color: (83, 83, 83);"
+                                 'border: 10px solid gray;}')
         ui.background.setStyleSheet("QWidget{"
+                                    'border: 3px solid gray;'
                                     "background-color: rgb(255, 255, 255);"
                                     "border-bottom-left-radius: 10px;"
                                     "border-bottom-right-radius: 10px;}")
