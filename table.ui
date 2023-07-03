@@ -697,6 +697,9 @@ gridline-color: rgb(17, 17, 17);</string>
           <property name="cornerButtonEnabled">
            <bool>false</bool>
           </property>
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>14.01.2023</string>

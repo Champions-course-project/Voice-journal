@@ -430,6 +430,7 @@ class Ui_table_window(object):
         self.group_table.setHorizontalHeaderItem(14, item)
         item = QtWidgets.QTableWidgetItem()
         self.group_table.setHorizontalHeaderItem(15, item)
+        self.group_table.horizontalHeader().setCascadingSectionResizes(True)
         self.verticalLayout.addWidget(self.group_table)
         self.help_label = QtWidgets.QLabel(parent=self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)

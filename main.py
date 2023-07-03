@@ -243,6 +243,7 @@ def new_win():
             return
 
         buttonActive = True
+        n_ui.color_mode_switch.setEnabled(False)
 
         # Эта часть кода создает новый поток для обработки
         thread = QtCore.QThread()
@@ -265,6 +266,7 @@ def new_win():
         """
         nonlocal buttonActive
         buttonActive = False
+        n_ui.color_mode_switch.setEnabled(True)
 
     def __activate_voice():
         """
