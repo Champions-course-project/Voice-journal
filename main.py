@@ -50,7 +50,6 @@ allStyleSheets = {
                             "color: rgb(0, 0, 0);"
                             "border-radius: 10px;"
                             "background-color: rgb(192, 234, 106);}"),
-        "title_bar": "background-color: rgb(73, 85, 81);",
         "exit_button": ("QPushButton::hover{"
                         "background-color: rgb(162, 204, 76);}"
                         "QPushButton{"
@@ -142,28 +141,102 @@ allStyleSheets = {
         "word": 'color: rgb(0, 0, 0);'
     },
     "dark": {
-        "tableWindow": "",
-        "activate_button": "",
-        "title_bar": "",
-        "exit_button": "",
-        "save_button": "",
-        "cancel_button": "",
-        "faculty_label": "",
-        "year_label": "",
-        "groupe_label": "",
-        "table_label": "",
-        "last_word": "",
-        "error_label": "",
-        "table_mode_label": "",
-        "recognition_mode_label": "",
-        "title_bar": "",
-        "hide_button": "",
-        "close_button": "",
-        "faculty_list": "",
-        "year_list": "",
-        "group_list": "",
-        "group_table": "",
-        "word": ""
+        "tableWindow": "background-color: rgb(17,17,17);",
+        "activate_button": ("QPushButton::hover{"
+                            "background-color: rgb(194,194,194);}"
+                            "QPushButton{"
+                            "color: rgb(0, 0, 0);"
+                            "border-radius: 10px;"
+                            "background-color: rgb(255, 255, 255);}"),
+        "exit_button": ("QPushButton::hover{"
+                        "background-color: rgb(194,194,194);}"
+                        "QPushButton{"
+                        "color: rgb(0, 0, 0);"
+                        "border-radius: 10px;"
+                        "background-color: rgb(255, 255, 255);}"),
+        "save_button": ("QPushButton::hover{"
+                        "background-color: rgb(194,194,194);}"
+                        "QPushButton{"
+                        "color: rgb(0, 0, 0);"
+                        "border-radius: 10px;"
+                        "background-color: rgb(255, 255, 255);}"),
+        "cancel_button": ("QPushButton::hover{"
+                          "background-color: rgb(194,194,194);}"
+                          "QPushButton{"
+                          "color: rgb(0, 0, 0);"
+                          "border-radius: 10px;"
+                          "background-color: rgb(255, 255, 255);}"),
+        "faculty_label": "color: rgb(255, 255, 255);",
+        "year_label": "color: rgb(255, 255, 255);",
+        "groupe_label": "color: rgb(255, 255, 255);",
+        "table_label": "color: rgb(255, 255, 255);",
+        "last_word": "color: rgb(255, 255, 255);",
+        "error_label": "color: rgb(255, 255, 255);",
+        "table_mode_label": "color: rgb(255, 255, 255);",
+        "recognition_mode_label": "color: rgb(255, 255, 255);",
+        "title_bar": "background-color: rgb(83,83,83);",
+        "hide_button": ('QPushButton::hover{'
+                        'background-color: rgb(121, 121, 121);}'
+                        'border-radius: 0px;}'
+                        'QPushButton{'
+                        'background-color: rgb(83, 83, 83);'
+                        'border-radius: 0px;}'),
+        "close_button": ('QPushButton::hover{'
+                         'background-color: rgb(255, 43, 43);}'
+                         'QPushButton{'
+                         'background-color: rgb(83, 83, 83);'
+                         'border-radius: 0px;}'),
+        "faculty_list": ('QListWidget{'
+                         'color: rgb(255, 255, 255);'
+                         'background-color: rgb(83, 83, 83);'
+                         'selection-color: rgb(255, 255, 255);'
+                         'selection-background-color: rgb(162, 204, 76);'
+                         'border-radius: 10px;}'
+                         'QListWidget::item::hover{'
+                         'background-color: rgb(75, 75,75);'
+                         'border-radius: 10px;}'
+                         'QListWidget::item::selected::hover{'
+                         'background-color: rgb(162, 204, 76);'
+                         'border-radius: 10px;}'
+                         'QListWidget::item::selected{'
+                         'background-color: rgb(162, 204, 76);'
+                         'border-radius: 10px;}'),
+        "year_list": ('QListWidget{'
+                      'color: rgb(255, 255, 255);'
+                      'background-color: rgb(83, 83, 83);'
+                      'selection-color: rgb(255, 255, 255);'
+                      'selection-background-color: rgb(162, 204, 76);'
+                      'border-radius: 10px;}'
+                      'QListWidget::item::hover{'
+                      'background-color: rgb(75, 75,75);'
+                      'border-radius: 10px;}'
+                      'QListWidget::item::selected::hover{'
+                      'background-color: rgb(162, 204, 76);'
+                      'border-radius: 10px;}'
+                      'QListWidget::item::selected{'
+                      'background-color: rgb(162, 204, 76);'
+                      'border-radius: 10px;}'),
+        "group_list": ('QListWidget{'
+                       'color: rgb(255, 255, 255);'
+                       'background-color: rgb(83, 83, 83);'
+                       'selection-color: rgb(255, 255, 255);'
+                       'selection-background-color: rgb(162, 204, 76);'
+                       'border-radius: 10px;}'
+                       'QListWidget::item::hover{'
+                       'background-color: rgb(75, 75,75);'
+                       'border-radius: 10px;}'
+                       'QListWidget::item::selected::hover{'
+                       'background-color: rgb(162, 204, 76);'
+                       'border-radius: 10px;}'
+                       'QListWidget::item::selected{'
+                       'background-color: rgb(162, 204, 76);'
+                       'border-radius: 10px;}'),
+        "group_table": ('background-color: rgb(83, 83, 83);'
+                        'color: rgb(255, 255, 255);'
+                        'alternate-background-color: rgb(179, 179, 179);'
+                        'selection-background-color: rgb(162, 204, 76);'
+                        'gridline-color: rgb(17, 17, 17);'),
+        "word": "color: rgb(255, 255, 255);"
     }
 }
 
@@ -229,104 +302,48 @@ def new_win():
             n_ui.word.setStyleSheet(
                 allStyleSheets["light"]["word"])
         else:
-            n_ui.word.setStyleSheet('color: rgb(255, 255, 255);')
-            n_ui.group_table.setStyleSheet('background-color: rgb(83, 83, 83);'
-                                           'color: rgb(255, 255, 255);'
-                                           'alternate-background-color: rgb(179, 179, 179);'
-                                           'selection-background-color: rgb(162, 204, 76);'
-                                           'gridline-color: rgb(17, 17, 17);')
-            n_ui.hide_button.setStyleSheet('QPushButton::hover{'
-                                           'background-color: rgb(121, 121, 121);}'
-                                           'border-radius: 0px;}'
-                                           'QPushButton{'
-                                           'background-color: rgb(83, 83, 83);'
-                                           'border-radius: 0px;}')
-            n_ui.close_button.setStyleSheet('QPushButton::hover{'
-                                            'background-color: rgb(255, 43, 43);}'
-                                            'QPushButton{'
-                                            'background-color: rgb(83, 83, 83);'
-                                            'border-radius: 0px;}')
-            tableWindow.setStyleSheet("background-color: rgb(17,17,17);")
-            n_ui.activate_button.setStyleSheet("QPushButton::hover{"
-                                               "background-color: rgb(194,194,194);}"
-                                               "QPushButton{"
-                                               "color: rgb(0, 0, 0);"
-                                               "border-radius: 10px;"
-                                               "background-color: rgb(255, 255, 255);}")
-            n_ui.exit_button.setStyleSheet("QPushButton::hover{"
-                                           "background-color: rgb(194,194,194);}"
-                                           "QPushButton{"
-                                           "color: rgb(0, 0, 0);"
-                                           "border-radius: 10px;"
-                                           "background-color: rgb(255, 255, 255);}")
-            n_ui.save_button.setStyleSheet("QPushButton::hover{"
-                                           "background-color: rgb(194,194,194);}"
-                                           "QPushButton{"
-                                           "color: rgb(0, 0, 0);"
-                                           "border-radius: 10px;"
-                                           "background-color: rgb(255, 255, 255);}")
-            n_ui.cancel_button.setStyleSheet("QPushButton::hover{"
-                                             "background-color: rgb(194,194,194);}"
-                                             "QPushButton{"
-                                             "color: rgb(0, 0, 0);"
-                                             "border-radius: 10px;"
-                                             "background-color: rgb(255, 255, 255);}")
-            n_ui.faculty_label.setStyleSheet("color: rgb(255, 255, 255);")
-            n_ui.year_label.setStyleSheet("color: rgb(255, 255, 255);")
-            n_ui.groupe_label.setStyleSheet("color: rgb(255, 255, 255);")
-            n_ui.table_label.setStyleSheet("color: rgb(255, 255, 255);")
-            n_ui.last_word.setStyleSheet("color: rgb(255, 255, 255);")
-            n_ui.error_label.setStyleSheet("color: rgb(255, 255, 255);")
-            n_ui.table_mode_label.setStyleSheet("color: rgb(255, 255, 255);")
+            n_ui.word.setStyleSheet(
+                allStyleSheets["dark"]["word"])
+            n_ui.group_table.setStyleSheet(
+                allStyleSheets["dark"]["group_table"])
+            n_ui.hide_button.setStyleSheet(
+                allStyleSheets["dark"]["hide_button"])
+            n_ui.close_button.setStyleSheet(
+                allStyleSheets["dark"]["close_button"])
+            tableWindow.setStyleSheet(
+                allStyleSheets["dark"]["tableWindow"])
+            n_ui.activate_button.setStyleSheet(
+                allStyleSheets["dark"]["activate_button"])
+            n_ui.exit_button.setStyleSheet(
+                allStyleSheets["dark"]["exit_button"])
+            n_ui.save_button.setStyleSheet(
+                allStyleSheets["dark"]["save_button"])
+            n_ui.cancel_button.setStyleSheet(
+                allStyleSheets["dark"]["cancel_button"])
+            n_ui.faculty_label.setStyleSheet(
+                allStyleSheets["dark"]["faculty_label"])
+            n_ui.year_label.setStyleSheet(
+                allStyleSheets["dark"]["year_label"])
+            n_ui.groupe_label.setStyleSheet(
+                allStyleSheets["dark"]["groupe_label"])
+            n_ui.table_label.setStyleSheet(
+                allStyleSheets["dark"]["table_label"])
+            n_ui.last_word.setStyleSheet(
+                allStyleSheets["dark"]["last_word"])
+            n_ui.error_label.setStyleSheet(
+                allStyleSheets["dark"]["error_label"])
+            n_ui.table_mode_label.setStyleSheet(
+                allStyleSheets["dark"]["table_mode_label"])
             n_ui.recognition_mode_label.setStyleSheet(
-                "color: rgb(255, 255, 255);")
-            n_ui.title_bar.setStyleSheet("background-color: rgb(83,83,83);")
-
-            n_ui.faculty_list.setStyleSheet('QListWidget{'
-                                            'color: rgb(255, 255, 255);'
-                                            'background-color: rgb(83, 83, 83);'
-                                            'selection-color: rgb(255, 255, 255);'
-                                            'selection-background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::hover{'
-                                            'background-color: rgb(75, 75,75);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected::hover{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}')
-            n_ui.year_list.setStyleSheet('QListWidget{'
-                                         'color: rgb(255, 255, 255);'
-                                         'background-color: rgb(83, 83, 83);'
-                                         'selection-color: rgb(255, 255, 255);'
-                                         'selection-background-color: rgb(162, 204, 76);'
-                                         'border-radius: 10px;}'
-                                         'QListWidget::item::hover{'
-                                         'background-color: rgb(75, 75,75);'
-                                         'border-radius: 10px;}'
-                                         'QListWidget::item::selected::hover{'
-                                         'background-color: rgb(162, 204, 76);'
-                                         'border-radius: 10px;}'
-                                         'QListWidget::item::selected{'
-                                         'background-color: rgb(162, 204, 76);'
-                                         'border-radius: 10px;}')
-            n_ui.group_list.setStyleSheet('QListWidget{'
-                                          'color: rgb(255, 255, 255);'
-                                          'background-color: rgb(83, 83, 83);'
-                                          'selection-color: rgb(255, 255, 255);'
-                                          'selection-background-color: rgb(162, 204, 76);'
-                                          'border-radius: 10px;}'
-                                          'QListWidget::item::hover{'
-                                          'background-color: rgb(75, 75,75);'
-                                          'border-radius: 10px;}'
-                                          'QListWidget::item::selected::hover{'
-                                          'background-color: rgb(162, 204, 76);'
-                                          'border-radius: 10px;}'
-                                          'QListWidget::item::selected{'
-                                          'background-color: rgb(162, 204, 76);'
-                                          'border-radius: 10px;}')
+                allStyleSheets["dark"]["recognition_mode_label"])
+            n_ui.title_bar.setStyleSheet(
+                allStyleSheets["dark"]["title_bar"])
+            n_ui.faculty_list.setStyleSheet(
+                allStyleSheets["dark"]["faculty_list"])
+            n_ui.year_list.setStyleSheet(
+                allStyleSheets["dark"]["year_list"])
+            n_ui.group_list.setStyleSheet(
+                allStyleSheets["dark"]["group_list"])
 
     def activate_voice():
         """
