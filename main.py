@@ -41,6 +41,133 @@ class GetRecording(QtCore.QObject):
         return
 
 
+allStyleSheets = {
+    "light": {
+        "tableWindow": "background-color: rgb(255,255,255);",
+        "activate_button": ("QPushButton::hover{"
+                            "background-color: rgb(162, 204, 76);}"
+                            "QPushButton{"
+                            "color: rgb(0, 0, 0);"
+                            "border-radius: 10px;"
+                            "background-color: rgb(192, 234, 106);}"),
+        "title_bar": "background-color: rgb(73, 85, 81);",
+        "exit_button": ("QPushButton::hover{"
+                        "background-color: rgb(162, 204, 76);}"
+                        "QPushButton{"
+                        "color: rgb(0, 0, 0);"
+                        "border-radius: 10px;"
+                        "background-color: rgb(192, 234, 106);}"),
+        "save_button": ("QPushButton::hover{"
+                        "background-color: rgb(162, 204, 76);}"
+                        "QPushButton{"
+                        "color: rgb(0, 0, 0);"
+                        "border-radius: 10px;"
+                        "background-color: rgb(192, 234, 106);}"),
+        "cancel_button": ("QPushButton::hover{"
+                          "background-color: rgb(162, 204, 76);}"
+                          "QPushButton{"
+                          "color: rgb(0, 0, 0);"
+                          "border-radius: 10px;"
+                          "background-color: rgb(192, 234, 106);}"),
+        "faculty_label": "color: rgb(0, 0, 0);",
+        "year_label": "color: rgb(0, 0, 0);",
+        "groupe_label": "color: rgb(0, 0, 0);",
+        "table_label": "color: rgb(0, 0, 0);",
+        "last_word": "color: rgb(0, 0, 0);",
+        "error_label": "color: rgb(0, 0, 0);",
+        "table_mode_label": "color: rgb(0, 0, 0);",
+        "recognition_mode_label": "color: rgb(0, 0, 0);",
+        "title_bar": "background-color: rgb(200,200,200);",
+        "hide_button": ('QPushButton::hover{'
+                        'background-color: rgb(180, 180, 180);}'
+                        'border-radius: 0px;}'
+                        'QPushButton{'
+                        'background-color: rgb(200, 200, 200);'
+                        'border-radius: 0px;}'),
+        "close_button": ('QPushButton::hover{'
+                         'background-color: rgb(255, 43, 43);}'
+                         'QPushButton{'
+                         'background-color: rgb(200, 200, 200);'
+                         'border-radius: 0px;}'),
+        "faculty_list": ("QListWidget{"
+                         'color: rgb(0, 0, 0);'
+                         'background-color: rgb(200, 200, 200);'
+                         'selection-color: rgb(255, 255, 255);'
+                         'selection-background-color: rgb(162, 204, 76);'
+                         'border-radius: 10px;}'
+                         'QListWidget::item::hover{'
+                         'background-color: rgb(170, 170,170);'
+                         'border-radius: 10px;}'
+                         'QListWidget::item::selected::hover{'
+                         'background-color: rgb(162, 204, 76);'
+                         'border-radius: 10px;}'
+                         'QListWidget::item::selected{'
+                         'background-color: rgb(162, 204, 76);'
+                         'border-radius: 10px;}'),
+        "year_list": ("QListWidget{"
+                      'color: rgb(0, 0, 0);'
+                      'background-color: rgb(200, 200, 200);'
+                      'selection-color: rgb(255, 255, 255);'
+                      'selection-background-color: rgb(162, 204, 76);'
+                      'border-radius: 10px;}'
+                      'QListWidget::item::hover{'
+                      'background-color: rgb(170, 170,170);'
+                      'border-radius: 10px;}'
+                      'QListWidget::item::selected::hover{'
+                      'background-color: rgb(162, 204, 76);'
+                      'border-radius: 10px;}'
+                      'QListWidget::item::selected{'
+                      'background-color: rgb(162, 204, 76);'
+                      'border-radius: 10px;}'),
+        "group_list": ("QListWidget{"
+                       'color: rgb(0, 0, 0);'
+                       'background-color: rgb(200, 200, 200);'
+                       'selection-color: rgb(255, 255, 255);'
+                       'selection-background-color: rgb(162, 204, 76);'
+                       'border-radius: 10px;}'
+                       'QListWidget::item::hover{'
+                       'background-color: rgb(170, 170,170);'
+                       'border-radius: 10px;}'
+                       'QListWidget::item::selected::hover{'
+                       'background-color: rgb(162, 204, 76);'
+                       'border-radius: 10px;}'
+                       'QListWidget::item::selected{'
+                       'background-color: rgb(162, 204, 76);'
+                       'border-radius: 10px;}'),
+        "group_table": ('background-color: rgb(200, 200, 200);'
+                        'color: rgb(0, 0, 0);'
+                        'alternate-background-color: rgb(179, 179, 179);'
+                        'selection-background-color: rgb(162, 204, 76);'
+                        'gridline-color: rgb(17, 17, 17);'),
+        "word": 'color: rgb(0, 0, 0);'
+    },
+    "dark": {
+        "tableWindow": "",
+        "activate_button": "",
+        "title_bar": "",
+        "exit_button": "",
+        "save_button": "",
+        "cancel_button": "",
+        "faculty_label": "",
+        "year_label": "",
+        "groupe_label": "",
+        "table_label": "",
+        "last_word": "",
+        "error_label": "",
+        "table_mode_label": "",
+        "recognition_mode_label": "",
+        "title_bar": "",
+        "hide_button": "",
+        "close_button": "",
+        "faculty_list": "",
+        "year_list": "",
+        "group_list": "",
+        "group_table": "",
+        "word": ""
+    }
+}
+
+
 def new_win():
     year_cond = False
     group_cond = False
@@ -57,103 +184,50 @@ def new_win():
 
     def theme_switch_main():
         if n_ui.color_mode_switch.isChecked():
-            tableWindow.setStyleSheet("background-color: rgb(255,255,255);")
-            n_ui.activate_button.setStyleSheet("QPushButton::hover{"
-                                               "background-color: rgb(162, 204, 76);}"
-                                               "QPushButton{"
-                                               "color: rgb(0, 0, 0);"
-                                               "border-radius: 10px;"
-                                               "background-color: rgb(192, 234, 106);}")
-            n_ui.title_bar.setStyleSheet("background-color: rgb(73, 85, 81);")
-            n_ui.exit_button.setStyleSheet("QPushButton::hover{"
-                                           "background-color: rgb(162, 204, 76);}"
-                                           "QPushButton{"
-                                           "color: rgb(0, 0, 0);"
-                                           "border-radius: 10px;"
-                                           "background-color: rgb(192, 234, 106);}")
-            n_ui.save_button.setStyleSheet("QPushButton::hover{"
-                                           "background-color: rgb(162, 204, 76);}"
-                                           "QPushButton{"
-                                           "color: rgb(0, 0, 0);"
-                                           "border-radius: 10px;"
-                                           "background-color: rgb(192, 234, 106);}")
-            n_ui.cancel_button.setStyleSheet("QPushButton::hover{"
-                                             "background-color: rgb(162, 204, 76);}"
-                                             "QPushButton{"
-                                             "color: rgb(0, 0, 0);"
-                                             "border-radius: 10px;"
-                                             "background-color: rgb(192, 234, 106);}")
-            n_ui.faculty_label.setStyleSheet("color: rgb(0, 0, 0);")
-            n_ui.year_label.setStyleSheet("color: rgb(0, 0, 0);")
-            n_ui.groupe_label.setStyleSheet("color: rgb(0, 0, 0);")
-            n_ui.table_label.setStyleSheet("color: rgb(0, 0, 0);")
-            n_ui.last_word.setStyleSheet("color: rgb(0, 0, 0);")
-            n_ui.error_label.setStyleSheet("color: rgb(0, 0, 0);")
-            n_ui.table_mode_label.setStyleSheet("color: rgb(0, 0, 0);")
-            n_ui.recognition_mode_label.setStyleSheet("color: rgb(0, 0, 0);")
-            n_ui.title_bar.setStyleSheet("background-color: rgb(200,200,200);")
-            n_ui.hide_button.setStyleSheet('QPushButton::hover{'
-                                           'background-color: rgb(180, 180, 180);}'
-                                           'border-radius: 0px;}'
-                                           'QPushButton{'
-                                           'background-color: rgb(200, 200, 200);'
-                                           'border-radius: 0px;}')
-            n_ui.close_button.setStyleSheet('QPushButton::hover{'
-                                            'background-color: rgb(255, 43, 43);}'
-                                            'QPushButton{'
-                                            'background-color: rgb(200, 200, 200);'
-                                            'border-radius: 0px;}')
-            n_ui.faculty_list.setStyleSheet("QListWidget{"
-                                            'color: rgb(0, 0, 0);'
-                                            'background-color: rgb(200, 200, 200);'
-                                            'selection-color: rgb(255, 255, 255);'
-                                            'selection-background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::hover{'
-                                            'background-color: rgb(170, 170,170);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected::hover{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}'
-                                            'QListWidget::item::selected{'
-                                            'background-color: rgb(162, 204, 76);'
-                                            'border-radius: 10px;}')
-            n_ui.year_list.setStyleSheet("QListWidget{"
-                                         'color: rgb(0, 0, 0);'
-                                         'background-color: rgb(200, 200, 200);'
-                                         'selection-color: rgb(255, 255, 255);'
-                                         'selection-background-color: rgb(162, 204, 76);'
-                                         'border-radius: 10px;}'
-                                         'QListWidget::item::hover{'
-                                         'background-color: rgb(170, 170,170);'
-                                         'border-radius: 10px;}'
-                                         'QListWidget::item::selected::hover{'
-                                         'background-color: rgb(162, 204, 76);'
-                                         'border-radius: 10px;}'
-                                         'QListWidget::item::selected{'
-                                         'background-color: rgb(162, 204, 76);'
-                                         'border-radius: 10px;}')
-            n_ui.group_list.setStyleSheet("QListWidget{"
-                                          'color: rgb(0, 0, 0);'
-                                          'background-color: rgb(200, 200, 200);'
-                                          'selection-color: rgb(255, 255, 255);'
-                                          'selection-background-color: rgb(162, 204, 76);'
-                                          'border-radius: 10px;}'
-                                          'QListWidget::item::hover{'
-                                          'background-color: rgb(170, 170,170);'
-                                          'border-radius: 10px;}'
-                                          'QListWidget::item::selected::hover{'
-                                          'background-color: rgb(162, 204, 76);'
-                                          'border-radius: 10px;}'
-                                          'QListWidget::item::selected{'
-                                          'background-color: rgb(162, 204, 76);'
-                                          'border-radius: 10px;}')
-            n_ui.group_table.setStyleSheet('background-color: rgb(200, 200, 200);'
-                                           'color: rgb(0, 0, 0);'
-                                           'alternate-background-color: rgb(179, 179, 179);'
-                                           'selection-background-color: rgb(162, 204, 76);'
-                                           'gridline-color: rgb(17, 17, 17);')
-            n_ui.word.setStyleSheet('color: rgb(0, 0, 0);')
+            tableWindow.setStyleSheet(
+                allStyleSheets["light"]["tableWindow"])
+            n_ui.activate_button.setStyleSheet(
+                allStyleSheets["light"]["activate_button"])
+            n_ui.title_bar.setStyleSheet(
+                allStyleSheets["light"]["title_bar"])
+            n_ui.exit_button.setStyleSheet(
+                allStyleSheets["light"]["exit_button"])
+            n_ui.save_button.setStyleSheet(
+                allStyleSheets["light"]["save_button"])
+            n_ui.cancel_button.setStyleSheet(
+                allStyleSheets["light"]["cancel_button"])
+            n_ui.faculty_label.setStyleSheet(
+                allStyleSheets["light"]["faculty_label"])
+            n_ui.year_label.setStyleSheet(
+                allStyleSheets["light"]["year_label"])
+            n_ui.groupe_label.setStyleSheet(
+                allStyleSheets["light"]["groupe_label"])
+            n_ui.table_label.setStyleSheet(
+                allStyleSheets["light"]["table_label"])
+            n_ui.last_word.setStyleSheet(
+                allStyleSheets["light"]["last_word"])
+            n_ui.error_label.setStyleSheet(
+                allStyleSheets["light"]["error_label"])
+            n_ui.table_mode_label.setStyleSheet(
+                allStyleSheets["light"]["table_mode_label"])
+            n_ui.recognition_mode_label.setStyleSheet(
+                allStyleSheets["light"]["recognition_mode_label"])
+            n_ui.title_bar.setStyleSheet(
+                allStyleSheets["light"]["title_bar"])
+            n_ui.hide_button.setStyleSheet(
+                allStyleSheets["light"]["hide_button"])
+            n_ui.close_button.setStyleSheet(
+                allStyleSheets["light"]["close_button"])
+            n_ui.faculty_list.setStyleSheet(
+                allStyleSheets["light"]["faculty_list"])
+            n_ui.year_list.setStyleSheet(
+                allStyleSheets["light"]["year_list"])
+            n_ui.group_list.setStyleSheet(
+                allStyleSheets["light"]["group_list"])
+            n_ui.group_table.setStyleSheet(
+                allStyleSheets["light"]["group_table"])
+            n_ui.word.setStyleSheet(
+                allStyleSheets["light"]["word"])
         else:
             n_ui.word.setStyleSheet('color: rgb(255, 255, 255);')
             n_ui.group_table.setStyleSheet('background-color: rgb(83, 83, 83);'
