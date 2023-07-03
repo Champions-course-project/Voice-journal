@@ -44,38 +44,12 @@ class GetRecording(QtCore.QObject):
 allStyleSheets = {
     "light": {
         "tableWindow": "background-color: rgb(255,255,255);",
-        "activate_button": ("QPushButton::hover{"
-                            "background-color: rgb(162, 204, 76);}"
-                            "QPushButton{"
-                            "color: rgb(0, 0, 0);"
-                            "border-radius: 10px;"
-                            "background-color: rgb(192, 234, 106);}"),
-        "exit_button": ("QPushButton::hover{"
-                        "background-color: rgb(162, 204, 76);}"
-                        "QPushButton{"
-                        "color: rgb(0, 0, 0);"
-                        "border-radius: 10px;"
-                        "background-color: rgb(192, 234, 106);}"),
-        "save_button": ("QPushButton::hover{"
-                        "background-color: rgb(162, 204, 76);}"
-                        "QPushButton{"
-                        "color: rgb(0, 0, 0);"
-                        "border-radius: 10px;"
-                        "background-color: rgb(192, 234, 106);}"),
-        "cancel_button": ("QPushButton::hover{"
+        "normal_button": ("QPushButton::hover{"
                           "background-color: rgb(162, 204, 76);}"
                           "QPushButton{"
                           "color: rgb(0, 0, 0);"
                           "border-radius: 10px;"
                           "background-color: rgb(192, 234, 106);}"),
-        "faculty_label": "color: rgb(0, 0, 0);",
-        "year_label": "color: rgb(0, 0, 0);",
-        "groupe_label": "color: rgb(0, 0, 0);",
-        "table_label": "color: rgb(0, 0, 0);",
-        "last_word": "color: rgb(0, 0, 0);",
-        "error_label": "color: rgb(0, 0, 0);",
-        "table_mode_label": "color: rgb(0, 0, 0);",
-        "recognition_mode_label": "color: rgb(0, 0, 0);",
         "title_bar": "background-color: rgb(200,200,200);",
         "hide_button": ('QPushButton::hover{'
                         'background-color: rgb(180, 180, 180);}'
@@ -88,51 +62,21 @@ allStyleSheets = {
                          'QPushButton{'
                          'background-color: rgb(200, 200, 200);'
                          'border-radius: 0px;}'),
-        "faculty_list": ("QListWidget{"
-                         'color: rgb(0, 0, 0);'
-                         'background-color: rgb(200, 200, 200);'
-                         'selection-color: rgb(255, 255, 255);'
-                         'selection-background-color: rgb(162, 204, 76);'
-                         'border-radius: 10px;}'
-                         'QListWidget::item::hover{'
-                         'background-color: rgb(170, 170,170);'
-                         'border-radius: 10px;}'
-                         'QListWidget::item::selected::hover{'
-                         'background-color: rgb(162, 204, 76);'
-                         'border-radius: 10px;}'
-                         'QListWidget::item::selected{'
-                         'background-color: rgb(162, 204, 76);'
-                         'border-radius: 10px;}'),
-        "year_list": ("QListWidget{"
-                      'color: rgb(0, 0, 0);'
-                      'background-color: rgb(200, 200, 200);'
-                      'selection-color: rgb(255, 255, 255);'
-                      'selection-background-color: rgb(162, 204, 76);'
-                      'border-radius: 10px;}'
-                      'QListWidget::item::hover{'
-                      'background-color: rgb(170, 170,170);'
-                      'border-radius: 10px;}'
-                      'QListWidget::item::selected::hover{'
-                      'background-color: rgb(162, 204, 76);'
-                      'border-radius: 10px;}'
-                      'QListWidget::item::selected{'
-                      'background-color: rgb(162, 204, 76);'
-                      'border-radius: 10px;}'),
-        "group_list": ("QListWidget{"
-                       'color: rgb(0, 0, 0);'
-                       'background-color: rgb(200, 200, 200);'
-                       'selection-color: rgb(255, 255, 255);'
-                       'selection-background-color: rgb(162, 204, 76);'
-                       'border-radius: 10px;}'
-                       'QListWidget::item::hover{'
-                       'background-color: rgb(170, 170,170);'
-                       'border-radius: 10px;}'
-                       'QListWidget::item::selected::hover{'
-                       'background-color: rgb(162, 204, 76);'
-                       'border-radius: 10px;}'
-                       'QListWidget::item::selected{'
-                       'background-color: rgb(162, 204, 76);'
-                       'border-radius: 10px;}'),
+        "list": ("QListWidget{"
+                 'color: rgb(0, 0, 0);'
+                 'background-color: rgb(200, 200, 200);'
+                 'selection-color: rgb(255, 255, 255);'
+                 'selection-background-color: rgb(162, 204, 76);'
+                 'border-radius: 10px;}'
+                 'QListWidget::item::hover{'
+                 'background-color: rgb(170, 170,170);'
+                 'border-radius: 10px;}'
+                 'QListWidget::item::selected::hover{'
+                 'background-color: rgb(162, 204, 76);'
+                 'border-radius: 10px;}'
+                 'QListWidget::item::selected{'
+                 'background-color: rgb(162, 204, 76);'
+                 'border-radius: 10px;}'),
         "group_table": ('background-color: rgb(200, 200, 200);'
                         'color: rgb(0, 0, 0);'
                         'alternate-background-color: rgb(179, 179, 179);'
@@ -142,38 +86,12 @@ allStyleSheets = {
     },
     "dark": {
         "tableWindow": "background-color: rgb(17,17,17);",
-        "activate_button": ("QPushButton::hover{"
-                            "background-color: rgb(194,194,194);}"
-                            "QPushButton{"
-                            "color: rgb(0, 0, 0);"
-                            "border-radius: 10px;"
-                            "background-color: rgb(255, 255, 255);}"),
-        "exit_button": ("QPushButton::hover{"
-                        "background-color: rgb(194,194,194);}"
-                        "QPushButton{"
-                        "color: rgb(0, 0, 0);"
-                        "border-radius: 10px;"
-                        "background-color: rgb(255, 255, 255);}"),
-        "save_button": ("QPushButton::hover{"
-                        "background-color: rgb(194,194,194);}"
-                        "QPushButton{"
-                        "color: rgb(0, 0, 0);"
-                        "border-radius: 10px;"
-                        "background-color: rgb(255, 255, 255);}"),
-        "cancel_button": ("QPushButton::hover{"
+        "normal_button": ("QPushButton::hover{"
                           "background-color: rgb(194,194,194);}"
                           "QPushButton{"
                           "color: rgb(0, 0, 0);"
                           "border-radius: 10px;"
                           "background-color: rgb(255, 255, 255);}"),
-        "faculty_label": "color: rgb(255, 255, 255);",
-        "year_label": "color: rgb(255, 255, 255);",
-        "groupe_label": "color: rgb(255, 255, 255);",
-        "table_label": "color: rgb(255, 255, 255);",
-        "last_word": "color: rgb(255, 255, 255);",
-        "error_label": "color: rgb(255, 255, 255);",
-        "table_mode_label": "color: rgb(255, 255, 255);",
-        "recognition_mode_label": "color: rgb(255, 255, 255);",
         "title_bar": "background-color: rgb(83,83,83);",
         "hide_button": ('QPushButton::hover{'
                         'background-color: rgb(121, 121, 121);}'
@@ -186,51 +104,21 @@ allStyleSheets = {
                          'QPushButton{'
                          'background-color: rgb(83, 83, 83);'
                          'border-radius: 0px;}'),
-        "faculty_list": ('QListWidget{'
-                         'color: rgb(255, 255, 255);'
-                         'background-color: rgb(83, 83, 83);'
-                         'selection-color: rgb(255, 255, 255);'
-                         'selection-background-color: rgb(162, 204, 76);'
-                         'border-radius: 10px;}'
-                         'QListWidget::item::hover{'
-                         'background-color: rgb(75, 75,75);'
-                         'border-radius: 10px;}'
-                         'QListWidget::item::selected::hover{'
-                         'background-color: rgb(162, 204, 76);'
-                         'border-radius: 10px;}'
-                         'QListWidget::item::selected{'
-                         'background-color: rgb(162, 204, 76);'
-                         'border-radius: 10px;}'),
-        "year_list": ('QListWidget{'
-                      'color: rgb(255, 255, 255);'
-                      'background-color: rgb(83, 83, 83);'
-                      'selection-color: rgb(255, 255, 255);'
-                      'selection-background-color: rgb(162, 204, 76);'
-                      'border-radius: 10px;}'
-                      'QListWidget::item::hover{'
-                      'background-color: rgb(75, 75,75);'
-                      'border-radius: 10px;}'
-                      'QListWidget::item::selected::hover{'
-                      'background-color: rgb(162, 204, 76);'
-                      'border-radius: 10px;}'
-                      'QListWidget::item::selected{'
-                      'background-color: rgb(162, 204, 76);'
-                      'border-radius: 10px;}'),
-        "group_list": ('QListWidget{'
-                       'color: rgb(255, 255, 255);'
-                       'background-color: rgb(83, 83, 83);'
-                       'selection-color: rgb(255, 255, 255);'
-                       'selection-background-color: rgb(162, 204, 76);'
-                       'border-radius: 10px;}'
-                       'QListWidget::item::hover{'
-                       'background-color: rgb(75, 75,75);'
-                       'border-radius: 10px;}'
-                       'QListWidget::item::selected::hover{'
-                       'background-color: rgb(162, 204, 76);'
-                       'border-radius: 10px;}'
-                       'QListWidget::item::selected{'
-                       'background-color: rgb(162, 204, 76);'
-                       'border-radius: 10px;}'),
+        "list": ('QListWidget{'
+                 'color: rgb(255, 255, 255);'
+                 'background-color: rgb(83, 83, 83);'
+                 'selection-color: rgb(255, 255, 255);'
+                 'selection-background-color: rgb(162, 204, 76);'
+                 'border-radius: 10px;}'
+                 'QListWidget::item::hover{'
+                 'background-color: rgb(75, 75,75);'
+                 'border-radius: 10px;}'
+                 'QListWidget::item::selected::hover{'
+                 'background-color: rgb(162, 204, 76);'
+                 'border-radius: 10px;}'
+                 'QListWidget::item::selected{'
+                 'background-color: rgb(162, 204, 76);'
+                 'border-radius: 10px;}'),
         "group_table": ('background-color: rgb(83, 83, 83);'
                         'color: rgb(255, 255, 255);'
                         'alternate-background-color: rgb(179, 179, 179);'
@@ -260,31 +148,31 @@ def new_win():
             tableWindow.setStyleSheet(
                 allStyleSheets["light"]["tableWindow"])
             n_ui.activate_button.setStyleSheet(
-                allStyleSheets["light"]["activate_button"])
+                allStyleSheets["light"]["normal_button"])
             n_ui.title_bar.setStyleSheet(
                 allStyleSheets["light"]["title_bar"])
             n_ui.exit_button.setStyleSheet(
-                allStyleSheets["light"]["exit_button"])
+                allStyleSheets["light"]["normal_button"])
             n_ui.save_button.setStyleSheet(
-                allStyleSheets["light"]["save_button"])
+                allStyleSheets["light"]["normal_button"])
             n_ui.cancel_button.setStyleSheet(
-                allStyleSheets["light"]["cancel_button"])
+                allStyleSheets["light"]["normal_button"])
             n_ui.faculty_label.setStyleSheet(
-                allStyleSheets["light"]["faculty_label"])
+                allStyleSheets["light"]["word"])
             n_ui.year_label.setStyleSheet(
-                allStyleSheets["light"]["year_label"])
+                allStyleSheets["light"]["word"])
             n_ui.groupe_label.setStyleSheet(
-                allStyleSheets["light"]["groupe_label"])
+                allStyleSheets["light"]["word"])
             n_ui.table_label.setStyleSheet(
-                allStyleSheets["light"]["table_label"])
+                allStyleSheets["light"]["word"])
             n_ui.last_word.setStyleSheet(
-                allStyleSheets["light"]["last_word"])
+                allStyleSheets["light"]["word"])
             n_ui.error_label.setStyleSheet(
-                allStyleSheets["light"]["error_label"])
+                allStyleSheets["light"]["word"])
             n_ui.table_mode_label.setStyleSheet(
-                allStyleSheets["light"]["table_mode_label"])
+                allStyleSheets["light"]["word"])
             n_ui.recognition_mode_label.setStyleSheet(
-                allStyleSheets["light"]["recognition_mode_label"])
+                allStyleSheets["light"]["word"])
             n_ui.title_bar.setStyleSheet(
                 allStyleSheets["light"]["title_bar"])
             n_ui.hide_button.setStyleSheet(
@@ -292,11 +180,11 @@ def new_win():
             n_ui.close_button.setStyleSheet(
                 allStyleSheets["light"]["close_button"])
             n_ui.faculty_list.setStyleSheet(
-                allStyleSheets["light"]["faculty_list"])
+                allStyleSheets["light"]["list"])
             n_ui.year_list.setStyleSheet(
-                allStyleSheets["light"]["year_list"])
+                allStyleSheets["light"]["list"])
             n_ui.group_list.setStyleSheet(
-                allStyleSheets["light"]["group_list"])
+                allStyleSheets["light"]["list"])
             n_ui.group_table.setStyleSheet(
                 allStyleSheets["light"]["group_table"])
             n_ui.word.setStyleSheet(
@@ -313,37 +201,37 @@ def new_win():
             tableWindow.setStyleSheet(
                 allStyleSheets["dark"]["tableWindow"])
             n_ui.activate_button.setStyleSheet(
-                allStyleSheets["dark"]["activate_button"])
+                allStyleSheets["dark"]["normal_button"])
             n_ui.exit_button.setStyleSheet(
-                allStyleSheets["dark"]["exit_button"])
+                allStyleSheets["dark"]["normal_button"])
             n_ui.save_button.setStyleSheet(
-                allStyleSheets["dark"]["save_button"])
+                allStyleSheets["dark"]["normal_button"])
             n_ui.cancel_button.setStyleSheet(
-                allStyleSheets["dark"]["cancel_button"])
+                allStyleSheets["dark"]["normal_button"])
             n_ui.faculty_label.setStyleSheet(
-                allStyleSheets["dark"]["faculty_label"])
+                allStyleSheets["dark"]["word"])
             n_ui.year_label.setStyleSheet(
-                allStyleSheets["dark"]["year_label"])
+                allStyleSheets["dark"]["word"])
             n_ui.groupe_label.setStyleSheet(
-                allStyleSheets["dark"]["groupe_label"])
+                allStyleSheets["dark"]["word"])
             n_ui.table_label.setStyleSheet(
-                allStyleSheets["dark"]["table_label"])
+                allStyleSheets["dark"]["word"])
             n_ui.last_word.setStyleSheet(
-                allStyleSheets["dark"]["last_word"])
+                allStyleSheets["dark"]["word"])
             n_ui.error_label.setStyleSheet(
-                allStyleSheets["dark"]["error_label"])
+                allStyleSheets["dark"]["word"])
             n_ui.table_mode_label.setStyleSheet(
-                allStyleSheets["dark"]["table_mode_label"])
+                allStyleSheets["dark"]["word"])
             n_ui.recognition_mode_label.setStyleSheet(
-                allStyleSheets["dark"]["recognition_mode_label"])
+                allStyleSheets["dark"]["word"])
             n_ui.title_bar.setStyleSheet(
                 allStyleSheets["dark"]["title_bar"])
             n_ui.faculty_list.setStyleSheet(
-                allStyleSheets["dark"]["faculty_list"])
+                allStyleSheets["dark"]["list"])
             n_ui.year_list.setStyleSheet(
-                allStyleSheets["dark"]["year_list"])
+                allStyleSheets["dark"]["list"])
             n_ui.group_list.setStyleSheet(
-                allStyleSheets["dark"]["group_list"])
+                allStyleSheets["dark"]["list"])
 
     def activate_voice():
         """
