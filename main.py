@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QApplication, QTableWidgetItem
-from PyQt6.QtGui import QKeySequence, QFont
+from PyQt6.QtGui import QKeySequence, QFont, QShortcut
 from PyQt6.QtCore import Qt
 
 import Recorder
@@ -125,6 +125,15 @@ allStyleSheets = {
                         'selection-background-color: rgb(162, 204, 76);'
                         'gridline-color: rgb(17, 17, 17);'),
         "word": "color: rgb(255, 255, 255);"
+    },
+    "voice_button": {
+        "record": ("background-color: rgb(255, 0, 0);"
+                   "border-radius: 10px;"),
+        "decode": ("background-color: rgb(255, 255, 0);"
+                   "border-radius: 10px;"),
+        "disabled": ("background-color: rgb(83, 83, 83);"
+                     "color: rgb(0, 0, 0);"
+                     "border-radius: 10px;")
     }
 }
 
@@ -147,8 +156,6 @@ def new_win():
         if n_ui.color_mode_switch.isChecked():
             tableWindow.setStyleSheet(
                 allStyleSheets["light"]["tableWindow"])
-            n_ui.activate_button.setStyleSheet(
-                allStyleSheets["light"]["normal_button"])
             n_ui.title_bar.setStyleSheet(
                 allStyleSheets["light"]["title_bar"])
             n_ui.exit_button.setStyleSheet(
@@ -189,6 +196,9 @@ def new_win():
                 allStyleSheets["light"]["group_table"])
             n_ui.word.setStyleSheet(
                 allStyleSheets["light"]["word"])
+            if n_ui.activate_button.isEnabled() and not buttonActive:
+                n_ui.activate_button.setStyleSheet(
+                    allStyleSheets["light"]["normal_button"])
         else:
             n_ui.word.setStyleSheet(
                 allStyleSheets["dark"]["word"])
@@ -200,8 +210,6 @@ def new_win():
                 allStyleSheets["dark"]["close_button"])
             tableWindow.setStyleSheet(
                 allStyleSheets["dark"]["tableWindow"])
-            n_ui.activate_button.setStyleSheet(
-                allStyleSheets["dark"]["normal_button"])
             n_ui.exit_button.setStyleSheet(
                 allStyleSheets["dark"]["normal_button"])
             n_ui.save_button.setStyleSheet(
@@ -232,6 +240,9 @@ def new_win():
                 allStyleSheets["dark"]["list"])
             n_ui.group_list.setStyleSheet(
                 allStyleSheets["dark"]["list"])
+            if n_ui.activate_button.isEnabled() and not buttonActive:
+                n_ui.activate_button.setStyleSheet(
+                    allStyleSheets["dark"]["normal_button"])
 
     def activate_voice():
         """
@@ -262,7 +273,7 @@ def new_win():
 
     def unlockButton():
         """
-        Разблокирует кнопку записи голоса.
+        Осуществляет действия при окончании расшифровки.
         """
         nonlocal buttonActive
         buttonActive = False
@@ -400,40 +411,22 @@ def new_win():
         if f == 1:
             n_ui.activate_button.setText("Распознавание...")
             n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
-            n_ui.activate_button.setStyleSheet("background-color: rgb(255, 255, 0);\n"
-                                               "border-radius: 10px;\n"
-                                               "")
+            n_ui.activate_button.setStyleSheet(
+                allStyleSheets["voice_button"]["decode"])
         elif f == 2:
             n_ui.activate_button.setText("Идёт запись...")
             n_ui.activate_button.setIconSize(QtCore.QSize(0, 0))
             n_ui.activate_button.setStyleSheet(
-                "background-color: rgb(255, 0, 0);\n"
-                "border-radius: 10px;\n"
-                "")
+                allStyleSheets["voice_button"]["record"])
         elif f == 3:
+            n_ui.activate_button.setText("Голосовой ввод")
+            n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
             if n_ui.color_mode_switch.isChecked():
-                n_ui.activate_button.setText("Голосовой ввод")
-                n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
-                n_ui.activate_button.setStyleSheet("QPushButton::hover{"
-                                                   "background-color: rgb(162, 204, 76);}"
-                                                   "QPushButton{"
-                                                   "color: rgb(0, 0, 0);"
-                                                   "border-radius: 10px;"
-                                                   "background-color: rgb(192, 234, 106);}")
+                n_ui.activate_button.setStyleSheet(
+                    allStyleSheets["light"]["normal_button"])
             else:
-                n_ui.activate_button.setText("Голосовой ввод")
-                n_ui.activate_button.setIconSize(QtCore.QSize(35, 35))
-                n_ui.activate_button.setStyleSheet("QPushButton::hover{\n"
-                                                   "background-color: rgb(194, 194, 194);\n"
-                                                   "}\n"
-                                                   "QPushButton{\n"
-                                                   "background-color: rgb(83, 83, 83);\n"
-                                                   "color: rgb(0, 0, 0);\n"
-                                                   "border-radius: 10px;\n"
-                                                   "background-color: rgb(255, 255, 255);\n"
-                                                   "}\n"
-                                                   "\n"
-                                                   "")
+                n_ui.activate_button.setStyleSheet(
+                    allStyleSheets["dark"]["normal_button"])
         n_ui.activate_button.update()
         QApplication.processEvents()
 
@@ -1059,20 +1052,24 @@ def new_win():
         if (check_micro()):
             # обработка нажатия на кнопку распознавания голоса
             n_ui.activate_button.clicked.connect(activate_voice)
-            n_ui.activate_button.setShortcut(QKeySequence("Ctrl+Space"))
+            __activate_button_shortcut = QShortcut(
+                QKeySequence("Ctrl+R"), n_ui.activate_button)
+            __activate_button_shortcut.activated.connect(
+                n_ui.activate_button.clicked.emit)
         else:
-            n_ui.activate_button.setStyleSheet("QPushButton{\n"
-                                               "background-color: rgb(83, 83, 83);\n"
-                                               "color: rgb(0, 0, 0);\n"
-                                               "border-radius: 10px;\n"
-                                               "}\n")
+            n_ui.activate_button.setStyleSheet(
+                allStyleSheets["voice_button"]["disabled"])
             n_ui.activate_button.setEnabled(False)
+            n_ui.checkBox_recognitionMode.setEnabled(False)
 
         # обработка нажатий на кнопки закрытия окна и сворачивания
         n_ui.hide_button.clicked.connect(tableWindow.showMinimized)
         n_ui.close_button.clicked.connect(tableWindow.close)
 
-        n_ui.exit_button.setShortcut(QKeySequence("Ctrl+Q"))
+        __exit_button_shortcut = QShortcut(
+            QKeySequence("Ctrl+Q"), n_ui.exit_button)
+        __exit_button_shortcut.activated.connect(
+            n_ui.exit_button.clicked.emit)
 
         n_ui.color_mode_switch.toggled.connect(theme_switch_main)
 
