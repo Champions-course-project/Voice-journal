@@ -182,7 +182,7 @@ def get_date(words_list: list, faculty: str = "", course: str = "", group: str =
                         if date + "2023" in dates_list:
                             return date
                         print(f"Такой даты нет в журнале! | {date}2023")
-                        return False
+                        return "error"
 
                     # если слово "первое", "второе", ..., но не "двадцать первое"
                     elif len(string) == 1:
@@ -198,7 +198,7 @@ def get_date(words_list: list, faculty: str = "", course: str = "", group: str =
                             else:
                                 print(
                                     f"Такой даты нет в журнале! | {date}2023")
-                                return False
+                                return "error"
                         print("Распознавание даты не прошло!")
                         return False
 
@@ -215,7 +215,7 @@ def get_date(words_list: list, faculty: str = "", course: str = "", group: str =
                             else:
                                 print(
                                     f"Такой даты нет в журнале! | {date}2023")
-                                return False
+                                return "error"
                         print("Распознавание даты не прошло!")
                         return False
         print("Не молчите в микрофон!")

@@ -331,9 +331,13 @@ def new_win():
                 date_choose = Functions.speech_functions.get_date(
                     words_list, faculty_name, course_name, group_name)
                 if date_choose:
-                    dateChoose(date_choose)
-                    if row_choose != -1 and column_choose != -1:
-                        selectCell(row_choose, column_choose)
+                    if date_choose != "error":
+                        dateChoose(date_choose)
+                        if row_choose != -1 and column_choose != -1:
+                            selectCell(row_choose, column_choose)
+                    else:
+                        n_ui.error_label.setText(
+                            "Ошибка ввода, попробуйте еще раз")
                 else:
                     number = Functions.speech_functions.convert_number.convert_string(
                         words_list[0])
