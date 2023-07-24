@@ -8,6 +8,9 @@
 
 
 import json
+import requests
+
+URL = 'localhost/table.html'
 
 
 def get_faculties():
@@ -58,7 +61,7 @@ def get_statuses(faculty: str, course: str, group: str):
     return request_get(faculty=faculty, course=course, group=group, type="statuses")
 
 
-def request_get(URL: str = "", **kwargs):
+def request_get(**kwargs):
     """
     Осуществляет GET-запрос по указанному URL с заданным списком параметров.
     """
@@ -67,6 +70,14 @@ def request_get(URL: str = "", **kwargs):
         args_list.append("{0}={1}".format(key, kwargs[key]))
     # заглушка для будущих запросов
     request_URL = URL + "?" + "&".join(args_list)
+
+    # Так как запрос отправляется на сервер, содержащий таблицу, то и ответ придет в виде таблицы.
+    # Таким образом, потребуется осуществить ее парсинг.
+    # ЛИБО: запрос GET вернет JSON-объект, который тоже необходимо пропарсить и вставить в таблицу через JS/PHP
+
+    # answer = requests.request("GET", request_URL, allow_redirects=False)
+    # list_to_return = json.loads(answer.text)
+
     # запрос типа отправлен, получен ответ - нужный список
     list_to_return = get_from_file(request_URL)
     return list_to_return
