@@ -16,8 +16,19 @@ import json
 import sys
 import time
 
-myappid = "mycompany.myproduct.subproduct.version"
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+if sys.platform == "win32":
+    myappid = "mycompany.myproduct.subproduct.version"
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
+elif sys.platform == "linux":
+    print("WARNING! THIS APP IS NOT TESTED FOR LINUX!")
+
+else:
+    raise TypeError("""
+    Current platform is unsupported.
+    Supported platforms are Windows and Linux.
+    Consider contacting main developer to add implementation.
+    """)
 ui = Ui_AuthWindow()
 
 Recognizer = Vosk_Recognizer
