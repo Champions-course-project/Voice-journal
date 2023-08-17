@@ -131,10 +131,11 @@ def get_date(words_list: list, faculty: str = "", course: str = "", group: str =
     - dates_list - список дат, полученный из программы либо при помощи запроса.\n
     Для успешного распознавания требуется наличие dates_list.\n
     При отсутствии списка дат происходит проверка на наличие faculty, course, group.\n
-    Если и они отсутствуют, возвращается False.\n
+    Если и они отсутствуют, возвращается "error".\n
     Выходные данные:
     - дата в формате ДД.ММ.ГГГГ в случае успеха;
-    - False в противном случае.
+    - "no-data" при отсутствии даты в журнале;
+    - "error" в противном случае.
     """
     try:
         if words_list:
@@ -182,7 +183,7 @@ def get_date(words_list: list, faculty: str = "", course: str = "", group: str =
                         if date + "2023" in dates_list:
                             return date
                         print(f"Такой даты нет в журнале! | {date}2023")
-                        return False
+                        return "no-data"
 
                     # если слово "первое", "второе", ..., но не "двадцать первое"
                     elif len(string) == 1:
@@ -198,9 +199,9 @@ def get_date(words_list: list, faculty: str = "", course: str = "", group: str =
                             else:
                                 print(
                                     f"Такой даты нет в журнале! | {date}2023")
-                                return False
+                                return "no-data"
                         print("Распознавание даты не прошло!")
-                        return False
+                        return "error"
 
                     # если слова "двадцать первое", "двадцать второе", ...
                     elif len(string) == 2:
@@ -215,13 +216,13 @@ def get_date(words_list: list, faculty: str = "", course: str = "", group: str =
                             else:
                                 print(
                                     f"Такой даты нет в журнале! | {date}2023")
-                                return False
+                                return "no-data"
                         print("Распознавание даты не прошло!")
-                        return False
+                        return "error"
         print("Не молчите в микрофон!")
-        return False
+        return "error"
     except AssertionError:
-        return False
+        return "error"
 
 
 def get_student_name(words_list: list, faculty: str = "", course: str = "", group: str = "", students_list: list[str] = []):

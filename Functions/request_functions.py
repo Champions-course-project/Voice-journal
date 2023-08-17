@@ -8,6 +8,9 @@
 
 
 import json
+import requests
+
+URL = 'localhost/table.html'
 
 
 def get_faculties():
@@ -58,14 +61,27 @@ def get_statuses(faculty: str, course: str, group: str):
     return request_get(faculty=faculty, course=course, group=group, type="statuses")
 
 
-def request_get(URL: str = "", **kwargs):
+def request_get(**kwargs):
     """
-    Осуществляет GET-запрос по указанному URL с заданным списком параметров.
+    Осуществляет запрос для получеения информации с заданным списком параметров.
     """
     args_list = []
     for key in kwargs:
         args_list.append("{0}={1}".format(key, kwargs[key]))
+
     # заглушка для будущих запросов
+    # args_list = [{
+    #     "args": kwargs,
+    #     "type": "load"
+    # }]
+    # answer = requests.request(
+    #     "POST", URL, allow_redirects=False, params=args_list)
+    # list_to_return = json.loads(answer.text)
+
+    # Так как запрос отправляется на сервер, содержащий таблицу, то и ответ придет в виде таблицы.
+    # Таким образом, потребуется осуществить ее парсинг.
+    # ЛИБО: запрос POST вернет JSON-объект, который тоже необходимо пропарсить и вставить в таблицу через JS/PHP
+
     request_URL = URL + "?" + "&".join(args_list)
     # запрос типа отправлен, получен ответ - нужный список
     list_to_return = get_from_file(request_URL)
@@ -141,11 +157,21 @@ def save_statuses(statuses):
     return request_post(statuses=statuses)
 
 
-def request_post(URL: str = "", **kwargs):
+def request_post(**kwargs):
     """
     Осуществляет POST-запрос по указанному URL с заданным списком параметров.\n
     Возвращает состояние запроса.
+    TODO: эта функция в реальности не потребуется. Вся информация может обрабатываться функцией requests_get()
+    с указанием метода save или load. После полного перехода на клиент-серверную архитектуру данный код необходимо удалить.
     """
+    # args_list = [{
+    #     "args": kwargs,
+    #     "type": "save"
+    # }]
+    # answer = requests.request(
+    #     "POST", URL, allow_redirects=False, params=args_list)
+    # return answer.status_code
+
     # запрос типа отправлен, получен ответ - нужный список
     request_status = save_to_file(kwargs)
     return request_status
