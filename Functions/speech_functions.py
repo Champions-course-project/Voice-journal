@@ -43,7 +43,7 @@ def get_faculty(words_list: list, faculties_list: list[str] = []):
     - пара False - False в противном случае.
     """
     if not faculties_list:
-        faculties_list = Functions.request_functions.get_faculties()
+        faculties_list = Functions.request_functions.get_faculties()['data']
 
     try:
         if words_list:
@@ -73,7 +73,7 @@ def get_course(faculty: str, words_list: list, courses_list: list[str] = []):
     - False в противном случае.
     """
     if not courses_list:
-        courses_list = Functions.request_functions.get_courses(faculty)
+        courses_list = Functions.request_functions.get_courses(faculty)['data']
     try:
         if words_list:
             course = words_list[0]
@@ -103,7 +103,8 @@ def get_group(faculty: str, course: str, words_list: list, groups_list: list[str
     - False в противном случае.
     """
     if not groups_list:
-        groups_list = Functions.request_functions.get_groups(faculty, course)
+        groups_list = Functions.request_functions.get_groups(faculty, course)[
+            'data']
     try:
         if words_list:
             group = words_list[0]
@@ -143,7 +144,7 @@ def get_date(words_list: list, faculty: str = "", course: str = "", group: str =
             if not dates_list:
                 assert faculty and course and group
                 dates_list = Functions.request_functions.get_dates(
-                    faculty, course, group)
+                    faculty, course, group)['data']
             days_list = [
                 'первое', 'второе', 'третье', 'четвертое',
                 'пятое', 'шестое', 'седьмое', 'восьмое',
@@ -247,7 +248,7 @@ def get_student_name(words_list: list, faculty: str = "", course: str = "", grou
             if not students_list:
                 assert faculty and course and group
                 students_list = Functions.request_functions.get_students(
-                    faculty, course, group)
+                    faculty, course, group)['data']
             # распознавание фамилий: полное или частичное
             possible_names_list = set()
             definite_names_list = set()

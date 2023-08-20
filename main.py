@@ -466,10 +466,14 @@ def new_win():
         table_cond = False
         group_cond = False
         year_cond = False
-        faculties_list = Functions.request_functions.get_faculties()
-        for num in range(len(faculties_list)):
-            n_ui.faculty_list.addItem(
-                (str)(num + 1) + ". " + faculties_list[num])
+        answer = Functions.request_functions.get_faculties()
+        if not answer['error']:
+            faculties_list = answer['data']
+            for num in range(len(faculties_list)):
+                n_ui.faculty_list.addItem(
+                    (str)(num + 1) + ". " + faculties_list[num])
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка факультетов.")
         return
 
     def addYearItems():
@@ -497,12 +501,15 @@ def new_win():
         nonlocal table_cond, group_cond
         table_cond = False
         group_cond = False
-        courses_list = Functions.request_functions.get_courses(
-            current_faculty)
-        for item in courses_list:
-            n_ui.year_list.addItem(item)
-        nonlocal year_cond
-        year_cond = True
+        answer = Functions.request_functions.get_courses(current_faculty)
+        if not answer['error']:
+            courses_list = answer['data']
+            for item in courses_list:
+                n_ui.year_list.addItem(item)
+            nonlocal year_cond
+            year_cond = True
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка курсов.")
         return
 
     def addGroupItems():
@@ -531,13 +538,18 @@ def new_win():
         i = 0
         current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
             1]
-        groups_list = Functions.request_functions.get_groups(
+        answer = Functions.request_functions.get_groups(
             current_faculty, current_course)
-        for item in groups_list:
-            i += 1
-            n_ui.group_list.addItem(str(i) + ". " + item)
-        nonlocal group_cond
-        group_cond = True
+        if not answer['error']:
+            groups_list = answer['data']
+            for item in groups_list:
+                i += 1
+                n_ui.group_list.addItem(str(i) + ". " + item)
+            nonlocal group_cond
+            group_cond = True
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка групп.")
+            return
 
         if n_ui.color_mode_switch.isChecked():
             n_ui.year_list.setStyleSheet("QListWidget{"
@@ -605,7 +617,6 @@ def new_win():
                                              'QListWidget::item::selected{'
                                              'background-color: rgb(255,43,43);'
                                              'border-radius: 10px;}')
-
             n_ui.help_label.setText(
                 "Примечание: на данном курсе нет групп, выберете другую!")
             n_ui.help_label.update()
@@ -628,15 +639,19 @@ def new_win():
             return
         current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[1]
         current_course = n_ui.year_list.currentItem().text()
-        dates_list = Functions.request_functions.get_dates(
+        answer = Functions.request_functions.get_dates(
             current_faculty, current_course, current_group)
-        if len(dates_list) == 0:
-            # TODO: группа есть но занятий по предмету нет!
-            nonlocal table_cond
-            table_cond = False
-            return
-        n_ui.group_table.setColumnCount(len(dates_list))
-        n_ui.group_table.setHorizontalHeaderLabels(dates_list)
+        if not answer['error']:
+            dates_list = answer['data']
+            if len(dates_list) == 0:
+                # TODO: группа есть но занятий по предмету нет!
+                nonlocal table_cond
+                table_cond = False
+                return
+            n_ui.group_table.setColumnCount(len(dates_list))
+            n_ui.group_table.setHorizontalHeaderLabels(dates_list)
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка дат.")
         return
 
     def addStudents():
@@ -696,53 +711,58 @@ def new_win():
         current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
             1]
         current_course = n_ui.year_list.currentItem().text()
-        students_list = Functions.request_functions.get_students(
+        answer = Functions.request_functions.get_students(
             current_faculty, current_course, current_group)
-        if len(students_list) == 0:
-            if n_ui.color_mode_switch.isChecked():
-                n_ui.group_list.setStyleSheet("QListWidget{"
-                                              'color: rgb(0, 0, 0);'
-                                              'background-color: rgb(200, 200, 200);'
-                                              'selection-color: rgb(255, 255, 255);'
-                                              'selection-background-color: rgb(255,43,43);'
-                                              'border-radius: 10px;}'
-                                              'QListWidget::item::hover{'
-                                              'background-color: rgb(170, 170,170);'
-                                              'border-radius: 10px;}'
-                                              'QListWidget::item::selected::hover{'
-                                              'background-color: rgb(255,43,43);'
-                                              'border-radius: 10px;}'
-                                              'QListWidget::item::selected{'
-                                              'background-color: rgb(255,43,43);'
-                                              'border-radius: 10px;}')
-            else:
-                n_ui.group_list.setStyleSheet("QListWidget{\n"
-                                              "color: rgb(255, 255, 255);\n"
-                                              "background-color: rgb(83, 83, 83);\n"
-                                              "selection-color: rgb(255, 255, 255);\n"
-                                              "selection-background-color: rgb(162, 204, 76);\n"
-                                              "border-radius: 10px;\n"
-                                              "}\n"
-                                              "QListWidget::item::hover{\n"
-                                              "background-color: rgb(75, 75,75);\n"
-                                              "border-radius: 10px;\n"
-                                              "}\n"
-                                              "QListWidget::item::selected::hover{\n"
-                                              "background-color: rgb(255, 0, 0);\n"
-                                              "border-radius: 10px;\n"
-                                              "}\n"
-                                              "QListWidget::item::selected{\n"
-                                              "background-color: rgb(255, 0, 0);\n"
-                                              "color: rgb(255, 255, 255);\n"
-                                              "selection-color: rgb(255, 255, 255);\n"
-                                              "selection-background-color: rgb(255, 0, 0);\n"
-                                              "border-radius: 10px;\n"
-                                              "}")
-            n_ui.help_label.setText(
-                "Примечание: в данной группе нет студентов, выберете другую!")
-            n_ui.help_label.update()
-            QApplication.processEvents()
-            table_cond = False
+        if not answer['error']:
+            students_list = answer['data']
+            if len(students_list) == 0:
+                if n_ui.color_mode_switch.isChecked():
+                    n_ui.group_list.setStyleSheet("QListWidget{"
+                                                  'color: rgb(0, 0, 0);'
+                                                  'background-color: rgb(200, 200, 200);'
+                                                  'selection-color: rgb(255, 255, 255);'
+                                                  'selection-background-color: rgb(255,43,43);'
+                                                  'border-radius: 10px;}'
+                                                  'QListWidget::item::hover{'
+                                                  'background-color: rgb(170, 170,170);'
+                                                  'border-radius: 10px;}'
+                                                  'QListWidget::item::selected::hover{'
+                                                  'background-color: rgb(255,43,43);'
+                                                  'border-radius: 10px;}'
+                                                  'QListWidget::item::selected{'
+                                                  'background-color: rgb(255,43,43);'
+                                                  'border-radius: 10px;}')
+                else:
+                    n_ui.group_list.setStyleSheet("QListWidget{\n"
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "background-color: rgb(83, 83, 83);\n"
+                                                  "selection-color: rgb(255, 255, 255);\n"
+                                                  "selection-background-color: rgb(162, 204, 76);\n"
+                                                  "border-radius: 10px;\n"
+                                                  "}\n"
+                                                  "QListWidget::item::hover{\n"
+                                                  "background-color: rgb(75, 75,75);\n"
+                                                  "border-radius: 10px;\n"
+                                                  "}\n"
+                                                  "QListWidget::item::selected::hover{\n"
+                                                  "background-color: rgb(255, 0, 0);\n"
+                                                  "border-radius: 10px;\n"
+                                                  "}\n"
+                                                  "QListWidget::item::selected{\n"
+                                                  "background-color: rgb(255, 0, 0);\n"
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "selection-color: rgb(255, 255, 255);\n"
+                                                  "selection-background-color: rgb(255, 0, 0);\n"
+                                                  "border-radius: 10px;\n"
+                                                  "}")
+                n_ui.help_label.setText(
+                    "Примечание: в данной группе нет студентов, выберете другую!")
+                n_ui.help_label.update()
+                QApplication.processEvents()
+                table_cond = False
+                return
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка студентов.")
             return
         n_ui.group_table.setRowCount(len(students_list))
         n_ui.group_table.setVerticalHeaderLabels(students_list)
@@ -773,15 +793,19 @@ def new_win():
         current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[1]
         current_course = n_ui.year_list.currentItem().text()
         # формат: словарь[дата][студент] = статус
-        statuses_dict = Functions.request_functions.get_statuses(
+        answer = Functions.request_functions.get_statuses(
             current_faculty, current_course, current_group)
-        statuses_from_sourse(statuses_dict)
-        nonlocal partial_state
-        try:
-            statuses_dict = partial_state[current_faculty][current_course][current_group]
+        if not answer['error']:
+            statuses_dict = answer['data']
             statuses_from_sourse(statuses_dict)
-        except:
-            return
+            nonlocal partial_state
+            try:
+                statuses_dict = partial_state[current_faculty][current_course][current_group]
+                statuses_from_sourse(statuses_dict)
+            except:
+                return
+        else:
+            n_ui.error_label.setText("Ошибка при запросе статусов студентов.")
         return
 
     def statuses_from_sourse(sourse: dict):

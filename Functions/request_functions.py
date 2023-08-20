@@ -75,7 +75,7 @@ def request_get(**kwargs):
     #     "type": "load"
     # }]
     # answer = requests.request(
-    #     "POST", URL, allow_redirects=False, params=args_list)
+    #     "POST", URL, allow_redirects=False, data=args_list)
     # list_to_return = json.loads(answer.text)
 
     # Так как запрос отправляется на сервер, содержащий таблицу, то и ответ придет в виде таблицы.
@@ -113,38 +113,35 @@ def get_from_file(URL: str):
                             students_list = (list)(
                                 students_data[requests_dict["group"]])
                         except KeyError:
-                            return []
-                        return students_list
+                            return {'error': True}
+                        return {'error': False, 'data': students_list}
                     elif requests_dict["type"] == "dates":
                         dates_list = []
                         with open("Dates.txt", "r", encoding="UTF-8") as IF:
                             for line in IF:
                                 dates_list.append(line.replace("\n", ""))
-                        return dates_list
+                        return {'error': False, 'data': dates_list}
                     elif requests_dict["type"] == "statuses":
                         try:
                             with open("statuses.json", "r", encoding="UTF-8") as IF:
                                 statuses = (dict)(json.load(IF))
+                            return {'error': False, 'data': (dict)(statuses[requests_dict["faculty"]][requests_dict["course"]][requests_dict["group"]])}
                         except:
-                            return {}
-                        try:
-                            return (dict)(statuses[requests_dict["faculty"]][requests_dict["course"]][requests_dict["group"]])
-                        except:
-                            return {}
+                            return {'error': True}
                     else:
-                        return
+                        return {'error': True}
                 else:
-                    return
+                    return {'error': True}
             else:
                 # снова аналогично - группы нет, остальное есть, нужно вернуть группы.
-                return (list)(data[requests_dict["faculty"]][requests_dict["course"]])
+                return {'error': False, 'data': (list)(data[requests_dict["faculty"]][requests_dict["course"]])}
         else:
             # здесь аналогично - курса нет, факультет есть, значит нужно вернуть ключи, соответствующие курсам
-            return (list)(data[requests_dict["faculty"]].keys())
+            return {'error': False, 'data': (list)(data[requests_dict["faculty"]].keys())}
     else:
         # что мне здесь нужно.... если факультета нет, то я должен вернуть список ключей, соответствующих
         # факультетам - причем нумерованный, как в data.json
-        return (list)(data.keys())
+        return {'error': False, 'data': (list)(data.keys())}
 
 
 # DONE
@@ -169,7 +166,7 @@ def request_post(**kwargs):
     #     "type": "save"
     # }]
     # answer = requests.request(
-    #     "POST", URL, allow_redirects=False, params=args_list)
+    #     "POST", URL, allow_redirects=False, data=args_list)
     # return answer.status_code
 
     # запрос типа отправлен, получен ответ - нужный список
