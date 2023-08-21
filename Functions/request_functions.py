@@ -10,7 +10,7 @@
 import json
 import requests
 
-URL = 'localhost/table.html'
+URL = 'http://localhost/table.html'
 
 
 def get_faculties():
@@ -65,23 +65,23 @@ def request_get(**kwargs):
     """
     Осуществляет запрос для получеения информации с заданным списком параметров.
     """
-    args_list = []
-    for key in kwargs:
-        args_list.append("{0}={1}".format(key, kwargs[key]))
 
     # заглушка для будущих запросов
-    # args_list = [{
+    # args_list = {
     #     "args": kwargs,
     #     "type": "load"
-    # }]
+    # }
     # answer = requests.request(
-    #     "POST", URL, allow_redirects=False, data=args_list)
+    #     "POST", URL, allow_redirects=False, json=args_list)
     # list_to_return = json.loads(answer.text)
+    # return list_to_return
 
     # Так как запрос отправляется на сервер, содержащий таблицу, то и ответ придет в виде таблицы.
     # Таким образом, потребуется осуществить ее парсинг.
     # ЛИБО: запрос POST вернет JSON-объект, который тоже необходимо пропарсить и вставить в таблицу через JS/PHP
-
+    args_list = []
+    for key in kwargs:
+        args_list.append("{0}={1}".format(key, kwargs[key]))
     request_URL = URL + "?" + "&".join(args_list)
     # запрос типа отправлен, получен ответ - нужный список
     list_to_return = get_from_file(request_URL)
@@ -161,12 +161,12 @@ def request_post(**kwargs):
     TODO: эта функция в реальности не потребуется. Вся информация может обрабатываться функцией requests_get()
     с указанием метода save или load. После полного перехода на клиент-серверную архитектуру данный код необходимо удалить.
     """
-    # args_list = [{
+    # args_list = {
     #     "args": kwargs,
     #     "type": "save"
-    # }]
+    # }
     # answer = requests.request(
-    #     "POST", URL, allow_redirects=False, data=args_list)
+    #     "POST", URL, allow_redirects=False, json=args_list)
     # return answer.status_code
 
     # запрос типа отправлен, получен ответ - нужный список
