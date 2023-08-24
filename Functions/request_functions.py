@@ -12,6 +12,8 @@ import requests
 
 URL = 'http://localhost/table.html'
 
+WITH_SERVER = False
+
 
 def get_faculties():
     """
@@ -67,30 +69,31 @@ def request_get(request: str, **kwargs):
     """
 
     # заглушка для будущих запросов
-    # args_list = \
-    #     {
-    #         "data": {
-    #             "request": request,
-    #             "args": kwargs
-    #         },
-    #         "type": "load"
-    #     }
-    # answer = requests.request(
-    #     "POST", URL, allow_redirects=False, json=args_list)
-    # list_to_return = json.loads(answer.text)
-    # return list_to_return
-
-    # Так как запрос отправляется на сервер, содержащий таблицу, то и ответ придет в виде таблицы.
-    # Таким образом, потребуется осуществить ее парсинг.
-    # ЛИБО: запрос POST вернет JSON-объект, который тоже необходимо пропарсить и вставить в таблицу через JS/PHP
-    args_list = []
-    for key in kwargs:
-        args_list.append("{0}={1}".format(key, kwargs[key]))
-    args_list.append(f"request={request}")
-    request_URL = URL + "?" + "&".join(args_list)
-    # запрос типа отправлен, получен ответ - нужный список
-    list_to_return = get_from_file(request_URL)
-    return list_to_return
+    if WITH_SERVER:
+        args_list = \
+            {
+                "data": {
+                    "request": request,
+                    "args": kwargs
+                },
+                "type": "load"
+            }
+        answer = requests.request(
+            "POST", URL, allow_redirects=False, json=args_list)
+        list_to_return = json.loads(answer.text)
+        return list_to_return
+    else:
+        # Так как запрос отправляется на сервер, содержащий таблицу, то и ответ придет в виде таблицы.
+        # Таким образом, потребуется осуществить ее парсинг.
+        # ЛИБО: запрос POST вернет JSON-объект, который тоже необходимо пропарсить и вставить в таблицу через JS/PHP
+        args_list = []
+        for key in kwargs:
+            args_list.append("{0}={1}".format(key, kwargs[key]))
+        args_list.append(f"request={request}")
+        request_URL = URL + "?" + "&".join(args_list)
+        # запрос типа отправлен, получен ответ - нужный список
+        list_to_return = get_from_file(request_URL)
+        return list_to_return
 
 
 def get_from_file(URL: str):
@@ -118,7 +121,7 @@ def get_from_file(URL: str):
                             students_list = (list)(
                                 students_data[requests_dict["group"]])
                         except KeyError:
-                            return {'error': True}
+                            return {'error': False, 'data': []}
                         return {'error': False, 'data': students_list}
                     elif requests_dict["request"] == "dates":
                         dates_list = []
@@ -132,7 +135,7 @@ def get_from_file(URL: str):
                                 statuses = (dict)(json.load(IF))
                             return {'error': False, 'data': (dict)(statuses[requests_dict["faculty"]][requests_dict["course"]][requests_dict["group"]])}
                         except:
-                            return {'error': True}
+                            return {'error': False}
                     else:
                         return {'error': True}
                 else:
@@ -166,17 +169,19 @@ def request_post(save_dict):
     TODO: эта функция в реальности не потребуется. Вся информация может обрабатываться функцией requests_get()
     с указанием метода save или load. После полного перехода на клиент-серверную архитектуру данный код необходимо удалить.
     """
-    # args_list = {
-    #     "data": {"args": kwargs},
-    #     "type": "save"
-    # }
-    # answer = requests.request(
-    #     "POST", URL, allow_redirects=False, json=args_list)
-    # return answer.status_code
+    if WITH_SERVER:
+        args_list = {
+            "data": {"args": save_dict},
+            "type": "save"
+        }
+        answer = requests.request(
+            "POST", URL, allow_redirects=False, json=args_list)
+        return answer.status_code
 
     # запрос типа отправлен, получен ответ - нужный список
-    request_status = save_to_file(save_dict)
-    return request_status
+    else:
+        request_status = save_to_file(save_dict)
+        return request_status
 
 
 def save_to_file(statuses_input: dict):
