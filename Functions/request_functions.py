@@ -18,7 +18,7 @@ def get_faculties():
     Возвращает список факультетов.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get()
+    return request_get(request='faculty')
 
 
 def get_courses(faculty: str):
@@ -26,7 +26,7 @@ def get_courses(faculty: str):
     Возвращает список курсов на основе выбранного факультета.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(faculty=faculty)
+    return request_get(request='course', faculty=faculty)
 
 
 def get_groups(faculty: str, course: str):
@@ -34,7 +34,7 @@ def get_groups(faculty: str, course: str):
     Возвращает список групп на основе выбранных факультета и курса.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(faculty=faculty, course=course)
+    return request_get(request='group', faculty=faculty, course=course)
 
 
 def get_students(faculty: str, course: str, group: str):
@@ -42,7 +42,7 @@ def get_students(faculty: str, course: str, group: str):
     Возвращает список студентов на основе выбранных факультета, курса и группы.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(faculty=faculty, course=course, group=group, type="students")
+    return request_get(faculty=faculty, course=course, group=group, request="students")
 
 
 def get_dates(faculty: str, course: str, group: str):
@@ -50,7 +50,7 @@ def get_dates(faculty: str, course: str, group: str):
     Возвращает список дат на основе выбранных факультета, курса и группы.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(faculty=faculty, course=course, group=group, type="dates")
+    return request_get(faculty=faculty, course=course, group=group, request="dates")
 
 
 def get_statuses(faculty: str, course: str, group: str):
@@ -58,19 +58,23 @@ def get_statuses(faculty: str, course: str, group: str):
     Возвращает все выставленные статусы на основе выбранных факультета, курса и группы.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(faculty=faculty, course=course, group=group, type="statuses")
+    return request_get(faculty=faculty, course=course, group=group, request="statuses")
 
 
-def request_get(**kwargs):
+def request_get(request: str, **kwargs):
     """
     Осуществляет запрос для получеения информации с заданным списком параметров.
     """
 
     # заглушка для будущих запросов
-    # args_list = {
-    #     "args": kwargs,
-    #     "type": "load"
-    # }
+    # args_list = \
+    #     {
+    #         "data": {
+    #             "request": request,
+    #             "args": kwargs
+    #         },
+    #         "type": "load"
+    #     }
     # answer = requests.request(
     #     "POST", URL, allow_redirects=False, json=args_list)
     # list_to_return = json.loads(answer.text)
@@ -82,6 +86,7 @@ def request_get(**kwargs):
     args_list = []
     for key in kwargs:
         args_list.append("{0}={1}".format(key, kwargs[key]))
+    args_list.append(f"request={request}")
     request_URL = URL + "?" + "&".join(args_list)
     # запрос типа отправлен, получен ответ - нужный список
     list_to_return = get_from_file(request_URL)
@@ -105,8 +110,8 @@ def get_from_file(URL: str):
     if "faculty" in requests_dict:
         if "course" in requests_dict:
             if "group" in requests_dict:
-                if "type" in requests_dict:
-                    if requests_dict["type"] == "students":
+                if "request" in requests_dict:
+                    if requests_dict["request"] == "students":
                         with open("students_list.json", "r", encoding="UTF-8") as IF:
                             students_data = (dict)(json.load(IF))
                         try:
@@ -115,13 +120,13 @@ def get_from_file(URL: str):
                         except KeyError:
                             return {'error': True}
                         return {'error': False, 'data': students_list}
-                    elif requests_dict["type"] == "dates":
+                    elif requests_dict["request"] == "dates":
                         dates_list = []
                         with open("Dates.txt", "r", encoding="UTF-8") as IF:
                             for line in IF:
                                 dates_list.append(line.replace("\n", ""))
                         return {'error': False, 'data': dates_list}
-                    elif requests_dict["type"] == "statuses":
+                    elif requests_dict["request"] == "statuses":
                         try:
                             with open("statuses.json", "r", encoding="UTF-8") as IF:
                                 statuses = (dict)(json.load(IF))
@@ -151,10 +156,10 @@ def save_statuses(statuses):
     Осуществляет фиктивный запрос на сервер.\n
     Возвращает состояние запроса.
     """
-    return request_post(statuses=statuses)
+    return request_post(statuses)
 
 
-def request_post(**kwargs):
+def request_post(save_dict):
     """
     Осуществляет POST-запрос по указанному URL с заданным списком параметров.\n
     Возвращает состояние запроса.
@@ -162,7 +167,7 @@ def request_post(**kwargs):
     с указанием метода save или load. После полного перехода на клиент-серверную архитектуру данный код необходимо удалить.
     """
     # args_list = {
-    #     "args": kwargs,
+    #     "data": {"args": kwargs},
     #     "type": "save"
     # }
     # answer = requests.request(
@@ -170,7 +175,7 @@ def request_post(**kwargs):
     # return answer.status_code
 
     # запрос типа отправлен, получен ответ - нужный список
-    request_status = save_to_file(kwargs)
+    request_status = save_to_file(save_dict)
     return request_status
 
 
@@ -185,7 +190,7 @@ def save_to_file(statuses_input: dict):
         file_statuses = {}
     # структура словаря: словарь[faculty_name][course_name][
     # group_name][date_choose][student_choose]: status
-    faculty_list = statuses_input["statuses"]
+    faculty_list = statuses_input
     for faculty in faculty_list:
         courses_dict = faculty_list[faculty]
         for course in courses_dict:
