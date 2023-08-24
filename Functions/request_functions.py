@@ -15,6 +15,139 @@ URL = 'http://localhost/table.html'
 WITH_SERVER = False
 
 
+def get_from_file1(URL: str):
+    """
+    Реализует фиктивный запрос на сервер - открывает файл и выдает необходимую информацию.
+    """
+    with open("data.json", "r", encoding="UTF-8") as IF:
+        data = (dict)(json.load(IF))
+    request_part = URL.split("?")[1]
+    requests_dict = {}
+    if request_part:
+        requests_list = request_part.split("&")
+        for line in requests_list:
+            kw = line.split("=")[0]
+            arg = line.split("=")[1]
+            requests_dict[kw] = arg
+    if "faculty" in requests_dict:
+        if "course" in requests_dict:
+            if "group" in requests_dict:
+                if "request" in requests_dict:
+                    if requests_dict["request"] == "students":
+                        with open("students_list.json", "r", encoding="UTF-8") as IF:
+                            students_data = (dict)(json.load(IF))
+                        try:
+                            students_list = (list)(
+                                students_data[requests_dict["group"]])
+                        except KeyError:
+                            return {'error': False, 'data': []}
+                        return {'error': False, 'data': students_list}
+                    elif requests_dict["request"] == "dates":
+                        dates_list = []
+                        with open("Dates.txt", "r", encoding="UTF-8") as IF:
+                            for line in IF:
+                                dates_list.append(line.replace("\n", ""))
+                        return {'error': False, 'data': dates_list}
+                    elif requests_dict["request"] == "statuses":
+                        try:
+                            with open("statuses.json", "r", encoding="UTF-8") as IF:
+                                statuses = (dict)(json.load(IF))
+                            return {'error': False, 'data': (dict)(statuses[requests_dict["faculty"]][requests_dict["course"]][requests_dict["group"]])}
+                        except:
+                            return {'error': False}
+                    else:
+                        return {'error': True}
+                else:
+                    return {'error': True}
+            else:
+                # снова аналогично - группы нет, остальное есть, нужно вернуть группы.
+                return {'error': False, 'data': (list)(data[requests_dict["faculty"]][requests_dict["course"]])}
+        else:
+            # здесь аналогично - курса нет, факультет есть, значит нужно вернуть ключи, соответствующие курсам
+            return {'error': False, 'data': (list)(data[requests_dict["faculty"]].keys())}
+    else:
+        # что мне здесь нужно.... если факультета нет, то я должен вернуть список ключей, соответствующих
+        # факультетам - причем нумерованный, как в data.json
+        return {'error': False, 'data': (list)(data.keys())}
+
+
+def get_from_file2(requests_dict: dict):
+    """
+    Реализует фиктивный запрос на сервер - открывает файл и выдает необходимую информацию.
+    """
+    with open("data.json", "r", encoding="UTF-8") as IF:
+        data = (dict)(json.load(IF))
+    ERR = {"error": True}
+    requested_info = requests_dict["request"]
+    given_args = requests_dict["args"]
+    output_dict = {}
+    try:
+        if 'faculty' == requested_info:
+            output_dict = {'error': False, 'data': (list)(data.keys())}
+
+        elif 'course' == requested_info:
+            if "faculty" in given_args:
+                output_dict = {'error': False, 'data': (
+                    list)(data[given_args["faculty"]].keys())}
+            else:
+                output_dict = ERR
+
+        elif 'group' == requested_info:
+            if "faculty" in given_args and "course" in given_args:
+                output_dict = {'error': False, 'data': (list)(
+                    data[given_args["faculty"]][given_args["course"]])}
+            else:
+                output_dict = ERR
+
+        elif 'students' == requested_info:
+            if "faculty" in given_args and "course" in given_args and "group" in given_args:
+                with open("students_list.json", "r", encoding="UTF-8") as IF:
+                    students_data = (dict)(json.load(IF))
+                try:
+                    students_list = (list)(
+                        students_data[given_args["group"]])
+                except:
+                    students_list = []
+                output_dict = {'error': False, 'data': students_list}
+            else:
+                output_dict = ERR
+
+        elif 'dates' == requested_info:
+            if "faculty" in given_args and "course" in given_args and "group" in given_args:
+
+                dates_list = []
+                with open("Dates.txt", "r", encoding="UTF-8") as IF:
+                    for line in IF:
+                        dates_list.append(line.replace("\n", ""))
+                output_dict = {'error': False, 'data': dates_list}
+            else:
+                output_dict = ERR
+
+        elif 'statuses' == requested_info:
+            if "faculty" in given_args and "course" in given_args and "group" in given_args:
+
+                with open("statuses.json", "r", encoding="UTF-8") as IF:
+                    statuses = (dict)(json.load(IF))
+                try:
+                    output_dict = {'error': False, 'data': (dict)(
+                        statuses[given_args["faculty"]][given_args["course"]][given_args["group"]])}
+                except:
+                    output_dict = {'error': False, 'data': {}}
+            else:
+                output_dict = ERR
+
+    except:
+        output_dict = ERR
+
+    return output_dict
+
+
+if WITH_SERVER:
+    get_from_file = get_from_file2
+else:
+    get_from_file = get_from_file1
+
+
 def get_faculties():
     """
     Возвращает список факультетов.\n
@@ -94,62 +227,6 @@ def request_get(request: str, **kwargs):
         # запрос типа отправлен, получен ответ - нужный список
         list_to_return = get_from_file(request_URL)
         return list_to_return
-
-
-def get_from_file(URL: str):
-    """
-    Реализует фиктивный запрос на сервер - открывает файл и выдает необходимую информацию.
-    """
-    with open("data.json", "r", encoding="UTF-8") as IF:
-        data = (dict)(json.load(IF))
-    request_part = URL.split("?")[1]
-    requests_dict = {}
-    if request_part:
-        requests_list = request_part.split("&")
-        for line in requests_list:
-            kw = line.split("=")[0]
-            arg = line.split("=")[1]
-            requests_dict[kw] = arg
-    if "faculty" in requests_dict:
-        if "course" in requests_dict:
-            if "group" in requests_dict:
-                if "request" in requests_dict:
-                    if requests_dict["request"] == "students":
-                        with open("students_list.json", "r", encoding="UTF-8") as IF:
-                            students_data = (dict)(json.load(IF))
-                        try:
-                            students_list = (list)(
-                                students_data[requests_dict["group"]])
-                        except KeyError:
-                            return {'error': False, 'data': []}
-                        return {'error': False, 'data': students_list}
-                    elif requests_dict["request"] == "dates":
-                        dates_list = []
-                        with open("Dates.txt", "r", encoding="UTF-8") as IF:
-                            for line in IF:
-                                dates_list.append(line.replace("\n", ""))
-                        return {'error': False, 'data': dates_list}
-                    elif requests_dict["request"] == "statuses":
-                        try:
-                            with open("statuses.json", "r", encoding="UTF-8") as IF:
-                                statuses = (dict)(json.load(IF))
-                            return {'error': False, 'data': (dict)(statuses[requests_dict["faculty"]][requests_dict["course"]][requests_dict["group"]])}
-                        except:
-                            return {'error': False}
-                    else:
-                        return {'error': True}
-                else:
-                    return {'error': True}
-            else:
-                # снова аналогично - группы нет, остальное есть, нужно вернуть группы.
-                return {'error': False, 'data': (list)(data[requests_dict["faculty"]][requests_dict["course"]])}
-        else:
-            # здесь аналогично - курса нет, факультет есть, значит нужно вернуть ключи, соответствующие курсам
-            return {'error': False, 'data': (list)(data[requests_dict["faculty"]].keys())}
-    else:
-        # что мне здесь нужно.... если факультета нет, то я должен вернуть список ключей, соответствующих
-        # факультетам - причем нумерованный, как в data.json
-        return {'error': False, 'data': (list)(data.keys())}
 
 
 # DONE
