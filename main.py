@@ -963,10 +963,17 @@ def new_win():
         Отправляет запрос на сервер / в БД.
         """
         nonlocal partial_state
-        Functions.request_functions.save_statuses(
-            partial_state)
-        partial_state = {}
-        n_ui.group_list.currentItemChanged.emit(None, None)
+        try:
+            status = Functions.request_functions.save_statuses(
+                partial_state)
+            if not status['error']:
+                partial_state = {}
+                n_ui.group_list.currentItemChanged.emit(None, None)
+            else:
+                raise ConnectionError("Unknown error with connection.")
+        except:
+            n_ui.error_label.setText("Ошибка при сохранении статусов.")
+
         return
 
     def cancel_statuses():
