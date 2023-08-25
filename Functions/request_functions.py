@@ -15,63 +15,7 @@ URL = 'http://localhost/table.html'
 WITH_SERVER = False
 
 
-def get_from_file1(URL: str):
-    """
-    Реализует фиктивный запрос на сервер - открывает файл и выдает необходимую информацию.
-    """
-    with open("data.json", "r", encoding="UTF-8") as IF:
-        data = (dict)(json.load(IF))
-    request_part = URL.split("?")[1]
-    requests_dict = {}
-    if request_part:
-        requests_list = request_part.split("&")
-        for line in requests_list:
-            kw = line.split("=")[0]
-            arg = line.split("=")[1]
-            requests_dict[kw] = arg
-    if "faculty" in requests_dict:
-        if "course" in requests_dict:
-            if "group" in requests_dict:
-                if "request" in requests_dict:
-                    if requests_dict["request"] == "students":
-                        with open("students_list.json", "r", encoding="UTF-8") as IF:
-                            students_data = (dict)(json.load(IF))
-                        try:
-                            students_list = (list)(
-                                students_data[requests_dict["group"]])
-                        except KeyError:
-                            return {'error': False, 'data': []}
-                        return {'error': False, 'data': students_list}
-                    elif requests_dict["request"] == "dates":
-                        dates_list = []
-                        with open("Dates.txt", "r", encoding="UTF-8") as IF:
-                            for line in IF:
-                                dates_list.append(line.replace("\n", ""))
-                        return {'error': False, 'data': dates_list}
-                    elif requests_dict["request"] == "statuses":
-                        try:
-                            with open("statuses.json", "r", encoding="UTF-8") as IF:
-                                statuses = (dict)(json.load(IF))
-                            return {'error': False, 'data': (dict)(statuses[requests_dict["faculty"]][requests_dict["course"]][requests_dict["group"]])}
-                        except:
-                            return {'error': False}
-                    else:
-                        return {'error': True}
-                else:
-                    return {'error': True}
-            else:
-                # снова аналогично - группы нет, остальное есть, нужно вернуть группы.
-                return {'error': False, 'data': (list)(data[requests_dict["faculty"]][requests_dict["course"]])}
-        else:
-            # здесь аналогично - курса нет, факультет есть, значит нужно вернуть ключи, соответствующие курсам
-            return {'error': False, 'data': (list)(data[requests_dict["faculty"]].keys())}
-    else:
-        # что мне здесь нужно.... если факультета нет, то я должен вернуть список ключей, соответствующих
-        # факультетам - причем нумерованный, как в data.json
-        return {'error': False, 'data': (list)(data.keys())}
-
-
-def get_from_file2(requests_dict: dict):
+def get_from_file(requests_dict: dict):
     """
     Реализует фиктивный запрос на сервер - открывает файл и выдает необходимую информацию.
     """
@@ -142,18 +86,12 @@ def get_from_file2(requests_dict: dict):
     return output_dict
 
 
-if WITH_SERVER:
-    get_from_file = get_from_file2
-else:
-    get_from_file = get_from_file1
-
-
 def get_faculties():
     """
     Возвращает список факультетов.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(request='faculty')
+    return request_send(requested_val='faculty', req_type='load')
 
 
 def get_courses(faculty: str):
@@ -161,7 +99,7 @@ def get_courses(faculty: str):
     Возвращает список курсов на основе выбранного факультета.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(request='course', faculty=faculty)
+    return request_send(requested_val='course', req_type='load', faculty=faculty)
 
 
 def get_groups(faculty: str, course: str):
@@ -169,7 +107,7 @@ def get_groups(faculty: str, course: str):
     Возвращает список групп на основе выбранных факультета и курса.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(request='group', faculty=faculty, course=course)
+    return request_send(requested_val='group', req_type='load', faculty=faculty, course=course)
 
 
 def get_students(faculty: str, course: str, group: str):
@@ -177,7 +115,7 @@ def get_students(faculty: str, course: str, group: str):
     Возвращает список студентов на основе выбранных факультета, курса и группы.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(faculty=faculty, course=course, group=group, request="students")
+    return request_send(requested_val="students", req_type='load', faculty=faculty, course=course, group=group)
 
 
 def get_dates(faculty: str, course: str, group: str):
@@ -185,7 +123,7 @@ def get_dates(faculty: str, course: str, group: str):
     Возвращает список дат на основе выбранных факультета, курса и группы.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(faculty=faculty, course=course, group=group, request="dates")
+    return request_send(requested_val="dates", req_type='load', faculty=faculty, course=course, group=group)
 
 
 def get_statuses(faculty: str, course: str, group: str):
@@ -193,40 +131,59 @@ def get_statuses(faculty: str, course: str, group: str):
     Возвращает все выставленные статусы на основе выбранных факультета, курса и группы.\n
     Осуществляет фиктивный запрос на сервер.
     """
-    return request_get(faculty=faculty, course=course, group=group, request="statuses")
+    return request_send(requested_val="statuses", req_type='load', faculty=faculty, course=course, group=group)
 
 
-def request_get(request: str, **kwargs):
+def request_send(req_type: str, *, requested_val: str | None = None, **kwargs):
     """
-    Осуществляет запрос для получеения информации с заданным списком параметров.
+    Осуществляет запрос для получеения информации с заданным списком параметров либо для сохранения.
     """
-
+    ERR = {'error': 1}
     # заглушка для будущих запросов
-    if WITH_SERVER:
-        args_list = \
-            {
-                "data": {
-                    "request": request,
-                    "args": kwargs
-                },
-                "type": "load"
-            }
-        answer = requests.request(
-            "POST", URL, allow_redirects=False, json=args_list)
-        list_to_return = json.loads(answer.text)
-        return list_to_return
+    try:
+        if req_type != 'save' and requested_val == None:
+            raise ValueError(
+                "Requested value cannot be None while not saving.")
+        if req_type == 'load':
+            args_list = \
+                {
+                    "data": {
+                        "request": requested_val,
+                        "args": kwargs
+                    },
+                    "type": req_type
+                }
+        elif req_type == 'save':
+            args_list = \
+                {
+                    "data": {"args": kwargs['statuses']},
+                    "type": req_type
+                }
+        else:
+            raise ValueError("Invalid request type.")
+        if WITH_SERVER:
+            answer = requests.request(
+                "POST", URL, allow_redirects=False, json=args_list)
+            list_to_return = json.loads(answer.text)
+        else:
+            if req_type == 'load':
+                list_to_return = get_from_file(args_list['data'])
+            else:
+                status = save_to_file(args_list['data'])
+                if status == 200:
+                    list_to_return = {'error': 0}
+                else:
+                    return ERR
+
+    except:
+        return ERR
+    if 'error' in list_to_return:
+        if not list_to_return['error'] and ('data' in list_to_return or req_type == 'save'):
+            return list_to_return
+        else:
+            return ERR
     else:
-        # Так как запрос отправляется на сервер, содержащий таблицу, то и ответ придет в виде таблицы.
-        # Таким образом, потребуется осуществить ее парсинг.
-        # ЛИБО: запрос POST вернет JSON-объект, который тоже необходимо пропарсить и вставить в таблицу через JS/PHP
-        args_list = []
-        for key in kwargs:
-            args_list.append("{0}={1}".format(key, kwargs[key]))
-        args_list.append(f"request={request}")
-        request_URL = URL + "?" + "&".join(args_list)
-        # запрос типа отправлен, получен ответ - нужный список
-        list_to_return = get_from_file(request_URL)
-        return list_to_return
+        return ERR
 
 
 # DONE
@@ -236,29 +193,7 @@ def save_statuses(statuses):
     Осуществляет фиктивный запрос на сервер.\n
     Возвращает состояние запроса.
     """
-    return request_post(statuses)
-
-
-def request_post(save_dict):
-    """
-    Осуществляет POST-запрос по указанному URL с заданным списком параметров.\n
-    Возвращает состояние запроса.
-    TODO: эта функция в реальности не потребуется. Вся информация может обрабатываться функцией requests_get()
-    с указанием метода save или load. После полного перехода на клиент-серверную архитектуру данный код необходимо удалить.
-    """
-    if WITH_SERVER:
-        args_list = {
-            "data": {"args": save_dict},
-            "type": "save"
-        }
-        answer = requests.request(
-            "POST", URL, allow_redirects=False, json=args_list)
-        return answer.status_code
-
-    # запрос типа отправлен, получен ответ - нужный список
-    else:
-        request_status = save_to_file(save_dict)
-        return request_status
+    return request_send(req_type='save', statuses=statuses)
 
 
 def save_to_file(statuses_input: dict):
@@ -272,9 +207,9 @@ def save_to_file(statuses_input: dict):
         file_statuses = {}
     # структура словаря: словарь[faculty_name][course_name][
     # group_name][date_choose][student_choose]: status
-    faculty_list = statuses_input
-    for faculty in faculty_list:
-        courses_dict = faculty_list[faculty]
+    faculty_dict = statuses_input['args']
+    for faculty in faculty_dict:
+        courses_dict = faculty_dict[faculty]
         for course in courses_dict:
             groups_dict = courses_dict[course]
             for group in groups_dict:
