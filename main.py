@@ -34,10 +34,58 @@ ui = Ui_AuthWindow()
 Recognizer = Vosk_Recognizer
 
 
+class Request(QtCore.QObject):
+    __isRequesting = False  # переменная класса, аналог lock / release
+    __currentWorker = None
+
+    finished = QtCore.pyqtSignal()
+    aborted = QtCore.pyqtSignal()
+
+    result = None
+
+    def __init__(self, functionOnFinish, functionOnAbort):
+        super().__init__()
+        self.finished.connect(functionOnFinish)
+        self.aborted.connect(functionOnAbort)
+        return
+
+    def __aborted(self):
+        self.thread().terminate()
+
+    def make_request(self, function, *args, **kwargs):
+        if Request.__isRequesting:
+            try:
+                Request.__currentWorker.aborted.emit()
+                Request.__currentWorker.thread().terminate()
+            except:
+                pass
+
+        Request.__currentWorker = self
+        Request.__isRequesting = True
+        self.result = function(args, kwargs)
+        Request.__isRequesting = False
+        Request.__currentWorker = None
+        self.finished.emit()
+        return
+    pass
+
+
 class GetRecording(QtCore.QObject):
     finished = QtCore.pyqtSignal()
     change_button = QtCore.pyqtSignal(int)
     unlockButton = QtCore.pyqtSignal()
+
+    Thread = None
+
+    def __init__(self):
+        super().__init__()
+        self.Thread = QtCore.QThread()
+        self.moveToThread(self.Thread)
+        self.Thread.started.connect(self.record)
+        self.finished.connect(self.Thread.quit)
+        self.finished.connect(self.deleteLater)
+        self.Thread.finished.connect(self.Thread.deleteLater)
+        return
 
     def record(self):
         self.change_button.emit(2)
@@ -268,19 +316,13 @@ def new_win():
         n_ui.color_mode_switch.setEnabled(False)
 
         # Эта часть кода создает новый поток для обработки
-        thread = QtCore.QThread()
         worker = GetRecording()
-        worker.moveToThread(thread)
-        thread.started.connect(worker.record)
-        worker.finished.connect(thread.quit)
-        worker.finished.connect(worker.deleteLater)
-        thread.finished.connect(thread.deleteLater)
 
         worker.change_button.connect(buttonColor)
         worker.unlockButton.connect(unlockButton)
         worker.finished.connect(__activate_voice)
 
-        thread.start()
+        worker.Thread.start()
 
     def unlockButton():
         """
@@ -1065,6 +1107,60 @@ def new_win():
         addFacultyItems()
 
         # обработка изменения ячеек списков
+
+        # BEGIN_DEBUG_LAYER
+        signals_list = [n_ui.faculty_list.activated.connect(lambda: print(0)),
+                        n_ui.faculty_list.clicked.connect(lambda: print(1)),
+                        n_ui.faculty_list.currentItemChanged.connect(
+                            lambda: print(2)),
+                        n_ui.faculty_list.currentRowChanged.connect(
+                            lambda: print(3)),
+                        n_ui.faculty_list.currentTextChanged.connect(
+                            lambda: print(4)),
+                        n_ui.faculty_list.customContextMenuRequested.connect(
+                            lambda: print(5)),
+                        n_ui.faculty_list.destroyed.connect(lambda: print(6)),
+                        n_ui.faculty_list.doubleClicked.connect(
+                            lambda: print(7)),
+                        n_ui.faculty_list.entered.connect(lambda: print(8)),
+                        n_ui.faculty_list.iconSizeChanged.connect(
+                            lambda: print(9)),
+                        n_ui.faculty_list.indexesMoved.connect(
+                            lambda: print(10)),
+                        n_ui.faculty_list.itemActivated.connect(
+                            lambda: print(11)),
+                        n_ui.faculty_list.itemChanged.connect(
+                            lambda: print(12)),
+                        n_ui.faculty_list.itemClicked.connect(
+                            lambda: print(13)),
+                        n_ui.faculty_list.itemDoubleClicked.connect(
+                            lambda: print(14)),
+                        n_ui.faculty_list.itemEntered.connect(
+                            lambda: print(15)),
+                        n_ui.faculty_list.itemPressed.connect(
+                            lambda: print(16)),
+                        n_ui.faculty_list.itemSelectionChanged.connect(
+                            lambda: print(17)),
+                        n_ui.faculty_list.objectNameChanged.connect(
+                            lambda: print(18)),
+                        n_ui.faculty_list.pressed.connect(lambda: print(19)),
+                        n_ui.faculty_list.viewportEntered.connect(
+                            lambda: print(20)),
+                        n_ui.faculty_list.windowIconChanged.connect(
+                            lambda: print(21)),
+                        n_ui.faculty_list.windowIconTextChanged.connect(
+                            lambda: print(22)),
+                        n_ui.faculty_list.windowTitleChanged.connect(lambda: print(23))]
+        # for i in range(len(signals_list)):
+        #     globals()[f"i{i}"] = i
+        # numbers = [i for i in range(len(signals_list))]
+        # for x, y in zip(numbers, signals_list):
+        #     y.connect(lambda: print(x))
+        # for i in range(len(signals_list)):
+        #     signals_list[i].connect(functions_list[i])
+
+        # END_DEBUG_LAYER
+
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
