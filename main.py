@@ -34,38 +34,70 @@ ui = Ui_AuthWindow()
 Recognizer = Vosk_Recognizer
 
 
-class Request(QtCore.QObject):
+class OtherThread(QtCore.QObject):
+    # globals
     __isRequesting = False  # переменная класса, аналог lock / release
     __currentWorker = None
 
+    # locals
     finished = QtCore.pyqtSignal()
     aborted = QtCore.pyqtSignal()
 
-    result = None
+    __functionToExecute = None
+    __functionArgs = None
+    __functionKWArgs = None
 
-    def __init__(self, functionOnFinish, functionOnAbort):
+    result = None
+    Thread = None
+    __isAborted = False
+
+    def __init__(self, functionToExecute, functionOnFinish=None, functionOnAbort=None, *args, **kwargs):
+        # dedault code
         super().__init__()
-        self.finished.connect(functionOnFinish)
-        self.aborted.connect(functionOnAbort)
+        self.Thread = QtCore.QThread()
+        self.moveToThread(self.Thread)
+        self.finished.connect(self.Thread.quit)
+        self.finished.connect(self.deleteLater)
+        self.Thread.finished.connect(self.Thread.deleteLater)
+
+        self.aborted.connect(self.__aborted)
+
+        self.__functionToExecute = functionToExecute
+        self.__functionArgs = args
+        self.__functionKWArgs = kwargs
+
+        self.Thread.started.connect(self.execute_function)
+
+        if functionOnFinish != None:
+            self.finished.connect(functionOnFinish)
+        if functionOnAbort != None:
+            self.aborted.connect(functionOnAbort)
         return
 
     def __aborted(self):
-        self.thread().terminate()
+        self.__isAborted = True
+        self.Thread.terminate()
 
-    def make_request(self, function, *args, **kwargs):
-        if Request.__isRequesting:
+    def execute_function(self):
+        print("Start to execute.")
+        if OtherThread.__isRequesting:
             try:
-                Request.__currentWorker.aborted.emit()
-                Request.__currentWorker.thread().terminate()
+                OtherThread.__currentWorker.aborted.emit()
             except:
                 pass
 
-        Request.__currentWorker = self
-        Request.__isRequesting = True
-        self.result = function(args, kwargs)
-        Request.__isRequesting = False
-        Request.__currentWorker = None
-        self.finished.emit()
+        OtherThread.__currentWorker = self
+        OtherThread.__isRequesting = True
+        print("Locked.")
+        self.result = self.__functionToExecute(
+            self.__functionArgs, self.__functionKWArgs)
+        if not self.__isAborted:
+            OtherThread.__isRequesting = False
+            OtherThread.__currentWorker = None
+            print("Unlocked.")
+            self.finished.emit()
+        else:
+            print("Aborted.")
         return
     pass
 
@@ -1108,7 +1140,30 @@ def new_win():
 
         # обработка изменения ячеек списков
 
-        # BEGIN_DEBUG_LAYER
+        # BEGIN_EXPERIMENTAL_SECTION
+        # theme_switch_main_thread = OtherThread(theme_switch_main)
+        # __activate_voice_thread = OtherThread(__activate_voice)
+        # addFacultyItems_thread = OtherThread(addFacultyItems)
+        # addYearItems_thread = OtherThread(addYearItems)
+        # addGroupItems_thread = OtherThread(addGroupItems)
+        # addDates_thread = OtherThread(addDates)
+        # addStudents_thread = OtherThread(addStudents)
+        # addStatuses_thread = OtherThread(addStatuses)
+        # rememberState_thread = OtherThread(rememberState)
+        # save_statuses_thread = OtherThread(save_statuses)
+        # cancel_statuses_thread = OtherThread(cancel_statuses)
+        # theme_switch_main = theme_switch_main_thread.Thread.start
+        # __activate_voice = __activate_voice_thread.Thread.start
+        # addFacultyItems = addFacultyItems_thread.Thread.start
+        # addYearItems = addYearItems_thread.Thread.start
+        # addGroupItems = addGroupItems_thread.Thread.start
+        # addDates = addDates_thread.Thread.start
+        # addStudents = addStudents_thread.Thread.start
+        # addStatuses = addStatuses_thread.Thread.start
+        # rememberState = rememberState_thread.Thread.start
+        # save_statuses = save_statuses_thread.Thread.start
+        # cancel_statuses = cancel_statuses_thread.Thread.start
+
         signals_list = [n_ui.faculty_list.activated.connect(lambda: print(0)),
                         n_ui.faculty_list.clicked.connect(lambda: print(1)),
                         n_ui.faculty_list.currentItemChanged.connect(
@@ -1151,15 +1206,8 @@ def new_win():
                         n_ui.faculty_list.windowIconTextChanged.connect(
                             lambda: print(22)),
                         n_ui.faculty_list.windowTitleChanged.connect(lambda: print(23))]
-        # for i in range(len(signals_list)):
-        #     globals()[f"i{i}"] = i
-        # numbers = [i for i in range(len(signals_list))]
-        # for x, y in zip(numbers, signals_list):
-        #     y.connect(lambda: print(x))
-        # for i in range(len(signals_list)):
-        #     signals_list[i].connect(functions_list[i])
 
-        # END_DEBUG_LAYER
+        # END_EXPERIMENTAL_SECTION
 
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
