@@ -10,7 +10,7 @@
 import json
 import requests
 
-URL = 'http://localhost/table.html'
+URL = 'http://85.15.66.62'
 
 WITH_SERVER = False
 
