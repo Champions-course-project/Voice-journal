@@ -1263,7 +1263,7 @@ def new_win():
         n_ui.color_mode_switch.toggled.connect(theme_switch_main)
 
     else:
-        ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
+        ui.error_label.setText("Ошибка авторизации!")
         ui.login_lineEdit.setText("")
         ui.password_lineEdit.setText("")
 
