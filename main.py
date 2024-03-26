@@ -34,10 +34,90 @@ ui = Ui_AuthWindow()
 Recognizer = Vosk_Recognizer
 
 
+class OtherThread(QtCore.QObject):
+    # globals
+    __isRequesting = False  # переменная класса, аналог lock / release
+    __currentWorker = None
+
+    # locals
+    finished = QtCore.pyqtSignal()
+    aborted = QtCore.pyqtSignal()
+
+    __functionToExecute = None
+    __functionArgs = None
+    __functionKWArgs = None
+
+    result = None
+    Thread = None
+    __isAborted = False
+
+    def __init__(self, functionToExecute, functionOnFinish=None, functionOnAbort=None, *args, **kwargs):
+        # dedault code
+        super().__init__()
+        self.Thread = QtCore.QThread()
+        self.moveToThread(self.Thread)
+        self.finished.connect(self.Thread.quit)
+        self.finished.connect(self.deleteLater)
+        self.Thread.finished.connect(self.Thread.deleteLater)
+
+        self.aborted.connect(self.__aborted)
+
+        self.__functionToExecute = functionToExecute
+        self.__functionArgs = args
+        self.__functionKWArgs = kwargs
+
+        self.Thread.started.connect(self.execute_function)
+
+        if functionOnFinish != None:
+            self.finished.connect(functionOnFinish)
+        if functionOnAbort != None:
+            self.aborted.connect(functionOnAbort)
+        return
+
+    def __aborted(self):
+        self.__isAborted = True
+        self.Thread.terminate()
+
+    def execute_function(self):
+        print("Start to execute.")
+        if OtherThread.__isRequesting:
+            try:
+                OtherThread.__currentWorker.aborted.emit()
+            except:
+                pass
+
+        OtherThread.__currentWorker = self
+        OtherThread.__isRequesting = True
+        print("Locked.")
+        self.result = self.__functionToExecute(
+            self.__functionArgs, self.__functionKWArgs)
+        if not self.__isAborted:
+            OtherThread.__isRequesting = False
+            OtherThread.__currentWorker = None
+            print("Unlocked.")
+            self.finished.emit()
+        else:
+            print("Aborted.")
+        return
+    pass
+
+
 class GetRecording(QtCore.QObject):
     finished = QtCore.pyqtSignal()
     change_button = QtCore.pyqtSignal(int)
     unlockButton = QtCore.pyqtSignal()
+
+    Thread = None
+
+    def __init__(self):
+        super().__init__()
+        self.Thread = QtCore.QThread()
+        self.moveToThread(self.Thread)
+        self.Thread.started.connect(self.record)
+        self.finished.connect(self.Thread.quit)
+        self.finished.connect(self.deleteLater)
+        self.Thread.finished.connect(self.Thread.deleteLater)
+        return
 
     def record(self):
         self.change_button.emit(2)
@@ -268,19 +348,13 @@ def new_win():
         n_ui.color_mode_switch.setEnabled(False)
 
         # Эта часть кода создает новый поток для обработки
-        thread = QtCore.QThread()
         worker = GetRecording()
-        worker.moveToThread(thread)
-        thread.started.connect(worker.record)
-        worker.finished.connect(thread.quit)
-        worker.finished.connect(worker.deleteLater)
-        thread.finished.connect(thread.deleteLater)
 
         worker.change_button.connect(buttonColor)
         worker.unlockButton.connect(unlockButton)
         worker.finished.connect(__activate_voice)
 
-        thread.start()
+        worker.Thread.start()
 
     def unlockButton():
         """
@@ -466,10 +540,14 @@ def new_win():
         table_cond = False
         group_cond = False
         year_cond = False
-        faculties_list = Functions.request_functions.get_faculties()
-        for num in range(len(faculties_list)):
-            n_ui.faculty_list.addItem(
-                (str)(num + 1) + ". " + faculties_list[num])
+        answer = Functions.request_functions.get_faculties()
+        if not answer['error']:
+            faculties_list = answer['data']
+            for num in range(len(faculties_list)):
+                n_ui.faculty_list.addItem(
+                    (str)(num + 1) + ". " + faculties_list[num])
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка факультетов.")
         return
 
     def addYearItems():
@@ -497,12 +575,15 @@ def new_win():
         nonlocal table_cond, group_cond
         table_cond = False
         group_cond = False
-        courses_list = Functions.request_functions.get_courses(
-            current_faculty)
-        for item in courses_list:
-            n_ui.year_list.addItem(item)
-        nonlocal year_cond
-        year_cond = True
+        answer = Functions.request_functions.get_courses(current_faculty)
+        if not answer['error']:
+            courses_list = answer['data']
+            for item in courses_list:
+                n_ui.year_list.addItem(item)
+            nonlocal year_cond
+            year_cond = True
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка курсов.")
         return
 
     def addGroupItems():
@@ -531,13 +612,18 @@ def new_win():
         i = 0
         current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
             1]
-        groups_list = Functions.request_functions.get_groups(
+        answer = Functions.request_functions.get_groups(
             current_faculty, current_course)
-        for item in groups_list:
-            i += 1
-            n_ui.group_list.addItem(str(i) + ". " + item)
-        nonlocal group_cond
-        group_cond = True
+        if not answer['error']:
+            groups_list = answer['data']
+            for item in groups_list:
+                i += 1
+                n_ui.group_list.addItem(str(i) + ". " + item)
+            nonlocal group_cond
+            group_cond = True
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка групп.")
+            return
 
         if n_ui.color_mode_switch.isChecked():
             n_ui.year_list.setStyleSheet("QListWidget{"
@@ -605,7 +691,6 @@ def new_win():
                                              'QListWidget::item::selected{'
                                              'background-color: rgb(255,43,43);'
                                              'border-radius: 10px;}')
-
             n_ui.help_label.setText(
                 "Примечание: на данном курсе нет групп, выберете другую!")
             n_ui.help_label.update()
@@ -628,15 +713,19 @@ def new_win():
             return
         current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[1]
         current_course = n_ui.year_list.currentItem().text()
-        dates_list = Functions.request_functions.get_dates(
+        answer = Functions.request_functions.get_dates(
             current_faculty, current_course, current_group)
-        if len(dates_list) == 0:
-            # TODO: группа есть но занятий по предмету нет!
-            nonlocal table_cond
-            table_cond = False
-            return
-        n_ui.group_table.setColumnCount(len(dates_list))
-        n_ui.group_table.setHorizontalHeaderLabels(dates_list)
+        if not answer['error']:
+            dates_list = answer['data']
+            if len(dates_list) == 0:
+                # TODO: группа есть но занятий по предмету нет!
+                nonlocal table_cond
+                table_cond = False
+                return
+            n_ui.group_table.setColumnCount(len(dates_list))
+            n_ui.group_table.setHorizontalHeaderLabels(dates_list)
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка дат.")
         return
 
     def addStudents():
@@ -696,53 +785,58 @@ def new_win():
         current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[
             1]
         current_course = n_ui.year_list.currentItem().text()
-        students_list = Functions.request_functions.get_students(
+        answer = Functions.request_functions.get_students(
             current_faculty, current_course, current_group)
-        if len(students_list) == 0:
-            if n_ui.color_mode_switch.isChecked():
-                n_ui.group_list.setStyleSheet("QListWidget{"
-                                              'color: rgb(0, 0, 0);'
-                                              'background-color: rgb(200, 200, 200);'
-                                              'selection-color: rgb(255, 255, 255);'
-                                              'selection-background-color: rgb(255,43,43);'
-                                              'border-radius: 10px;}'
-                                              'QListWidget::item::hover{'
-                                              'background-color: rgb(170, 170,170);'
-                                              'border-radius: 10px;}'
-                                              'QListWidget::item::selected::hover{'
-                                              'background-color: rgb(255,43,43);'
-                                              'border-radius: 10px;}'
-                                              'QListWidget::item::selected{'
-                                              'background-color: rgb(255,43,43);'
-                                              'border-radius: 10px;}')
-            else:
-                n_ui.group_list.setStyleSheet("QListWidget{\n"
-                                              "color: rgb(255, 255, 255);\n"
-                                              "background-color: rgb(83, 83, 83);\n"
-                                              "selection-color: rgb(255, 255, 255);\n"
-                                              "selection-background-color: rgb(162, 204, 76);\n"
-                                              "border-radius: 10px;\n"
-                                              "}\n"
-                                              "QListWidget::item::hover{\n"
-                                              "background-color: rgb(75, 75,75);\n"
-                                              "border-radius: 10px;\n"
-                                              "}\n"
-                                              "QListWidget::item::selected::hover{\n"
-                                              "background-color: rgb(255, 0, 0);\n"
-                                              "border-radius: 10px;\n"
-                                              "}\n"
-                                              "QListWidget::item::selected{\n"
-                                              "background-color: rgb(255, 0, 0);\n"
-                                              "color: rgb(255, 255, 255);\n"
-                                              "selection-color: rgb(255, 255, 255);\n"
-                                              "selection-background-color: rgb(255, 0, 0);\n"
-                                              "border-radius: 10px;\n"
-                                              "}")
-            n_ui.help_label.setText(
-                "Примечание: в данной группе нет студентов, выберете другую!")
-            n_ui.help_label.update()
-            QApplication.processEvents()
-            table_cond = False
+        if not answer['error']:
+            students_list = answer['data']
+            if len(students_list) == 0:
+                if n_ui.color_mode_switch.isChecked():
+                    n_ui.group_list.setStyleSheet("QListWidget{"
+                                                  'color: rgb(0, 0, 0);'
+                                                  'background-color: rgb(200, 200, 200);'
+                                                  'selection-color: rgb(255, 255, 255);'
+                                                  'selection-background-color: rgb(255,43,43);'
+                                                  'border-radius: 10px;}'
+                                                  'QListWidget::item::hover{'
+                                                  'background-color: rgb(170, 170,170);'
+                                                  'border-radius: 10px;}'
+                                                  'QListWidget::item::selected::hover{'
+                                                  'background-color: rgb(255,43,43);'
+                                                  'border-radius: 10px;}'
+                                                  'QListWidget::item::selected{'
+                                                  'background-color: rgb(255,43,43);'
+                                                  'border-radius: 10px;}')
+                else:
+                    n_ui.group_list.setStyleSheet("QListWidget{\n"
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "background-color: rgb(83, 83, 83);\n"
+                                                  "selection-color: rgb(255, 255, 255);\n"
+                                                  "selection-background-color: rgb(162, 204, 76);\n"
+                                                  "border-radius: 10px;\n"
+                                                  "}\n"
+                                                  "QListWidget::item::hover{\n"
+                                                  "background-color: rgb(75, 75,75);\n"
+                                                  "border-radius: 10px;\n"
+                                                  "}\n"
+                                                  "QListWidget::item::selected::hover{\n"
+                                                  "background-color: rgb(255, 0, 0);\n"
+                                                  "border-radius: 10px;\n"
+                                                  "}\n"
+                                                  "QListWidget::item::selected{\n"
+                                                  "background-color: rgb(255, 0, 0);\n"
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "selection-color: rgb(255, 255, 255);\n"
+                                                  "selection-background-color: rgb(255, 0, 0);\n"
+                                                  "border-radius: 10px;\n"
+                                                  "}")
+                n_ui.help_label.setText(
+                    "Примечание: в данной группе нет студентов, выберете другую!")
+                n_ui.help_label.update()
+                QApplication.processEvents()
+                table_cond = False
+                return
+        else:
+            n_ui.error_label.setText("Ошибка при запросе списка студентов.")
             return
         n_ui.group_table.setRowCount(len(students_list))
         n_ui.group_table.setVerticalHeaderLabels(students_list)
@@ -773,15 +867,19 @@ def new_win():
         current_faculty = n_ui.faculty_list.currentItem().text().split(". ")[1]
         current_course = n_ui.year_list.currentItem().text()
         # формат: словарь[дата][студент] = статус
-        statuses_dict = Functions.request_functions.get_statuses(
+        answer = Functions.request_functions.get_statuses(
             current_faculty, current_course, current_group)
-        statuses_from_sourse(statuses_dict)
-        nonlocal partial_state
-        try:
-            statuses_dict = partial_state[current_faculty][current_course][current_group]
+        if not answer['error']:
+            statuses_dict = answer['data']
             statuses_from_sourse(statuses_dict)
-        except:
-            return
+            nonlocal partial_state
+            try:
+                statuses_dict = partial_state[current_faculty][current_course][current_group]
+                statuses_from_sourse(statuses_dict)
+            except:
+                return
+        else:
+            n_ui.error_label.setText("Ошибка при запросе статусов студентов.")
         return
 
     def statuses_from_sourse(sourse: dict):
@@ -939,10 +1037,17 @@ def new_win():
         Отправляет запрос на сервер / в БД.
         """
         nonlocal partial_state
-        Functions.request_functions.save_statuses(
-            partial_state)
-        partial_state = {}
-        n_ui.group_list.currentItemChanged.emit(None, None)
+        try:
+            status = Functions.request_functions.save_statuses(
+                partial_state)
+            if not status['error']:
+                partial_state = {}
+                n_ui.group_list.currentItemChanged.emit(None, None)
+            else:
+                raise ConnectionError("Unknown error with connection.")
+        except:
+            n_ui.error_label.setText("Ошибка при сохранении статусов.")
+
         return
 
     def cancel_statuses():
@@ -1034,6 +1139,76 @@ def new_win():
         addFacultyItems()
 
         # обработка изменения ячеек списков
+
+        # BEGIN_EXPERIMENTAL_SECTION
+        # theme_switch_main_thread = OtherThread(theme_switch_main)
+        # __activate_voice_thread = OtherThread(__activate_voice)
+        # addFacultyItems_thread = OtherThread(addFacultyItems)
+        # addYearItems_thread = OtherThread(addYearItems)
+        # addGroupItems_thread = OtherThread(addGroupItems)
+        # addDates_thread = OtherThread(addDates)
+        # addStudents_thread = OtherThread(addStudents)
+        # addStatuses_thread = OtherThread(addStatuses)
+        # rememberState_thread = OtherThread(rememberState)
+        # save_statuses_thread = OtherThread(save_statuses)
+        # cancel_statuses_thread = OtherThread(cancel_statuses)
+        # theme_switch_main = theme_switch_main_thread.Thread.start
+        # __activate_voice = __activate_voice_thread.Thread.start
+        # addFacultyItems = addFacultyItems_thread.Thread.start
+        # addYearItems = addYearItems_thread.Thread.start
+        # addGroupItems = addGroupItems_thread.Thread.start
+        # addDates = addDates_thread.Thread.start
+        # addStudents = addStudents_thread.Thread.start
+        # addStatuses = addStatuses_thread.Thread.start
+        # rememberState = rememberState_thread.Thread.start
+        # save_statuses = save_statuses_thread.Thread.start
+        # cancel_statuses = cancel_statuses_thread.Thread.start
+
+        signals_list = [n_ui.faculty_list.activated.connect(lambda: print(0)),
+                        n_ui.faculty_list.clicked.connect(lambda: print(1)),
+                        n_ui.faculty_list.currentItemChanged.connect(
+                            lambda: print(2)),
+                        n_ui.faculty_list.currentRowChanged.connect(
+                            lambda: print(3)),
+                        n_ui.faculty_list.currentTextChanged.connect(
+                            lambda: print(4)),
+                        n_ui.faculty_list.customContextMenuRequested.connect(
+                            lambda: print(5)),
+                        n_ui.faculty_list.destroyed.connect(lambda: print(6)),
+                        n_ui.faculty_list.doubleClicked.connect(
+                            lambda: print(7)),
+                        n_ui.faculty_list.entered.connect(lambda: print(8)),
+                        n_ui.faculty_list.iconSizeChanged.connect(
+                            lambda: print(9)),
+                        n_ui.faculty_list.indexesMoved.connect(
+                            lambda: print(10)),
+                        n_ui.faculty_list.itemActivated.connect(
+                            lambda: print(11)),
+                        n_ui.faculty_list.itemChanged.connect(
+                            lambda: print(12)),
+                        n_ui.faculty_list.itemClicked.connect(
+                            lambda: print(13)),
+                        n_ui.faculty_list.itemDoubleClicked.connect(
+                            lambda: print(14)),
+                        n_ui.faculty_list.itemEntered.connect(
+                            lambda: print(15)),
+                        n_ui.faculty_list.itemPressed.connect(
+                            lambda: print(16)),
+                        n_ui.faculty_list.itemSelectionChanged.connect(
+                            lambda: print(17)),
+                        n_ui.faculty_list.objectNameChanged.connect(
+                            lambda: print(18)),
+                        n_ui.faculty_list.pressed.connect(lambda: print(19)),
+                        n_ui.faculty_list.viewportEntered.connect(
+                            lambda: print(20)),
+                        n_ui.faculty_list.windowIconChanged.connect(
+                            lambda: print(21)),
+                        n_ui.faculty_list.windowIconTextChanged.connect(
+                            lambda: print(22)),
+                        n_ui.faculty_list.windowTitleChanged.connect(lambda: print(23))]
+
+        # END_EXPERIMENTAL_SECTION
+
         n_ui.faculty_list.currentItemChanged.connect(addYearItems)
         n_ui.year_list.currentItemChanged.connect(addGroupItems)
         n_ui.group_list.currentItemChanged.connect(addStudents)
@@ -1088,7 +1263,7 @@ def new_win():
         n_ui.color_mode_switch.toggled.connect(theme_switch_main)
 
     else:
-        ui.error_label.setText("Ошибка ввода, попробуйте еще раз")
+        ui.error_label.setText("Ошибка авторизации!")
         ui.login_lineEdit.setText("")
         ui.password_lineEdit.setText("")
 
